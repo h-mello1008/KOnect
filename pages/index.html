@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KOnect</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+  <!-- Estilos da aplicação -->
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- ════════════════════════════════════
+     PÁGINA 1 — HOME (PRÉ-LOGIN)
+════════════════════════════════════ -->
+<div id="pg-home" class="page active">
+
+  <!-- Navbar -->
+  <nav class="topnav">
+    <div class="container d-flex align-items-center justify-content-between py-3">
+      <span class="brand">KO<span>nect</span></span>
+      <div class="nav-pill d-none d-sm-flex">
+        <a href="admin/login_admin/login_admin.html"><button class="btn btn-sm text-white">Admin</button></a>
+        <a href="instrutor/login_instrutor/login_instrutor.html"><button class="btn btn-sm text-white">Instrutor</button></a>
+        <a href="aluno/login_aluno/login_aluno.html"><button class="btn btn-sm btn-danger" onclick="go('pg-login-aluno')">Aluno</button></a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="container position-relative">
+      <div class="row align-items-center g-5">
+
+        <!-- Texto -->
+        <div class="col-lg-6">
+          <div class="hero-badge"><span class="dot"></span>Plataforma de Gestão Educacional</div>
+          <h1>Aprenda sem <em>limites,</em> ensine com <em>propósito.</em></h1>
+          <p class="mt-4">O KOnect conecta alunos, instrutores e administradores em um único ecossistema de aprendizado inteligente.</p>
+          <div class="d-flex gap-3 flex-wrap mt-4">
+            <button class="btn btn-danger px-4 py-2 fw-semibold" onclick="go('pg-login-aluno')">Começar como Aluno</button>
+            <button class="btn btn-outline-secondary px-4 py-2"   onclick="go('pg-login-instrutor')">Sou Instrutor</button>
+          </div>
+        </div>
+
+        <!-- Cards de acesso -->
+        <div class="col-lg-6">
+          <div class="row g-3">
+
+            <!-- Admin -->
+            <div class="col-12">
+              <a class="ancora_admin" href="admin/login_admin/login_admin.html">
+              <div class="role-card admin">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="role-icon"><i class="bi bi-shield-fill"></i></div>
+                  <div class="flex-grow-1">
+                    <h4>Administrador</h4>
+                    <p class="mb-0">Gerencie instrutores, alunos e toda a plataforma.</p>
+                  </div>
+                  <span class="role-arrow">Entrar <i class="bi bi-arrow-right"></i></span>
+                </div>
+              </div>
+              </a>
+            </div>
+
+            <!-- Instrutor -->
+            <div class="col-md-6">
+              <a class="ancora_cliente" href="instrutor/login_instrutor/login_instrutor.html">
+              <div class="role-card instrutor">
+                <div class="role-icon"><i class="bi bi-person-video3"></i></div>
+                <h4>Instrutor</h4>
+                <p>Cadastre alunos e gerencie turmas.</p><br>
+                <span class="role-arrow">Entrar <i class="bi bi-arrow-right"></i></span>
+              </div>
+              </a>
+            </div>
+
+            <!-- Aluno -->
+            <div class="col-md-6">
+              <a class="ancora_cliente" href="aluno/login_aluno/login_aluno.html">
+              <div class="role-card aluno">
+                <div class="role-icon"><i class="bi bi-mortarboard-fill"></i></div>
+                <h4>Aluno</h4>
+                <p>Acesse cursos, materiais e progresso.</p>
+                <span class="role-arrow">Entrar <i class="bi bi-arrow-right"></i></span>
+              </div>
+              </a>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Estatísticas -->
+  <div class="container pb-5">
+    <div class="row g-3">
+      <div class="col-6 col-md-3">
+        <div class="stat-card text-center">
+          <div class="stat-num" style="color:var(--accent)">1.2k</div>
+          <div class="text-muted" style="font-size:.85rem">Alunos ativos</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card text-center">
+          <div class="stat-num" style="color:var(--green)">87</div>
+          <div class="text-muted" style="font-size:.85rem">Instrutores</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card text-center">
+          <div class="stat-num" style="color:var(--amber)">340</div>
+          <div class="text-muted" style="font-size:.85rem">Cursos</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card text-center">
+          <div class="stat-num" style="color:var(--rose)">98%</div>
+          <div class="text-muted" style="font-size:.85rem">Satisfação</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /pg-home -->
+
+
+<!-- ════════════════════════════════════
+     PÁGINA 5 — DASHBOARD ADMIN
+════════════════════════════════════ -->
+<div id="pg-dash-admin" class="page">
+
+  <!-- Sidebar -->
+  <div class="dash-sidebar">
+    <div class="sidebar-brand">KO<span>nect</span></div>
+    <div class="sidebar-section">Principal</div>
+    <button class="sidebar-item active"  onclick="adminTab('overview')">     <i class="bi bi-grid-1x2-fill"></i>   Visão Geral</button>
+    <button class="sidebar-item"         onclick="adminTab('instrutores')">  <i class="bi bi-person-video3"></i>   Instrutores</button>
+    <button class="sidebar-item"         onclick="adminTab('alunos')">       <i class="bi bi-mortarboard"></i>     Alunos</button>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">Cadastros</div>
+    <button class="sidebar-item"         onclick="adminTab('cad-instrutor')"><i class="bi bi-person-plus-fill"></i> Cad. Instrutor</button>
+    <button class="sidebar-item"         onclick="adminTab('cad-aluno')">    <i class="bi bi-person-plus"></i>    Cad. Aluno</button>
+    <div class="sidebar-divider mt-auto"></div>
+    <button class="sidebar-item sidebar-logout" onclick="go('pg-home')">    <i class="bi bi-box-arrow-left"></i>  Sair</button>
+  </div>
+
+  <!-- Conteúdo principal -->
+  <div class="dash-main">
+
+    <!-- ABA: Visão Geral -->
+    <div id="tab-overview">
+      <div class="dash-header">
+        <h2>Painel Administrativo</h2>
+        <p>Bem-vindo, Administrador!</p>
+      </div>
+      <div class="welcome-banner d-flex align-items-center gap-3 mb-4">
+        <div class="role-icon red" style="margin-bottom:0"><i class="bi bi-shield-fill"></i></div>
+        <div>
+          <div class="fw-bold">Acesso Total ao Sistema</div>
+          <div class="text-muted" style="font-size:.85rem">Você pode gerenciar instrutores, alunos e configurações da plataforma.</div>
+        </div>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-xl-3">
+          <div class="stat-card">
+            <div class="text-muted mb-1" style="font-size:.8rem">Total de Alunos</div>
+            <div class="stat-num" style="color:var(--accent)">248</div>
+          </div>
+        </div>
+        <div class="col-6 col-xl-3">
+          <div class="stat-card">
+            <div class="text-muted mb-1" style="font-size:.8rem">Instrutores</div>
+            <div class="stat-num" style="color:var(--green)">12</div>
+          </div>
+        </div>
+        <div class="col-6 col-xl-3">
+          <div class="stat-card">
+            <div class="text-muted mb-1" style="font-size:.8rem">Cursos Ativos</div>
+            <div class="stat-num" style="color:var(--amber)">34</div>
+          </div>
+        </div>
+        <div class="col-6 col-xl-3">
+          <div class="stat-card">
+            <div class="text-muted mb-1" style="font-size:.8rem">Novos este mês</div>
+            <div class="stat-num" style="color:var(--rose)">+47</div>
+          </div>
+        </div>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="action-card" onclick="adminTab('cad-instrutor')">
+            <div class="action-icon" style="background:rgba(59,130,246,.15);color:var(--accent2)"><i class="bi bi-person-plus-fill"></i></div>
+            <div>
+              <div class="fw-semibold">Cadastrar Instrutor</div>
+              <div class="text-muted" style="font-size:.85rem">Adicionar novo instrutor à plataforma</div>
+            </div>
+            <i class="bi bi-arrow-right ms-auto text-muted"></i>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="action-card" onclick="adminTab('cad-aluno')">
+            <div class="action-icon" style="background:rgba(34,197,94,.15);color:var(--green)"><i class="bi bi-person-plus"></i></div>
+            <div>
+              <div class="fw-semibold">Cadastrar Aluno</div>
+              <div class="text-muted" style="font-size:.85rem">Adicionar novo aluno à plataforma</div>
+            </div>
+            <i class="bi bi-arrow-right ms-auto text-muted"></i>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="action-card" onclick="adminTab('instrutores')">
+            <div class="action-icon" style="background:rgba(244,63,94,.15);color:var(--rose)"><i class="bi bi-people-fill"></i></div>
+            <div>
+              <div class="fw-semibold">Ver Instrutores</div>
+              <div class="text-muted" style="font-size:.85rem">Listar e gerenciar instrutores</div>
+            </div>
+            <i class="bi bi-arrow-right ms-auto text-muted"></i>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="action-card" onclick="adminTab('alunos')">
+            <div class="action-icon" style="background:rgba(245,158,11,.15);color:var(--amber)"><i class="bi bi-mortarboard-fill"></i></div>
+            <div>
+              <div class="fw-semibold">Ver Alunos</div>
+              <div class="text-muted" style="font-size:.85rem">Listar e gerenciar alunos</div>
+            </div>
+            <i class="bi bi-arrow-right ms-auto text-muted"></i>
+          </div>
+        </div>
+      </div>
+    </div><!-- /tab-overview -->
+
+    <!-- ABA: Lista de Instrutores -->
+    <div id="tab-instrutores" style="display:none">
+      <div class="dash-header d-flex align-items-start justify-content-between flex-wrap gap-3">
+        <div>
+          <h2>Instrutores</h2>
+          <p>Gerencie todos os instrutores cadastrados</p>
+        </div>
+        <button class="btn btn-danger" onclick="adminTab('cad-instrutor')">
+          <i class="bi bi-plus-lg me-1"></i>Novo Instrutor
+        </button>
+      </div>
+      <div class="data-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Especialidade</th>
+              <th>E-mail</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-instrutores"></tbody>
+        </table>
+      </div>
+    </div><!-- /tab-instrutores -->
+
+    <!-- ABA: Lista de Alunos (Admin) -->
+    <div id="tab-alunos" style="display:none">
+      <div class="dash-header d-flex align-items-start justify-content-between flex-wrap gap-3">
+        <div>
+          <h2>Alunos</h2>
+          <p>Gerencie todos os alunos cadastrados</p>
+        </div>
+        <button class="btn btn-danger" onclick="adminTab('cad-aluno')">
+          <i class="bi bi-plus-lg me-1"></i>Novo Aluno
+        </button>
+      </div>
+      <div class="data-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Curso</th>
+              <th>E-mail</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-alunos-admin"></tbody>
+        </table>
+      </div>
+    </div><!-- /tab-alunos -->
+
+    <!-- ABA: Cadastrar / Editar Instrutor -->
+    <div id="tab-cad-instrutor" style="display:none">
+      <div class="dash-header">
+        <h2 id="form-instr-title">Cadastrar Instrutor</h2>
+        <p>Preencha os dados do instrutor</p>
+      </div>
+      <div class="form-card">
+        <input type="hidden" id="instr-edit-id"/>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Nome completo *</label>
+            <input type="text" class="form-control" id="instr-nome" placeholder="Ex.: Maria Silva"/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">E-mail *</label>
+            <input type="email" class="form-control" id="instr-email" placeholder="instrutor@email.com"/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Telefone</label>
+            <input type="text" class="form-control" id="instr-tel" placeholder="(21) 99999-9999"/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Especialidade *</label>
+            <input type="text" class="form-control" id="instr-esp" placeholder="Ex.: Desenvolvimento Web"/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Formação</label>
+            <input type="text" class="form-control" id="instr-formacao" placeholder="Ex.: Bacharel em Ciência da Computação"/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Status</label>
+            <select class="form-select" id="instr-status">
+              <option value="ativo">Ativo</option>
+              <option value="inativo">Inativo</option>
+            </select>
+          </div>
+          <div class="col-12">
+            <label class="form-label">Bio / Apresentação</label>
+            <textarea class="form-control" id="instr-bio" rows="3" placeholder="Breve descrição do instrutor..."></textarea>
+          </div>
+          <div class="col-12 d-flex gap-2 flex-wrap">
+            <button class="btn btn-danger px-4" onclick="salvarInstrutor()">
+              <i class="bi bi-check-lg me-1"></i>Salvar
+            </button>
+            <button class="btn btn-outline-secondary px-4" onclick="limparFormInstr(); adminTab('instrutores')">
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div><!-- /tab-cad-instrutor -->
+
+    <!-- ABA: Cadastrar / Editar Aluno (Admin) -->
+    <div id="tab-cad-aluno" style="display:none">
+      <div class="dash-header">
+        <h2 id="form-aluno-title">Cadastrar Aluno</h2>
+        <p>Preencha os dados do aluno</p>
+      </div>
+      <div class="form-card">
+        <input type="hidden" id="aluno-edit-id"/>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Nome completo *</label>
+            <input type="text" class="form-control" id="aluno-nome" placeholder="Ex.: João Costa"/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">E-mail *</label>
+            <input type="email" class="form-control" id="aluno-email" placeholder="aluno@email.com"/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">CPF</label>
+            <input type="text" class="form-control" id="aluno-cpf" placeholder="000.000.000-00"/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Data de Nascimento</label>
+            <input type="date" class="form-control" id="aluno-nasc"/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Telefone</label>
+            <input type="text" class="form-control" id="aluno-tel" placeholder="(21) 99999-9999"/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Curso de Interesse</label>
+            <select class="form-select" id="aluno-curso">
+              <option value="">Selecionar...</option>
+              <option>Desenvolvimento Web</option>
+              <option>Design UX/UI</option>
+              <option>Ciência de Dados</option>
+              <option>Marketing Digital</option>
+              <option>Gestão de Projetos</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Status</label>
+            <select class="form-select" id="aluno-status">
+              <option value="ativo">Ativo</option>
+              <option value="inativo">Inativo</option>
+              <option value="concluido">Concluído</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Instrutor Responsável</label>
+            <select class="form-select" id="aluno-instrutor">
+              <option value="">Selecionar instrutor...</option>
+            </select>
+          </div>
+          <div class="col-12 d-flex gap-2 flex-wrap">
+            <button class="btn btn-danger px-4" onclick="salvarAluno()">
+              <i class="bi bi-check-lg me-1"></i>Salvar
+            </button>
+            <button class="btn btn-outline-secondary px-4" onclick="limparFormAluno(); adminTab('alunos')">
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div><!-- /tab-cad-aluno -->
+
+  </div><!-- /dash-main -->
+</div><!-- /pg-dash-admin -->
+
+
+<!-- ════════════════════════════════════
+     PÁGINA 6 — DASHBOARD INSTRUTOR
+════════════════════════════════════ -->
+<div id="pg-dash-instrutor" class="page">
+
+  <!-- Sidebar -->
+  <div class="dash-sidebar">
+    <div class="sidebar-brand">KO<span>nect</span></div>
+    <div class="sidebar-section">Principal</div>
+    <button class="sidebar-item active" onclick="instrTab('overview')">         <i class="bi bi-grid-1x2-fill"></i> Visão Geral</button>
+    <button class="sidebar-item"        onclick="instrTab('meus-alunos')">      <i class="bi bi-mortarboard"></i>   Meus Alunos</button>
+    <div class="sidebar-divider"></div>
+    <div class="sidebar-section">Cadastros</div>
+    <button class="sidebar-item"        onclick="instrTab('cad-aluno-instr')">  <i class="bi bi-person-plus"></i>   Cad. Aluno</button>
+    <div class="sidebar-divider mt-auto"></div>
+    <button class="sidebar-item sidebar-logout" onclick="go('pg-home')">        <i class="bi bi-box-arrow-left"></i> Sair</button>
+  </div>
+
+  <!-- Conteúdo -->
+  <div class="dash-main">
+
+    <!-- ABA: Visão Geral -->
+    <div id="itab-overview">
+      <div class="dash-header">
+        <h2>Painel do Instrutor</h2>
+        <p>Bem-vindo, Instrutor!</p>
+      </div>
+      <div class="welcome-banner d-flex align-items-center gap-3 mb-4"
+           style="border-color:rgba(59,130,246,.2);background:linear-gradient(135deg,rgba(59,130,246,.12),rgba(59,130,246,.04))">
+        <div class="action-icon" style="background:rgba(59,130,246,.15);color:var(--accent2)">
+          <i class="bi bi-person-video3"></i>
+        </div>
+        <div>
+          <div class="fw-bold">Área do Instrutor</div>
+          <div class="text-muted" style="font-size:.85rem">Gerencie seus alunos e acompanhe o progresso das turmas.</div>
+        </div>
+      </div>
+      <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="text-muted mb-1" style="font-size:.8rem">Meus Alunos</div>
+            <div class="stat-num" style="color:var(--accent)" id="instr-count-alunos">0</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="text-muted mb-1" style="font-size:.8rem">Ativos</div>
+            <div class="stat-num" style="color:var(--green)">3</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="text-muted mb-1" style="font-size:.8rem">Turmas</div>
+            <div class="stat-num" style="color:var(--amber)">2</div>
+          </div>
+        </div>
+        <div class="col-6 col-md-3">
+          <div class="stat-card">
+            <div class="text-muted mb-1" style="font-size:.8rem">Concluídos</div>
+            <div class="stat-num" style="color:var(--rose)">1</div>
+          </div>
+        </div>
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div class="action-card" onclick="instrTab('cad-aluno-instr')">
+            <div class="action-icon" style="background:rgba(34,197,94,.15);color:var(--green)"><i class="bi bi-person-plus"></i></div>
+            <div>
+              <div class="fw-semibold">Cadastrar Aluno</div>
+              <div class="text-muted" style="font-size:.85rem">Adicionar novo aluno à sua turma</div>
+            </div>
+            <i class="bi bi-arrow-right ms-auto text-muted"></i>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="action-card" onclick="instrTab('meus-alunos')">
+            <div class="action-icon" style="background:rgba(59,130,246,.15);color:var(--accent2)"><i class="bi bi-people"></i></div>
+            <div>
+              <div class="fw-semibold">Ver Meus Alunos</div>
+              <div class="text-muted" style="font-size:.85rem">Acompanhar progresso e dados</div>
+            </div>
+            <i class="bi bi-arrow-right ms-auto text-muted"></i>
+          </div>
+        </div>
+      </div>
+    </div><!-- /itab-overview -->
+
+    <!-- ABA: Meus Alunos -->
+    <div id="itab-meus-alunos" style="display:none">
+      <div class="dash-header d-flex align-items-start justify-content-between flex-wrap gap-3">
+        <div>
+          <h2>Meus Alunos</h2>
+          <p>Alunos sob sua responsabilidade</p>
+        </div>
+        <button class="btn btn-danger" onclick="instrTab('cad-aluno-instr')">
+          <i class="bi bi-plus-lg me-1"></i>Novo Aluno
+        </button>
+      </div>
+      <div class="data-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Curso</th>
+              <th>E-mail</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-alunos-instr"></tbody>
+        </table>
+      </div>
+    </div><!-- /itab-meus-alunos -->
+
+    <!-- ABA: Cadastrar / Editar Aluno (Instrutor) -->
+    <div id="itab-cad-aluno-instr" style="display:none">
+      <div class="dash-header">
+        <h2 id="form-aluno-instr-title">Cadastrar Aluno</h2>
+        <p>Preencha os dados do novo aluno</p>
+      </div>
+      <div class="form-card">
+        <input type="hidden" id="aluno-instr-edit-id"/>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label">Nome completo *</label>
+            <input type="text" class="form-control" id="aluno-instr-nome" placeholder="Ex.: Ana Souza"/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">E-mail *</label>
+            <input type="email" class="form-control" id="aluno-instr-email" placeholder="aluno@email.com"/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">CPF</label>
+            <input type="text" class="form-control" id="aluno-instr-cpf" placeholder="000.000.000-00"/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Telefone</label>
+            <input type="text" class="form-control" id="aluno-instr-tel" placeholder="(21) 99999-9999"/>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Curso *</label>
+            <select class="form-select" id="aluno-instr-curso">
+              <option value="">Selecionar...</option>
+              <option>Desenvolvimento Web</option>
+              <option>Design UX/UI</option>
+              <option>Ciência de Dados</option>
+              <option>Marketing Digital</option>
+              <option>Gestão de Projetos</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Status</label>
+            <select class="form-select" id="aluno-instr-status">
+              <option value="ativo">Ativo</option>
+              <option value="inativo">Inativo</option>
+              <option value="concluido">Concluído</option>
+            </select>
+          </div>
+          <div class="col-12 d-flex gap-2">
+            <button class="btn btn-danger px-4" onclick="salvarAlunoInstr()">
+              <i class="bi bi-check-lg me-1"></i>Salvar
+            </button>
+            <button class="btn btn-outline-secondary px-4" onclick="limparFormAlunoInstr(); instrTab('meus-alunos')">
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div><!-- /itab-cad-aluno-instr -->
+
+  </div><!-- /dash-main -->
+</div><!-- /pg-dash-instrutor -->
+
+
+<!-- ════════════════════════════════════
+     PÁGINA 7 — DASHBOARD ALUNO
+════════════════════════════════════ -->
+<div id="pg-dash-aluno" class="page">
+
+  <!-- Sidebar -->
+  <div class="dash-sidebar">
+    <div class="sidebar-brand">KO<span>nect</span></div>
+    <div class="sidebar-section">Meu Espaço</div>
+    <button class="sidebar-item active"><i class="bi bi-grid-1x2-fill"></i> Dashboard</button>
+    <button class="sidebar-item">       <i class="bi bi-book-fill"></i>     Meus Cursos</button>
+    <button class="sidebar-item">       <i class="bi bi-bar-chart-fill"></i> Progresso</button>
+    <button class="sidebar-item">       <i class="bi bi-calendar3"></i>     Agenda</button>
+    <div class="sidebar-divider"></div>
+    <button class="sidebar-item">       <i class="bi bi-person-fill"></i>   Perfil</button>
+    <div class="sidebar-divider mt-auto"></div>
+    <button class="sidebar-item sidebar-logout" onclick="go('pg-home')"><i class="bi bi-box-arrow-left"></i> Sair</button>
+  </div>
+
+  <!-- Conteúdo -->
+  <div class="dash-main">
+    <div class="dash-header">
+      <h2>Meu Dashboard</h2>
+      <p>Continue de onde parou!</p>
+    </div>
+
+    <div class="welcome-banner d-flex align-items-center gap-3 mb-4"
+         style="border-color:rgba(34,197,94,.2);background:linear-gradient(135deg,rgba(34,197,94,.1),rgba(34,197,94,.03))">
+      <div class="action-icon" style="background:rgba(34,197,94,.15);color:var(--green)">
+        <i class="bi bi-mortarboard-fill"></i>
+      </div>
+      <div>
+        <div class="fw-bold">Olá, Aluno! 👋</div>
+        <div class="text-muted" style="font-size:.85rem">
+          Você está matriculado em <strong>Desenvolvimento Web</strong>. Continue estudando!
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="text-muted mb-1" style="font-size:.8rem">Cursos</div>
+          <div class="stat-num" style="color:var(--green)">2</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="text-muted mb-1" style="font-size:.8rem">Aulas concluídas</div>
+          <div class="stat-num" style="color:var(--accent)">14</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="text-muted mb-1" style="font-size:.8rem">Horas estudadas</div>
+          <div class="stat-num" style="color:var(--amber)">36h</div>
+        </div>
+      </div>
+      <div class="col-6 col-md-3">
+        <div class="stat-card">
+          <div class="text-muted mb-1" style="font-size:.8rem">Progresso geral</div>
+          <div class="stat-num" style="color:var(--rose)">62%</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cursos -->
+    <div class="form-card">
+      <div class="section-title">
+        <i class="bi bi-book-fill" style="color:var(--green)"></i> Meus Cursos
+      </div>
+      <div class="row g-3">
+        <div class="col-md-6">
+          <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:1.2rem">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="fw-semibold">Desenvolvimento Web</span>
+              <span class="badge-role badge-instr">Em andamento</span>
+            </div>
+            <div class="text-muted" style="font-size:.82rem">Instrutor: Maria Silva</div>
+            <div class="mt-2">
+              <div class="d-flex justify-content-between" style="font-size:.8rem">
+                <span>Progresso</span><span>75%</span>
+              </div>
+              <div class="progress mt-1" style="height:6px;background:rgba(255,255,255,.05)">
+                <div class="progress-bar" style="width:75%;background:var(--green)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div style="background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:14px;padding:1.2rem">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="fw-semibold">Design UX/UI</span>
+              <span class="badge-role badge-aluno">Novo</span>
+            </div>
+            <div class="text-muted" style="font-size:.82rem">Instrutor: Carlos Mendes</div>
+            <div class="mt-2">
+              <div class="d-flex justify-content-between" style="font-size:.8rem">
+                <span>Progresso</span><span>20%</span>
+              </div>
+              <div class="progress mt-1" style="height:6px;background:rgba(255,255,255,.05)">
+                <div class="progress-bar" style="width:20%;background:var(--accent)"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /dash-main -->
+</div><!-- /pg-dash-aluno -->
+
+
+<!-- ════════════════════════════════════
+     COMPONENTES GLOBAIS
+════════════════════════════════════ -->
+
+<!-- Toast de feedback -->
+<div id="toast"></div>
+
+<!-- Modal de confirmação de exclusão -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content"
+         style="background:var(--card-bg);border:1px solid var(--border);border-radius:20px;">
+      <div class="modal-body p-4 text-center">
+        <div style="font-size:2.5rem;margin-bottom:1rem">🗑️</div>
+        <h5 class="fw-bold mb-2">Confirmar exclusão</h5>
+        <p class="text-muted">Tem certeza que deseja excluir este registro?<br>Esta ação não pode ser desfeita.</p>
+      </div>
+      <div class="modal-footer border-0 justify-content-center gap-2 pb-4">
+        <button class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Cancelar</button>
+        <button class="btn btn-danger px-4" id="confirmDeleteBtn">Excluir</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Bootstrap JS (deve vir antes do app.js) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Lógica da aplicação -->
+<script src="app.js"></script>
+
+</body>
+</html>
