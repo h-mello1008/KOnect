@@ -9,85 +9,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
 
-  <style>
-    :root {
-      --bg-color: #0f172a;
-      --card-bg: #1e293b;
-      --border: #334155;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --accent: #3b82f6;
-      --danger: #ef4444;
-    }
+  <link rel="stylesheet" href="style.css">
 
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      font-family: 'DM Sans', sans-serif;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    h1, h2, h3, h4 {
-      font-family: 'Syne', sans-serif;
-    }
-
-    /* Topnav simplificada para a página interna */
-    .topnav {
-      border-bottom: 1px solid var(--border);
-      background-color: rgba(30, 41, 59, 0.8);
-      backdrop-filter: blur(10px);
-    }
-    .brand { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.5rem; color: #fff; }
-    .brand span { color: var(--danger); }
-
-    /* Container do Formulário */
-    .form-container {
-      max-width: 800px;
-      margin: 3rem auto;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2.5rem;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-    }
-
-    .form-label {
-      color: var(--text-muted);
-      font-weight: 500;
-      font-size: 0.9rem;
-      margin-bottom: 0.4rem;
-    }
-
-    .form-control, .form-select {
-      background-color: var(--bg-color);
-      border: 1px solid var(--border);
-      color: var(--text-main);
-      border-radius: 8px;
-      padding: 0.6rem 1rem;
-    }
-
-    .form-control:focus, .form-select:focus {
-      background-color: var(--bg-color);
-      border-color: var(--accent);
-      color: var(--text-main);
-      box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
-    }
-
-    /* Personalização do Select no Dark Mode */
-    .form-select option {
-      background-color: var(--card-bg);
-      color: var(--text-main);
-    }
-  </style>
 </head>
 <body>
 
   <nav class="topnav py-3">
     <div class="container d-flex align-items-center justify-content-between">
       <span class="brand">KO<span>nect</span></span>
-      <a href="javascript:history.back()" class="btn btn-outline-secondary btn-sm">
+      <a href="../../index.html" class="btn btn-outline-secondary btn-sm">
         <i class="bi bi-arrow-left me-1"></i> Voltar ao Painel
       </a>
     </div>
@@ -97,7 +27,7 @@
     <div class="form-container">
       
       <div class="d-flex align-items-center gap-3 mb-4">
-        <div style="background:rgba(239, 68, 68, 0.15); color:var(--danger); padding: 12px; border-radius: 12px;">
+        <div style="background:rgba(225, 29, 72, 0.15); color:var(--danger); padding: 12px; border-radius: 12px;">
           <i class="bi bi-person-plus-fill fs-4"></i>
         </div>
         <div>
@@ -125,7 +55,7 @@
 
           <div class="col-md-4">
             <label class="form-label">Senha de Acesso</label>
-            <input type="password" class="form-control" name="senha" placeholder="Senha provisória" required/>
+            <input type="password" class="form-control" name="senha" placeholder="Senha" required/>
           </div>
 
           <div class="col-md-4">
@@ -160,12 +90,15 @@
 
           <div class="col-md-2">
             <label class="form-label">Cor da Tag</label>
-            <input type="color" class="form-control form-control-color w-100" name="cor_identificacao" value="#3b82f6" title="Escolha a cor de identificação do aluno"/>
+            <input type="color" class="form-control form-control-color w-100" name="cor_identificacao" value="#e11d48" title="Escolha a cor de identificação do aluno"/>
           </div>
 
           <div class="col-md-4 d-flex flex-column justify-content-center">
-            <label class="form-label">Condicionamento Físico (1-10)</label>
-            <input type="range" class="form-range" name="nivel_condicionamento" min="1" max="10" step="1" id="rangeNivel">
+            <label class="form-label d-flex justify-content-between">
+              Condicionamento Físico 
+              <span id="valorNivel" class="fw-bold" style="color: var(--accent);">5</span> 
+            </label>
+            <input type="range" class="form-range" name="nivel_condicionamento" min="1" max="10" step="1" id="rangeNivel" value="5">
             <div class="d-flex justify-content-between text-muted" style="font-size: 0.75rem;">
               <span>Iniciante</span>
               <span>Atleta</span>
@@ -222,5 +155,8 @@
 
     </div>
   </main>
+
+  <script src="./js/cadastro_aluno.js"></script>
+  
 </body>
 </html>

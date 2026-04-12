@@ -1,0 +1,13 @@
+:root {
+      --bg-dash: #0f172a;
+      --card-dash: #1e293b;
+      --accent-blue: #3b82f6;
+    }
+    body { background: var(--bg-dash); color: #f8fafc; font-family: 'DM Sans', sans-serif; }
+    .sidebar { width: 260px; background: var(--card-dash); border-right: 1px solid #334155; height: 100vh; position: fixed; }
+    .main-content { margin-left: 260px; padding: 2rem; }
+    .stat-card { background: var(--card-dash); border: 1px solid #334155; border-radius: 16px; padding: 1.5rem; transition: 0.3s; }
+    .stat-card:hover { border-color: var(--accent-blue); transform: translateY(-3px); }
+    .progress-bar-custom { height: 10px; background: #334155; border-radius: 10px; overflow: hidden; }
+    .progress-fill { height: 100%; background: var(--accent-blue); width: 0%; transition: 1s ease-in-out; }
+    .belt-badge { background: rgba(59, 130, 246, 0.1); color: var(--accent-blue); padding: 5px 12px; border-radius: 20px; font-weight: 700; }
