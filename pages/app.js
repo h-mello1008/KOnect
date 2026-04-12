@@ -9,6 +9,7 @@ let instrutores = [
     id: 1,
     nome: 'Maria Silva',
     email: 'maria@eduplus.com',
+    senha: '123456',
     tel: '(21) 99111-2222',
     esp: 'Desenvolvimento Web',
     formacao: 'Bel. Ciência da Computação',
