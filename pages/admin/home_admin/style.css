@@ -1,0 +1,146 @@
+/* ── VARIÁVEIS ── */
+:root {
+  --navy:    #0f0a1a;
+  --card-bg: #1a0505;
+  --accent:  #e11d48;
+  --rose:    #f43f5e;
+  --text:    #e2e8f0;
+  --muted:   #aebbcd;
+  --border:  rgba(255,255,255,.07);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #0f0a1a;
+  color: var(--text);
+  min-height: 100vh;
+}
+
+h1, h2, h3, .brand { font-family: 'Syne', sans-serif; }
+
+/* ── Topnav ── */
+.topnav {
+  background: rgba(26,5,5,.9);
+  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.brand {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.brand span:first-child { color: var(--rose); }
+
+.brand-badge {
+  font-size: .65rem;
+  background: rgba(244,63,94,.2);
+  color: var(--rose);
+  border: 1px solid rgba(244,63,94,.3);
+  border-radius: 6px;
+  padding: 2px 7px;
+  margin-left: 6px;
+  vertical-align: middle;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  letter-spacing: .05em;
+}
+
+.admin-name {
+  font-size: .9rem;
+  color: var(--muted);
+}
+
+.btn-logout {
+  background: rgba(244,63,94,.12);
+  border: 1px solid rgba(244,63,94,.25);
+  color: var(--rose);
+  border-radius: 10px;
+  padding: .4rem .9rem;
+  font-size: .85rem;
+  font-family: 'DM Sans', sans-serif;
+  cursor: pointer;
+  transition: .2s;
+}
+
+.btn-logout:hover {
+  background: rgba(244,63,94,.22);
+}
+
+/* ── Welcome card ── */
+.welcome-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 2rem 2.5rem;
+}
+
+.welcome-icon {
+  width: 64px;
+  height: 64px;
+  min-width: 64px;
+  border-radius: 18px;
+  background: rgba(244,63,94,.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  color: var(--rose);
+}
+
+.welcome-card h1 { font-size: 1.6rem; font-weight: 800; }
+.welcome-card .sub { color: var(--muted); font-size: .9rem; margin-top: .25rem; }
+
+/* ── Dash cards ── */
+.dash-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.8rem;
+  height: 100%;
+  transition: border-color .2s, transform .2s;
+}
+
+.dash-card:hover {
+  border-color: rgba(244,63,94,.3);
+  transform: translateY(-3px);
+}
+
+.dash-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+}
+
+.dash-icon--rose  { background: rgba(244,63,94,.15); }
+.dash-icon--rose  i { color: #f43f5e; }
+.dash-icon--green { background: rgba(34,197,94,.15); }
+.dash-icon--green i { color: #22c55e; }
+.dash-icon--amber { background: rgba(245,158,11,.15); }
+.dash-icon--amber i { color: #f59e0b; }
+
+.dash-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: .4rem; }
+.dash-card p  { color: var(--muted); font-size: .88rem; line-height: 1.5; margin-bottom: 1rem; }
+
+.card-link {
+  color: var(--rose);
+  text-decoration: none;
+  font-size: .88rem;
+  font-weight: 600;
+}
+
+.card-link:hover { text-decoration: underline; }
