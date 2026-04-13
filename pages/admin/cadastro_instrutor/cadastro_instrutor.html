@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KOnect - Cadastrar Novo Instrutor</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
+
+  <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+  <nav class="topnav py-3">
+    <div class="container d-flex align-items-center justify-content-between">
+      <span class="brand">KO<span>nect</span></span>
+      <a href="../../index.html" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left me-1"></i> Voltar ao Painel
+      </a>
+    </div>
+  </nav>
+
+  <main class="container px-3">
+    <div class="form-container">
+      
+      <div class="d-flex align-items-center gap-3 mb-4">
+        <div style="background:rgba(225, 29, 72, 0.15); color:var(--danger); padding: 12px; border-radius: 12px;">
+          <i class="bi bi-person-plus-fill fs-4"></i>
+        </div>
+        <div>
+          <h2 class="mb-0 fw-bold">Novo Instrutor (nova academia)</h2>
+          <p class="text-white mb-0">Insira os dados do Instrutor, para criar uma nova academia</p>
+        </div>
+      </div>
+
+      <hr style="border-color: var(--border); margin-bottom: 2rem;">
+
+      <form id="formCadastroInstrutor">
+        
+        <h5 class="text-white mt-3 mb-3 border-bottom border-secondary pb-2">Dados do Responsável</h5>
+        <div class="row g-4">
+          
+          <div class="col-md-6">
+            <label class="form-label">Nome completo</label>
+            <input type="text" class="form-control" name="nome" placeholder="Ex.: Ana Souza" required/>
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label">E-mail</label>
+            <input type="email" class="form-control" name="email" placeholder="aluno@email.com" required/>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Senha de Acesso</label>
+            <input type="password" class="form-control" name="senha" placeholder="Senha" required/>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Telefone</label>
+            <input type="tel" class="form-control" name="telefone_responsavel" placeholder="(00) 90000-0000"/>
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">CPF</label>
+            <input type="text" class="form-control form-control-color w-100" name="cpf" minlength="11" maxlength="11" placeholder="Apenas números"/>
+          </div>
+          
+          <div class="col-md-4">
+            <label class="form-label">Data de Nascimento</label>
+            <input type="date" class="form-control" name="data_nascimento" required/>
+          </div>
+
+        </div>
+
+        <h5 class="text-white mt-5 mb-3 border-bottom border-secondary pb-2">Dados da academia</h5>
+        <div class="row g-4">
+
+          <div class="col-md-3">
+            <label class="form-label">Nome fantasia</label>
+            <input type="text" class="form-control" name="nome_fantasia" step="0.1"/>
+          </div>
+
+          <div class="col-md-3">
+            <label class="form-label">Razão social</label>
+            <input type="text" class="form-control" name="razao_social"/>
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">CPNJ</label>
+            <input type="text" class="form-control form-control-color w-100" name="cnpj" minlength="14" maxlength="14" placeholder="Apenas números"/>
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">Horário de abertura</label>
+            <input type="time" class="form-control form-control-color w-100" name="horario_abertura"/>
+          </div>
+
+          <div class="col-md-2">
+            <label class="form-label">Horário de fechamento</label>
+            <input type="time" class="form-control form-control-color w-100" name="horario_fechamento"/>
+          </div>
+
+          <div class="col-md-4">
+            <label class="form-label">Contato</label>
+            <input type="tel" class="form-control" name="telefone_academia" id="telefone_academia" placeholder="(00) 90000-0000"/>
+          </div>
+        </div>
+
+        <h5 class="text-white mt-5 mb-3 border-bottom border-secondary pb-2">Dados do Plano</h5>
+        <div class="row g-4 align-items-end">
+
+          <div class="col-md-4">
+            <label class="form-label d-block mb-3">Período contrato</label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="periodo_contrato" id="periodo_contrato" value="semestral" checked>
+              <label class="form-check-label text-white" for="planoSemestral">Semestral</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="periodo_contrato" id="planoAnual" value="anual">
+              <label class="form-check-label text-white" for="planoAnual">Anual</label>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <label for="suporte">Renovação automática</label>
+            <select name="renovacao_automatica">
+                <option value="sim">Sim</option>
+                <option value="nao">Não</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+             <div class="form-check mt-2">
+              <input class="form-check-input" type="checkbox" name="aceite_termos" id="termos" value="aceito" required>
+              <label class="form-check-label text-white" for="termos">
+                Li e aceito os termos
+              </label>
+            </div>
+          </div>
+
+          <div class="col-12 mt-5 d-flex gap-3 justify-content-end border-top pt-4" style="border-color: var(--border) !important;">
+            <button type="button" class="btn btn-outline-secondary px-4" onclick="history.back()">
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-danger px-5 fw-bold">
+              <i class="bi bi-check-lg me-1"></i> Salvar
+            </button>
+          </div>
+
+        </div>
+      </form>
+
+    </div>
+  </main>
+
+  <script src="./js/cadastro_instrutor.js"></script>
+  
+</body>
+</html>
