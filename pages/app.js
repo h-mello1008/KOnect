@@ -1,9 +1,5 @@
-/* ════════════════════════════════════
-   EduPlus — Lógica da Aplicação
-   app.js
-════════════════════════════════════ */
 
-/* ── BANCO DE DADOS EM MEMÓRIA ────── */
+
 let instrutores = [
   {
     id: 1,
@@ -59,9 +55,6 @@ let deleteTarget = null;
 let deleteType   = null;
 let deleteModal;
 
-/* ════════════════════════════════════
-   INICIALIZAÇÃO
-════════════════════════════════════ */
 document.addEventListener('DOMContentLoaded', () => {
   deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
 
@@ -69,9 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
     .addEventListener('click', executarDelete);
 });
 
-/* ════════════════════════════════════
-   NAVEGAÇÃO ENTRE PÁGINAS
-════════════════════════════════════ */
 function go(pageId) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.getElementById(pageId).classList.add('active');
@@ -88,9 +78,6 @@ function go(pageId) {
   }
 }
 
-/* ════════════════════════════════════
-   TOAST DE FEEDBACK
-════════════════════════════════════ */
 function showToast(msg, color = 'var(--green)') {
   const t = document.getElementById('toast');
   t.textContent     = msg;
@@ -99,9 +86,6 @@ function showToast(msg, color = 'var(--green)') {
   setTimeout(() => t.classList.remove('show'), 2800);
 }
 
-/* ════════════════════════════════════
-   TABS — ADMIN
-════════════════════════════════════ */
 function adminTab(tab) {
   const abas = ['overview', 'instrutores', 'alunos', 'cad-instrutor', 'cad-aluno'];
 
@@ -109,7 +93,7 @@ function adminTab(tab) {
     document.getElementById('tab-' + t).style.display = (t === tab) ? 'block' : 'none';
   });
 
-  /* Destaca item ativo na sidebar */
+  
   document.querySelectorAll('#pg-dash-admin .sidebar-item')
     .forEach(b => b.classList.remove('active'));
 
@@ -117,15 +101,12 @@ function adminTab(tab) {
   const btns = document.querySelectorAll('#pg-dash-admin .sidebar-item');
   if (map[tab] !== undefined) btns[map[tab]].classList.add('active');
 
-  /* Ações específicas por aba */
+  
   if (tab === 'instrutores')   renderInstrutores();
   if (tab === 'alunos')        renderAlunosAdmin();
   if (tab === 'cad-aluno')     preencherSeletorInstrutores();
 }
 
-/* ════════════════════════════════════
-   TABS — INSTRUTOR
-════════════════════════════════════ */
 function instrTab(tab) {
   const abas = ['overview', 'meus-alunos', 'cad-aluno-instr'];
 
@@ -143,11 +124,6 @@ function instrTab(tab) {
   if (tab === 'meus-alunos') renderAlunosInstr();
 }
 
-/* ════════════════════════════════════
-   UTILITÁRIOS DE RENDERIZAÇÃO
-════════════════════════════════════ */
-
-/** Retorna HTML do badge de status */
 function statusBadge(s) {
   const map = {
     ativo:    '<span class="badge-role badge-aluno">Ativo</span>',
@@ -157,20 +133,15 @@ function statusBadge(s) {
   return map[s] || '';
 }
 
-/** Cor do avatar baseada no primeiro char do nome */
 function avatarColor(nome) {
   const cores = ['#3b82f6', '#22c55e', '#f59e0b', '#f43f5e', '#8b5cf6', '#06b6d4'];
   return cores[nome.charCodeAt(0) % cores.length];
 }
 
-/** Iniciais do nome (máx. 2 letras) */
 function iniciais(nome) {
   return nome.split(' ').map(w => w[0]).slice(0, 2).join('').toUpperCase();
 }
 
-/* ════════════════════════════════════
-   RENDER — INSTRUTORES
-════════════════════════════════════ */
 function renderInstrutores() {
   const tb = document.getElementById('tbody-instrutores');
   tb.innerHTML = instrutores.map(i => `
@@ -195,9 +166,6 @@ function renderInstrutores() {
     </tr>`).join('');
 }
 
-/* ════════════════════════════════════
-   RENDER — ALUNOS (ADMIN)
-════════════════════════════════════ */
 function renderAlunosAdmin() {
   const tb = document.getElementById('tbody-alunos-admin');
   tb.innerHTML = alunos.map(a => `
@@ -222,9 +190,6 @@ function renderAlunosAdmin() {
     </tr>`).join('');
 }
 
-/* ════════════════════════════════════
-   RENDER — ALUNOS (INSTRUTOR)
-════════════════════════════════════ */
 function renderAlunosInstr() {
   const tb = document.getElementById('tbody-alunos-instr');
   tb.innerHTML = alunos.map(a => `
@@ -249,20 +214,15 @@ function renderAlunosInstr() {
     </tr>`).join('');
 }
 
-/** Renderiza todas as tabelas de uma vez */
 function renderTables() {
   renderInstrutores();
   renderAlunosAdmin();
 }
 
-/** Atualiza o contador de alunos no dashboard do instrutor */
 function updateInstrCount() {
   document.getElementById('instr-count-alunos').textContent = alunos.length;
 }
 
-/* ════════════════════════════════════
-   SELETOR DE INSTRUTORES (form aluno)
-════════════════════════════════════ */
 function preencherSeletorInstrutores() {
   const sel = document.getElementById('aluno-instrutor');
   if (!sel) return;
@@ -271,9 +231,6 @@ function preencherSeletorInstrutores() {
     instrutores.map(i => `<option value="${i.id}">${i.nome}</option>`).join('');
 }
 
-/* ════════════════════════════════════
-   CRUD — INSTRUTOR
-════════════════════════════════════ */
 function salvarInstrutor() {
   const id    = document.getElementById('instr-edit-id').value;
   const nome  = document.getElementById('instr-nome').value.trim();
@@ -331,9 +288,6 @@ function limparFormInstr() {
   document.getElementById('form-instr-title').textContent = 'Cadastrar Instrutor';
 }
 
-/* ════════════════════════════════════
-   CRUD — ALUNO (ADMIN)
-════════════════════════════════════ */
 function salvarAluno() {
   const id    = document.getElementById('aluno-edit-id').value;
   const nome  = document.getElementById('aluno-nome').value.trim();
@@ -394,9 +348,6 @@ function limparFormAluno() {
   document.getElementById('form-aluno-title').textContent = 'Cadastrar Aluno';
 }
 
-/* ════════════════════════════════════
-   CRUD — ALUNO (INSTRUTOR)
-════════════════════════════════════ */
 function salvarAlunoInstr() {
   const id    = document.getElementById('aluno-instr-edit-id').value;
   const nome  = document.getElementById('aluno-instr-nome').value.trim();
@@ -414,7 +365,7 @@ function salvarAlunoInstr() {
     tel:       document.getElementById('aluno-instr-tel').value,
     curso:     document.getElementById('aluno-instr-curso').value,
     status:    document.getElementById('aluno-instr-status').value,
-    instrutor: 1   /* ID fixo do instrutor logado */
+    instrutor: 1   
   };
 
   if (id) {
@@ -454,9 +405,6 @@ function limparFormAlunoInstr() {
   document.getElementById('form-aluno-instr-title').textContent = 'Cadastrar Aluno';
 }
 
-/* ════════════════════════════════════
-   DELETE COM CONFIRMAÇÃO
-════════════════════════════════════ */
 function confirmDelete(id, tipo) {
   deleteTarget = id;
   deleteType   = tipo;

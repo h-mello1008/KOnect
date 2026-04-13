@@ -5,24 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>KOnect</title>
 
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <!-- Google Fonts -->
+=  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
-  <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet"/>
-  <!-- Estilos da aplicação -->
-  <link rel="stylesheet" href="style.css"/>
+=  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-<!-- ════════════════════════════════════
-     PÁGINA 1 — HOME (PRÉ-LOGIN)
-════════════════════════════════════ -->
 <div id="pg-home" class="page active">
 
-  <!-- Navbar -->
-  <nav class="topnav">
+=  <nav class="topnav">
     <div class="container d-flex align-items-center justify-content-between py-3">
       <span class="brand">KO<span>nect</span></span>
       <div class="nav-pill d-none d-sm-flex">
@@ -33,14 +25,14 @@
     </div>
   </nav>
 
-  <!-- Hero -->
+  
   <div class="hero">
     <div class="hero-bg"></div>
     <div class="hero-grid"></div>
     <div class="container position-relative">
       <div class="row align-items-center g-5">
 
-        <!-- Texto -->
+        
         <div class="col-lg-6">
           <div class="hero-badge"><span class="dot"></span>Plataforma de Gestão Educacional</div>
           <h1>Aprenda sem <em>limites,</em> ensine com <em>propósito.</em></h1>
@@ -51,11 +43,11 @@
           </div>
         </div>
 
-        <!-- Cards de acesso -->
+        
         <div class="col-lg-6">
           <div class="row g-3">
 
-            <!-- Admin -->
+            
             <div class="col-12">
               <a class="ancora_admin" href="admin/login_admin/login_admin.html">
               <div class="role-card admin">
@@ -71,7 +63,7 @@
               </a>
             </div>
 
-            <!-- Instrutor -->
+            
             <div class="col-md-6">
               <a class="ancora_cliente" href="instrutor/login_instrutor/login_instrutor.html">
               <div class="role-card instrutor">
@@ -83,7 +75,7 @@
               </a>
             </div>
 
-            <!-- Aluno -->
+            
             <div class="col-md-6">
               <a class="ancora_cliente" href="aluno/login_aluno/index.html">
               <div class="role-card aluno">
@@ -102,7 +94,7 @@
     </div>
   </div>
 
-  <!-- Estatísticas -->
+  
   <div class="container pb-5">
     <div class="row g-3">
       <div class="col-6 col-md-3">
@@ -132,15 +124,11 @@
     </div>
   </div>
 
-</div><!-- /pg-home -->
+</div>
 
-
-<!-- ════════════════════════════════════
-     PÁGINA 5 — DASHBOARD ADMIN
-════════════════════════════════════ -->
 <div id="pg-dash-admin" class="page">
 
-  <!-- Sidebar -->
+  
   <div class="dash-sidebar">
     <div class="sidebar-brand">KO<span>nect</span></div>
     <div class="sidebar-section">Principal</div>
@@ -155,10 +143,10 @@
     <button class="sidebar-item sidebar-logout" onclick="go('pg-home')">    <i class="bi bi-box-arrow-left"></i>  Sair</button>
   </div>
 
-  <!-- Conteúdo principal -->
+  
   <div class="dash-main">
 
-    <!-- ABA: Visão Geral -->
+    
     <div id="tab-overview">
       <div class="dash-header">
         <h2>Painel Administrativo</h2>
@@ -239,9 +227,9 @@
           </div>
         </div>
       </div>
-    </div><!-- /tab-overview -->
+    </div>
 
-    <!-- ABA: Lista de Instrutores -->
+    
     <div id="tab-instrutores" style="display:none">
       <div class="dash-header d-flex align-items-start justify-content-between flex-wrap gap-3">
         <div>
@@ -266,9 +254,9 @@
           <tbody id="tbody-instrutores"></tbody>
         </table>
       </div>
-    </div><!-- /tab-instrutores -->
+    </div>
 
-    <!-- ABA: Lista de Alunos (Admin) -->
+    
     <div id="tab-alunos" style="display:none">
       <div class="dash-header d-flex align-items-start justify-content-between flex-wrap gap-3">
         <div>
@@ -293,9 +281,9 @@
           <tbody id="tbody-alunos-admin"></tbody>
         </table>
       </div>
-    </div><!-- /tab-alunos -->
+    </div>
 
-    <!-- ABA: Cadastrar / Editar Instrutor -->
+    
     <div id="tab-cad-instrutor" style="display:none">
       <div class="dash-header">
         <h2 id="form-instr-title">Cadastrar Instrutor</h2>
@@ -345,9 +333,9 @@
           </div>
         </div>
       </div>
-    </div><!-- /tab-cad-instrutor -->
+    </div>
 
-    <!-- ABA: Cadastrar / Editar Aluno (Admin) -->
+    
     <div id="tab-cad-aluno" style="display:none">
       <div class="dash-header">
         <h2 id="form-aluno-title">Cadastrar Aluno</h2>
@@ -411,18 +399,14 @@
           </div>
         </div>
       </div>
-    </div><!-- /tab-cad-aluno -->
+    </div>
 
-  </div><!-- /dash-main -->
-</div><!-- /pg-dash-admin -->
+  </div>
+</div>
 
-
-<!-- ════════════════════════════════════
-     PÁGINA 6 — DASHBOARD INSTRUTOR
-════════════════════════════════════ -->
 <div id="pg-dash-instrutor" class="page">
 
-  <!-- Sidebar -->
+  
   <div class="dash-sidebar">
     <div class="sidebar-brand">KO<span>nect</span></div>
     <div class="sidebar-section">Principal</div>
@@ -435,10 +419,10 @@
     <button class="sidebar-item sidebar-logout" onclick="go('pg-home')">        <i class="bi bi-box-arrow-left"></i> Sair</button>
   </div>
 
-  <!-- Conteúdo -->
+  
   <div class="dash-main">
 
-    <!-- ABA: Visão Geral -->
+    
     <div id="itab-overview">
       <div class="dash-header">
         <h2>Painel do Instrutor</h2>
@@ -502,9 +486,9 @@
           </div>
         </div>
       </div>
-    </div><!-- /itab-overview -->
+    </div>
 
-    <!-- ABA: Meus Alunos -->
+    
     <div id="itab-meus-alunos" style="display:none">
       <div class="dash-header d-flex align-items-start justify-content-between flex-wrap gap-3">
         <div>
@@ -529,9 +513,9 @@
           <tbody id="tbody-alunos-instr"></tbody>
         </table>
       </div>
-    </div><!-- /itab-meus-alunos -->
+    </div>
 
-    <!-- ABA: Cadastrar / Editar Aluno (Instrutor) -->
+    
     <div id="itab-cad-aluno-instr" style="display:none">
       <div class="dash-header">
         <h2 id="form-aluno-instr-title">Cadastrar Aluno</h2>
@@ -585,18 +569,14 @@
           </div>
         </div>
       </div>
-    </div><!-- /itab-cad-aluno-instr -->
+    </div>
 
-  </div><!-- /dash-main -->
-</div><!-- /pg-dash-instrutor -->
+  </div>
+</div>
 
-
-<!-- ════════════════════════════════════
-     PÁGINA 7 — DASHBOARD ALUNO
-════════════════════════════════════ -->
 <div id="pg-dash-aluno" class="page">
 
-  <!-- Sidebar -->
+  
   <div class="dash-sidebar">
     <div class="sidebar-brand">KO<span>nect</span></div>
     <div class="sidebar-section">Meu Espaço</div>
@@ -610,7 +590,7 @@
     <button class="sidebar-item sidebar-logout" onclick="go('pg-home')"><i class="bi bi-box-arrow-left"></i> Sair</button>
   </div>
 
-  <!-- Conteúdo -->
+  
   <div class="dash-main">
     <div class="dash-header">
       <h2>Meu Dashboard</h2>
@@ -630,7 +610,7 @@
       </div>
     </div>
 
-    <!-- Stats -->
+    
     <div class="row g-3 mb-4">
       <div class="col-6 col-md-3">
         <div class="stat-card">
@@ -658,7 +638,7 @@
       </div>
     </div>
 
-    <!-- Cursos -->
+    
     <div class="form-card">
       <div class="section-title">
         <i class="bi bi-book-fill" style="color:var(--green)"></i> Meus Cursos
@@ -701,18 +681,11 @@
       </div>
     </div>
 
-  </div><!-- /dash-main -->
-</div><!-- /pg-dash-aluno -->
+  </div>
+</div>
 
-
-<!-- ════════════════════════════════════
-     COMPONENTES GLOBAIS
-════════════════════════════════════ -->
-
-<!-- Toast de feedback -->
 <div id="toast"></div>
 
-<!-- Modal de confirmação de exclusão -->
 <div class="modal fade" id="deleteModal" tabindex="-1">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content"
@@ -730,10 +703,8 @@
   </div>
 </div>
 
-
-<!-- Bootstrap JS (deve vir antes do app.js) -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Lógica da aplicação -->
+
 <script src="app.js"></script>
 
 </body>

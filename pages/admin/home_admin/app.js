@@ -1,4 +1,3 @@
-// Verifica se há admin logado; caso contrário, redireciona ao login
 const adminLogado = JSON.parse(localStorage.getItem('admin_logado'));
 
 if (!adminLogado) {

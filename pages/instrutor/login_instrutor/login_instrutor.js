@@ -1,44 +1,31 @@
-document
-  .getElementById("formLoginInstrutor")
-  .addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    let email = document.getElementById("emailLoginInstrutor").value;
-    let senha = document.getElementById("senhaLoginInstrutor").value;
-
-    const instrutorTeste = {
-      nome: "Instrutor Teste",
-      email: "instrutor@konect.com",
-      senha: "instrutor123",
-      telefone_responsavel: "41988888888",
-      cpf: "12345678900",
-      dataNascimento: "1990-03-20",
-      nome_fantasia: "Academia Teste",
-      razao_social: "Academia Teste LTDA",
-      cnpj: "12.345.678/0001-90",
-      horario_abertura: "06:00",
-      horario_fechamento: "22:00",
-      telefone_academia: "41987654321",
-      periodo_contrato: "anual",
-      renovacao_automatica: "sim",
-      aceitou_termos: true,
+(function initInstrutor() {
+  if (!localStorage.getItem('instrutor_academia')) {
+    const instrutorPadrao = {
+      email: 'instrutor@konect.com',
+      senha: 'instrutor123'
     };
+    localStorage.setItem('instrutor_academia', JSON.stringify([instrutorPadrao]));
+  }
+})();
 
-    const listaInstrutores = JSON.parse(
-      localStorage.getItem("instrutor_academia"),
-    ) || [instrutorTeste];
+document.getElementById('formLoginInstrutor').addEventListener('submit', function (e) {
+  e.preventDefault();
 
-    const instrutorEncontrado = listaInstrutores.find(
-      (instrutor) => instrutor.email === email && instrutor.senha === senha,
-    );
+  const email   = document.getElementById('emailLoginInstrutor').value;
+  const senha   = document.getElementById('senhaLoginInstrutor').value;
+  const msgErro = document.getElementById('msgErro');
 
-    if (instrutorEncontrado) {
-      localStorage.setItem(
-        "instrutor_logado",
-        JSON.stringify(instrutorEncontrado),
-      );
-      window.location.href = "../cadastro_aluno/index.html";
-    } else {
-      alert("E-mail e/ou senha incorretos.");
-    }
-  });
+  const listaInstrutores = JSON.parse(localStorage.getItem('instrutor_academia'));
+
+  const instrutorEncontrado = listaInstrutores.find(
+    (instrutor) => instrutor.email === email && instrutor.senha === senha
+  );
+
+  if (instrutorEncontrado) {
+    localStorage.setItem('instrutor_logado', JSON.stringify(instrutorEncontrado));
+    window.location.href = '../cadastro_aluno/index.html';
+  } else {
+    msgErro.textContent   = 'E-mail e/ou senha incorretos.';
+    msgErro.style.display = 'block';
+  }
+});

@@ -1,9 +1,5 @@
-/* ════════════════════════════════════
-   EduPlus — Estilos Globais
-   style.css
-════════════════════════════════════ */
 
-/* ── VARIÁVEIS ── */
+
 :root {
   --navy:   #FAF9F6;
   --navy2:  #1a0505;
@@ -18,7 +14,6 @@
   --border: rgba(255,255,255,.07);
 }
 
-/* ── BASE ── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -32,13 +27,9 @@ h1, h2, h3, h4, h5, .brand {
   font-family: 'Syne', sans-serif;
 }
 
-/* ── ROTEADOR DE PÁGINAS ── */
 .page         { display: none; }
 .page.active  { display: block; }
 
-/* ════════════════════════════════════
-   NAVBAR
-════════════════════════════════════ */
 .topnav {
   background: #1a0505;
   backdrop-filter: blur(12px);
@@ -74,9 +65,6 @@ h1, h2, h3, h4, h5, .brand {
   transition: .2s;
 }
 
-/* ════════════════════════════════════
-   HERO (HOME PRÉ-LOGIN)
-════════════════════════════════════ */
 .hero {
   min-height: 90vh;
   display: flex;
@@ -154,9 +142,6 @@ h1, h2, h3, h4, h5, .brand {
   line-height: 1.7;
 }
 
-/* ════════════════════════════════════
-   ROLE CARDS (HOME PRÉ-LOGIN)
-════════════════════════════════════ */
 .role-card {
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -221,9 +206,6 @@ h1, h2, h3, h4, h5, .brand {
 .role-arrow.blue  { color: var(--accent2); }
 .role-arrow.green { color: var(--blue); }
 
-/* ════════════════════════════════════
-   STAT CARDS
-════════════════════════════════════ */
 .stat-card {
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -237,9 +219,6 @@ h1, h2, h3, h4, h5, .brand {
   font-family: 'Syne', sans-serif;
 }
 
-/* ════════════════════════════════════
-   LOGIN
-════════════════════════════════════ */
 .login-wrap {
   min-height: 100vh;
   display: flex;
@@ -271,7 +250,6 @@ h1, h2, h3, h4, h5, .brand {
 .login-box h2   { font-size: 1.6rem; font-weight: 800; text-align: center; margin-bottom: .3rem; }
 .login-box .sub { text-align: center; color: var(--muted); font-size: .9rem; margin-bottom: 2rem; }
 
-/* ── Formulários ── */
 .form-label { font-size: .85rem; color: var(--muted); margin-bottom: .35rem; }
 
 .form-control,
@@ -297,7 +275,6 @@ h1, h2, h3, h4, h5, .brand {
 .form-control::placeholder { color: var(--muted); }
 .form-select option        { background: var(--card-bg); }
 
-/* ── Botões customizados ── */
 .btn-primary-custom {
   background: linear-gradient(135deg, var(--accent), #2563eb);
   border: none;
@@ -320,9 +297,6 @@ h1, h2, h3, h4, h5, .brand {
 .back-link a { color: var(--accent2); cursor: pointer; text-decoration: none; }
 .back-link a:hover { text-decoration: underline; }
 
-/* ════════════════════════════════════
-   DASHBOARD — SIDEBAR
-════════════════════════════════════ */
 .dash-sidebar {
   width: 240px;
   min-height: 100vh;
@@ -379,12 +353,10 @@ h1, h2, h3, h4, h5, .brand {
 .sidebar-logout        { color: var(--rose) !important; }
 .sidebar-logout:hover  { background: rgba(244,63,94,.1) !important; color: var(--rose) !important; }
 
-/* ── Cabeçalho da área principal ── */
 .dash-header        { margin-bottom: 2rem; }
 .dash-header h2     { font-size: 1.8rem; font-weight: 800; }
 .dash-header p      { color: var(--muted); }
 
-/* ── Welcome banner ── */
 .welcome-banner {
   background: linear-gradient(135deg, rgba(59,130,246,.15), rgba(34,197,94,.08));
   border: 1px solid rgba(59,130,246,.2);
@@ -393,9 +365,6 @@ h1, h2, h3, h4, h5, .brand {
   margin-bottom: 2rem;
 }
 
-/* ════════════════════════════════════
-   ACTION CARDS
-════════════════════════════════════ */
 .action-card {
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -424,9 +393,6 @@ h1, h2, h3, h4, h5, .brand {
   flex-shrink: 0;
 }
 
-/* ════════════════════════════════════
-   TABELA DE DADOS
-════════════════════════════════════ */
 .data-table {
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -456,15 +422,11 @@ h1, h2, h3, h4, h5, .brand {
 .data-table tbody tr:last-child td { border-bottom: none; }
 .data-table tbody tr:hover          { background: rgba(255,255,255,.02); }
 
-/* ── Badges de role/status ── */
 .badge-role  { font-size: .75rem; padding: 3px 10px; border-radius: 50px; font-weight: 500; }
 .badge-admin { background: rgba(244,63,94,.15);  color: var(--rose); }
 .badge-instr { background: rgba(59,130,246,.15); color: var(--accent2); }
 .badge-aluno { background: rgba(34,197,94,.15);  color: var(--blue); }
 
-/* ════════════════════════════════════
-   FORM CARD (CADASTRO/EDIÇÃO)
-════════════════════════════════════ */
 .form-card {
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -481,9 +443,6 @@ h1, h2, h3, h4, h5, .brand {
   gap: 10px;
 }
 
-/* ════════════════════════════════════
-   AVATAR
-════════════════════════════════════ */
 .avatar {
   width: 36px;
   height: 36px;
@@ -496,9 +455,6 @@ h1, h2, h3, h4, h5, .brand {
   flex-shrink: 0;
 }
 
-/* ════════════════════════════════════
-   TOAST DE FEEDBACK
-════════════════════════════════════ */
 #toast {
   position: fixed;
   bottom: 2rem;
@@ -517,9 +473,6 @@ h1, h2, h3, h4, h5, .brand {
 
 #toast.show { opacity: 1; }
 
-/* ════════════════════════════════════
-   RESPONSIVO
-════════════════════════════════════ */
 @media (max-width: 768px) {
   .dash-sidebar { display: none; }
   .dash-main    { margin-left: 0; }

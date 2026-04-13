@@ -1,4 +1,4 @@
-/* ── VARIÁVEIS ── */
+
 :root {
   --navy:   #FAF9F6;
   --navy2:  #1a0505;
@@ -13,7 +13,6 @@
   --border: rgba(255,255,255,.07);
 }
 
-/* ── BASE ── */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
@@ -67,7 +66,6 @@ h1, h2, h3, h4, h5, .brand {
 .login-box h2   { font-size: 1.6rem; font-weight: 800; text-align: center; margin-bottom: .3rem; }
 .login-box .sub { text-align: center; color: var(--muted); font-size: .9rem; margin-bottom: 2rem; }
 
-/* ── Formulários ── */
 .form-label { font-size: .85rem; color: var(--muted); margin-bottom: .35rem; }
 
 .form-control,
@@ -93,7 +91,6 @@ h1, h2, h3, h4, h5, .brand {
 .form-control::placeholder { color: var(--muted); }
 .form-select option        { background: var(--card-bg); }
 
-/* ── Botões customizados ── */
 .btn-primary-custom {
   background: linear-gradient(135deg, var(--accent), #2563eb);
   border: none;

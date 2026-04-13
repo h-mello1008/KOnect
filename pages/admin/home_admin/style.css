@@ -1,4 +1,4 @@
-/* ── VARIÁVEIS ── */
+
 :root {
   --navy:    #0f0a1a;
   --card-bg: #1a0505;
@@ -20,7 +20,6 @@ body {
 
 h1, h2, h3, .brand { font-family: 'Syne', sans-serif; }
 
-/* ── Topnav ── */
 .topnav {
   background: rgba(26,5,5,.9);
   border-bottom: 1px solid var(--border);
@@ -73,7 +72,6 @@ h1, h2, h3, .brand { font-family: 'Syne', sans-serif; }
   background: rgba(244,63,94,.22);
 }
 
-/* ── Welcome card ── */
 .welcome-card {
   display: flex;
   align-items: center;
@@ -100,7 +98,6 @@ h1, h2, h3, .brand { font-family: 'Syne', sans-serif; }
 .welcome-card h1 { font-size: 1.6rem; font-weight: 800; }
 .welcome-card .sub { color: var(--muted); font-size: .9rem; margin-top: .25rem; }
 
-/* ── Dash cards ── */
 .dash-card {
   background: var(--card-bg);
   border: 1px solid var(--border);
