@@ -2,7 +2,7 @@
 // Variáveis de conexão com o Banco de Dados
 $servidor = "127.0.0.1"; // Usem localhost:3306 (no meu contexto precisei utilizar o IP pra funcionar)
 $usuario  = "root";
-$senha    = "180207";
+$senha    = "";
 $nome_banco = "Ecomercy";
 
 // O driver mysqli já sabe que deve procurar a porta 3306 por padrão
