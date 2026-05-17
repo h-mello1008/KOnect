@@ -19,7 +19,7 @@ document.getElementById('formLoginAluno').addEventListener('submit', async funct
 
     if (resultado.status === 'ok') {
       localStorage.setItem('aluno_logado', JSON.stringify(resultado.data));
-      window.location.href = '../perfil_aluno/index.html';
+      window.location.href = '../../pages/aluno/perfil_aluno/index.html';
     } else {
       msgErro.textContent   = resultado.mensagem || 'E-mail e/ou senha incorretos.';
       msgErro.style.display = 'block';

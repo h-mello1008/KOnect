@@ -37,7 +37,7 @@ document.getElementById('formCadastroInstrutor').addEventListener('submit', asyn
         if (resultado.status === 'ok') {
             alert('Academia/Instrutor salvo com sucesso!');
             form.reset();
-            window.location.href = '../home_admin/index.html';
+            window.location.href = '../../pages/admin/home_admin/index.html';
         } else {
             alert('Erro: ' + resultado.mensagem);
         }

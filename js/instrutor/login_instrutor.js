@@ -19,7 +19,7 @@ document.getElementById('formLoginInstrutor').addEventListener('submit', async f
 
     if (resultado.status === 'ok') {
       localStorage.setItem('instrutor_logado', JSON.stringify(resultado.data));
-      window.location.href = '../cadastro_aluno/index.html';
+      window.location.href = '../../pages/instrutor/cadastro_aluno/index.html';
     } else {
       msgErro.textContent   = resultado.mensagem || 'E-mail e/ou senha incorretos.';
       msgErro.style.display = 'block';

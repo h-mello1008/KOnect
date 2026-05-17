@@ -17,11 +17,11 @@ async function validarSessao() {
       document.getElementById('userName').textContent = usuarioData.email || 'Aluno';
       loadUserProgress();
     } else {
-      window.location.href = '../login_aluno/index.html';
+      window.location.href = '../../pages/aluno/login_aluno/index.html';
     }
   } catch (erro) {
     console.error('Erro ao validar sessão:', erro);
-    window.location.href = '../login_aluno/index.html';
+    window.location.href = '../../pages/aluno/login_aluno/index.html';
   }
 }
 
