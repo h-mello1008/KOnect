@@ -14,6 +14,7 @@ document.getElementById('formCadastroInstrutor').addEventListener('submit', asyn
         horario_abertura: form.querySelector('[name="horario_abertura"]').value,
         horario_fechamento: form.querySelector('[name="horario_fechamento"]').value,
         periodo_contrato: form.querySelector('[name="periodo_contrato"]:checked').value,
+        renovacao_automatica: form.querySelector('[name="renovacao_automatica"]').value === 'sim' ? 1 : 0,
         aceitou_termos: form.querySelector('[name="aceite_termos"]').checked ? 1 : 0,
         email: form.querySelector('[name="email"]').value,
         senha: form.querySelector('[name="senha"]').value,

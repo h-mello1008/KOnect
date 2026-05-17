@@ -11,8 +11,10 @@
     $telefone = $_POST['telefone'] ?? '';
     $redeSocial = $_POST['redeSocial'] ?? '';
     $peso = $_POST['peso'] ?? null;
+    $dataNascimento = $_POST['dataNascimento'] ?? '';
     $horarioPreferencial = $_POST['horarioPreferencial'] ?? '';
     $tagCor = $_POST['tagCor'] ?? '';
+    $nivelCondicionamento = $_POST['nivelCondicionamento'] ?? 5;
     $mesInicio = $_POST['mesInicio'] ?? '';
     $plano = $_POST['plano'] ?? '';
     $aceitou_termos = isset($_POST['aceitou_termos']) ? (int)$_POST['aceitou_termos'] : 0;
@@ -42,16 +44,16 @@
             $stmt_aluno = $conexao->prepare("
                 INSERT INTO Aluno(
                     id_usuario, nome, telefone, redeSocial, peso,
-                    horarioPreferencial, tagCor, mesInicio, plano,
-                    aceitou_termos, atestadoMedico, graduacao_id
-                ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    dataNascimento, horarioPreferencial, tagCor, nivelCondicionamento,
+                    mesInicio, plano, aceitou_termos, atestadoMedico, graduacao_id
+                ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ");
             
             $stmt_aluno->bind_param(
-                "issssdsssiii",
+                "isssdsssiiiii",
                 $usuario_id, $nome, $telefone, $redeSocial, $peso,
-                $horarioPreferencial, $tagCor, $mesInicio, $plano,
-                $aceitou_termos, $atestadoMedico, $graduacao_id
+                $dataNascimento, $horarioPreferencial, $tagCor, $nivelCondicionamento,
+                $mesInicio, $plano, $aceitou_termos, $atestadoMedico, $graduacao_id
             );
             $stmt_aluno->execute();
 

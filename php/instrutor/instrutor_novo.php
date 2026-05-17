@@ -17,6 +17,7 @@
     $horario_abertura = $_POST['horario_abertura'] ?? '';
     $horario_fechamento = $_POST['horario_fechamento'] ?? '';
     $periodo_contrato = $_POST['periodo_contrato'] ?? '';
+    $renovacao_automatica = isset($_POST['renovacao_automatica']) ? (int)$_POST['renovacao_automatica'] : 0;
     $aceitou_termos = isset($_POST['aceitou_termos']) ? (int)$_POST['aceitou_termos'] : 0;
     $email = $_POST['email'] ?? '';
     $senha = $_POST['senha'] ?? '';
@@ -44,15 +45,15 @@
                 INSERT INTO Instrutor(
                     id_usuario, nome, telefone_responsavel, cpf, dataNascimento,
                     nome_fantasia, razao_social, cnpj, horario_abertura,
-                    horario_fechamento, periodo_contrato, aceitou_termos, academia_id
-                ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    horario_fechamento, periodo_contrato, renovacao_automatica, aceitou_termos, academia_id
+                ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             ");
             
             $stmt_instrutor->bind_param(
-                "issssssssssii",
+                "isssssssssiiii",
                 $usuario_id, $nome, $telefone, $cpf, $dataNascimento,
                 $nome_fantasia, $razao_social, $cnpj, $horario_abertura,
-                $horario_fechamento, $periodo_contrato, $aceitou_termos, $academia_id
+                $horario_fechamento, $periodo_contrato, $renovacao_automatica, $aceitou_termos, $academia_id
             );
             $stmt_instrutor->execute();
 
