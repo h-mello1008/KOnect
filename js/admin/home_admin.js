@@ -9,11 +9,11 @@ async function validarSessao() {
       document.getElementById('adminNome').textContent      = usuarioData.email || 'Administrador';
       document.getElementById('adminNomeTitle').textContent = usuarioData.email || 'Administrador';
     } else {
-      window.location.href = '../login_admin/login_admin.html';
+      window.location.href = '../../pages/admin/login_admin/login_admin.html';
     }
   } catch (erro) {
     console.error('Erro ao validar sessão:', erro);
-    window.location.href = '../login_admin/login_admin.html';
+    window.location.href = '../../pages/admin/login_admin/login_admin.html';
   }
 }
 
@@ -22,5 +22,5 @@ validarSessao();
 
 function logout() {
   localStorage.removeItem('admin_logado');
-  window.location.href = '../login_admin/login_admin.html';
+  window.location.href = '../../pages/admin/login_admin/login_admin.html';
 }
