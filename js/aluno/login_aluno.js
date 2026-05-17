@@ -1,29 +1,32 @@
-(function initAluno() {
-  if (!localStorage.getItem('alunos_academia')) {
-    const alunoPadrao = {
-      email: 'aluno@konect.com',
-      senha: 'aluno123'
-    };
-    localStorage.setItem('alunos_academia', JSON.stringify([alunoPadrao]));
-  }
-})();
-
-document.getElementById('formLoginAluno').addEventListener('submit', function (e) {
+document.getElementById('formLoginAluno').addEventListener('submit', async function (e) {
   e.preventDefault();
 
   const email   = document.getElementById('emailLogin').value;
   const senha   = document.getElementById('senhaLogin').value;
   const msgErro = document.getElementById('msgErro');
 
-  const listaAlunos = JSON.parse(localStorage.getItem('alunos_academia'));
+  const formData = new FormData();
+  formData.append('email', email);
+  formData.append('senha', senha);
 
-  const alunoEncontrado = listaAlunos.find((aluno) => aluno.email === email && aluno.senha === senha);
+  try {
+    const response = await fetch('../../php/usuario/usuario_login.php', {
+      method: 'POST',
+      body: formData
+    });
 
-  if (alunoEncontrado) {
-    localStorage.setItem('aluno_logado', JSON.stringify(alunoEncontrado));
-    window.location.href = '../perfil_aluno/index.html';
-  } else {
-    msgErro.textContent   = 'E-mail e/ou senha incorretos.';
+    const resultado = await response.json();
+
+    if (resultado.status === 'ok') {
+      localStorage.setItem('aluno_logado', JSON.stringify(resultado.data));
+      window.location.href = '../perfil_aluno/index.html';
+    } else {
+      msgErro.textContent   = resultado.mensagem || 'E-mail e/ou senha incorretos.';
+      msgErro.style.display = 'block';
+    }
+  } catch (erro) {
+    msgErro.textContent   = 'Erro ao conectar com o servidor.';
     msgErro.style.display = 'block';
+    console.error('Erro:', erro);
   }
 });

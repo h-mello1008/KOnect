@@ -1,31 +1,32 @@
-(function initInstrutor() {
-  if (!localStorage.getItem('instrutor_academia')) {
-    const instrutorPadrao = {
-      email: 'instrutor@konect.com',
-      senha: 'instrutor123'
-    };
-    localStorage.setItem('instrutor_academia', JSON.stringify([instrutorPadrao]));
-  }
-})();
-
-document.getElementById('formLoginInstrutor').addEventListener('submit', function (e) {
+document.getElementById('formLoginInstrutor').addEventListener('submit', async function (e) {
   e.preventDefault();
 
   const email   = document.getElementById('emailLoginInstrutor').value;
   const senha   = document.getElementById('senhaLoginInstrutor').value;
   const msgErro = document.getElementById('msgErro');
 
-  const listaInstrutores = JSON.parse(localStorage.getItem('instrutor_academia'));
+  const formData = new FormData();
+  formData.append('email', email);
+  formData.append('senha', senha);
 
-  const instrutorEncontrado = listaInstrutores.find(
-    (instrutor) => instrutor.email === email && instrutor.senha === senha
-  );
+  try {
+    const response = await fetch('../../php/usuario/usuario_login.php', {
+      method: 'POST',
+      body: formData
+    });
 
-  if (instrutorEncontrado) {
-    localStorage.setItem('instrutor_logado', JSON.stringify(instrutorEncontrado));
-    window.location.href = '../cadastro_aluno/index.html';
-  } else {
-    msgErro.textContent   = 'E-mail e/ou senha incorretos.';
+    const resultado = await response.json();
+
+    if (resultado.status === 'ok') {
+      localStorage.setItem('instrutor_logado', JSON.stringify(resultado.data));
+      window.location.href = '../cadastro_aluno/index.html';
+    } else {
+      msgErro.textContent   = resultado.mensagem || 'E-mail e/ou senha incorretos.';
+      msgErro.style.display = 'block';
+    }
+  } catch (erro) {
+    msgErro.textContent   = 'Erro ao conectar com o servidor.';
     msgErro.style.display = 'block';
+    console.error('Erro:', erro);
   }
 });

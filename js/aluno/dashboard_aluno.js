@@ -3,15 +3,26 @@
 
 document.addEventListener("DOMContentLoaded", function () {
   // Initialize dashboard
-  loadUserData();
-  loadUserProgress();
+  validarSessao();
   setupEventListeners();
 });
 
-function loadUserData() {
-  // Load user information from session/storage
-  const userName = localStorage.getItem("userName") || "Aluno";
-  document.getElementById("userName").textContent = userName;
+async function validarSessao() {
+  try {
+    const response = await fetch('../../php/valida_sessao.php');
+    const resultado = await response.json();
+
+    if (resultado.status === 'ok') {
+      const usuarioData = resultado.data;
+      document.getElementById('userName').textContent = usuarioData.email || 'Aluno';
+      loadUserProgress();
+    } else {
+      window.location.href = '../login_aluno/index.html';
+    }
+  } catch (erro) {
+    console.error('Erro ao validar sessão:', erro);
+    window.location.href = '../login_aluno/index.html';
+  }
 }
 
 function loadUserProgress() {
@@ -42,7 +53,7 @@ function setupEventListeners() {
 
 function logout() {
   // Clear session data
-  localStorage.removeItem("userName");
+  localStorage.removeItem("aluno_logado");
   localStorage.removeItem("userCourse");
   localStorage.removeItem("userProgress");
 
