@@ -189,6 +189,8 @@ CREATE TABLE Frequencia (
     FOREIGN KEY (aluno_id) REFERENCES Aluno(id_usuario)
 );
 
+ALTER TABLE Aluno ADD COLUMN status VARCHAR(20) DEFAULT 'Ativo';
+
 -- =============================================
 -- DADOS DE TESTE (Opcional)
 -- =============================================
@@ -221,8 +223,8 @@ INSERT INTO Instrutor (id_usuario, nome, telefone_responsavel, cpf, dataNascimen
 (2, 'João Silva', '11999999999', '12345678901', '1990-01-01', 1);
 
 -- Inserir aluno de teste
-INSERT INTO Aluno (id_usuario, nome, telefone, peso, mesInicio, graduacao_id) VALUES
-(3, 'Pedro Santos', '11987654321', 75.5, '2024-01-15', 1);
+INSERT INTO Aluno (id_usuario, nome, telefone, peso, mesInicio, graduacao_id, status) VALUES
+(3, 'Pedro Santos', '11987654321', 75.5, '2024-01-15', 1, 'Ativo');
 
 -- Inserir modalidade de teste
 INSERT INTO Modalidade (tipo, descricao, cargaHoraria, academia_id) VALUES

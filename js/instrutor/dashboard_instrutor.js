@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
 // FEATURE: Listar Academias Ativas
 async function buscarAcademiasAtivas() {
     try {
-        const response = await fetch('/KOnect/php/instrutor/academia_get.php');
+        const response = await fetch('../../php/instrutor/academia_get.php');
         const json = await response.json();
         const select = document.getElementById('selectAcademiasAtivas');
         select.innerHTML = '';
@@ -34,7 +34,7 @@ async function buscarAcademiasAtivas() {
 // MOTOR CENTRAL: Carregar alunos e processar contadores/alertas
 async function carregarPainelAlunos() {
     try {
-        const response = await fetch('/KOnect/php/instrutor/aluno_get.php');
+        const response = await fetch('../../php/instrutor/aluno_get.php');
         const json = await response.json();
         const tbody = document.getElementById('tabelaAlunos');
         tbody.innerHTML = '';
@@ -123,7 +123,7 @@ async function salvarPerfilAluno() {
     const formData = new FormData(form);
 
     try {
-        const response = await fetch(`/KOnect/php/instrutor/aluno_alterar.php?id=${id}`, {
+        const response = await fetch(`../../php/instrutor/aluno_alterar.php?id=${id}`, {
             method: 'POST',
             body: formData
         });
@@ -144,5 +144,5 @@ async function salvarPerfilAluno() {
 
 function fazerLogout() {
     localStorage.removeItem('instrutor_logado');
-    window.location.href = '/KOnect/index.html';
+    window.location.href = '../../index.html';
 }
