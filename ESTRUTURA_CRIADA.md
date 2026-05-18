@@ -285,7 +285,7 @@ Produto (id, nome, precoVenda, estoqueAtual, academia_id)
 | Função    | Email                | Senha    |
 | --------- | -------------------- | -------- |
 | Admin     | admin@konect.com     | admin123 |
-| Instrutor | instrutor@konect.com | instr123 |
+| Instrutor | instrutor@konect.com | instrutor123 |
 | Aluno     | aluno@konect.com     | aluno123 |
 
 ---

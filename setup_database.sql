@@ -217,7 +217,7 @@ INSERT INTO Graduacao (corFaixa, hierarquia, tempoMinimo) VALUES
 -- Inserir usuários de teste
 INSERT INTO Usuario (email, senha) VALUES
 ('admin@konect.com', 'admin123'),
-('instrutor@konect.com', 'instr123'),
+('instrutor@konect.com', 'instrutor123'),
 ('aluno@konect.com', 'aluno123');
 
 -- Inserir admin de teste
