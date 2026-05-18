@@ -12,7 +12,7 @@ document
     formData.append("senha", senha);
 
     try {
-      const response = await fetch("../../php/usuario/usuario_login.php", {
+      const response = await fetch("../../../php/usuario/usuario_login.php", {
         method: "POST",
         body: formData,
       });
@@ -21,7 +21,7 @@ document
 
       if (resultado.status === "ok") {
         localStorage.setItem("admin_logado", JSON.stringify(resultado.data));
-        window.location.href = "../../pages/admin/home_admin/index.html";
+        window.location.href = "../../../pages/admin/home_admin/index.html";
       } else {
         msgErro.textContent =
           resultado.mensagem || "E-mail e/ou senha incorretos.";
