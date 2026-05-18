@@ -156,11 +156,17 @@ CREATE TABLE Matricula (
 
 CREATE TABLE Mensalidade (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    valor INT,
-    dataVencimento DATE,
-    status TINYINT(1) DEFAULT 0,
-    matricula_id INT UNIQUE,
-    FOREIGN KEY (matricula_id) REFERENCES Matricula(id)
+    valor DECIMAL(10, 2) NOT NULL,
+    dataLancamento DATE DEFAULT (DATE_ADD(CURDATE(), INTERVAL IF(DAY(CURDATE()) > 5, 1, 0) MONTH - (DAY(CURDATE()) - 5) DAY)),
+    mes_referencia VARCHAR(7),
+    dataVencimento DATE NOT NULL,
+    status_pagamento ENUM('Pendente', 'Pago', 'Vencido') DEFAULT 'Pendente',
+    data_pagamento DATE,
+    matricula_id INT,
+    academia_id INT,
+    UNIQUE KEY unique_matricula_mes (matricula_id, mes_referencia),
+    FOREIGN KEY (matricula_id) REFERENCES Matricula(id),
+    FOREIGN KEY (academia_id) REFERENCES Academia(id)
 );
 
 CREATE TABLE ExameFaixa (
@@ -245,8 +251,9 @@ INSERT INTO Matricula (dataInicio, status_matricula, aluno_id, modalidade_id, ac
 ('2024-01-15', 'Ativo', 3, 1, 1);
 
 -- Inserir mensalidade de teste
-INSERT INTO Mensalidade (valor, dataVencimento, status, matricula_id) VALUES
-(300, '2024-02-15', 0, 1);
+INSERT INTO Mensalidade (valor, dataLancamento, mes_referencia, dataVencimento, status_pagamento, matricula_id, academia_id) VALUES
+(300.00, DATE_SUB(CURDATE(), INTERVAL 5 DAY), DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m'), DATE_SUB(CURDATE(), INTERVAL 10 DAY), 'Vencido', 1, 1),
+(300.00, CURDATE(), DATE_FORMAT(CURDATE(), '%Y-%m'), DATE_ADD(CURDATE(), INTERVAL 5 DAY), 'Pendente', 1, 1);
 
 COMMIT;
 

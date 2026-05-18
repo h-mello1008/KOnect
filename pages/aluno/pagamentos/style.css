@@ -1,0 +1,92 @@
+:root {
+  --bg-dash: #0f172a;
+  --card-dash: #1e293b;
+  --accent-blue: #3b82f6;
+}
+
+body {
+  background: var(--bg-dash);
+  color: #f8fafc;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.sidebar {
+  width: 260px;
+  background: var(--card-dash);
+  border-right: 1px solid #334155;
+  height: 100vh;
+  position: fixed;
+}
+
+.main-content {
+  margin-left: 260px;
+  padding: 2rem;
+}
+
+.stat-card {
+  background: var(--card-dash);
+  border: 1px solid #334155;
+  border-radius: 16px;
+  padding: 1.5rem;
+  transition: 0.3s;
+}
+
+.stat-card:hover {
+  border-color: var(--accent-blue);
+  transform: translateY(-3px);
+}
+
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(239, 68, 68, 0.2) !important;
+}
+
+.badge {
+  font-weight: 600;
+  padding: 0.5rem 0.75rem;
+}
+
+.btn {
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.btn-danger:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .sidebar {
+    position: relative;
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid #334155;
+  }
+
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+}
+
+header {
+  border-bottom: 1px solid #334155;
+  padding-bottom: 1.5rem;
+}
+
+header h1 {
+  color: #f8fafc;
+  font-size: 2rem;
+}
+
+header p {
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+}
