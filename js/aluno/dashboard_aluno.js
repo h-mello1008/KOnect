@@ -18,11 +18,11 @@ async function validarSessao() {
         usuarioData.email || "Aluno";
       loadUserProgress();
     } else {
-      window.location.href = "../../pages/aluno/login_aluno/index.html";
+      window.location.href = "../../../pages/aluno/login_aluno/index.html";
     }
   } catch (erro) {
     console.error("Erro ao validar sessão:", erro);
-    window.location.href = "../../pages/aluno/login_aluno/index.html";
+    window.location.href = "../../../pages/aluno/login_aluno/index.html";
   }
 }
 
@@ -59,5 +59,5 @@ function logout() {
   localStorage.removeItem("userProgress");
 
   // Redirect to home
-  window.location.href = "../../index.html";
+  window.location.href = "../../../index.html";
 }
