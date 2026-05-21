@@ -9,19 +9,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function validarSessao() {
   try {
-    const response = await fetch('../../php/valida_sessao.php');
+    const response = await fetch("../../../php/valida_sessao.php");
     const resultado = await response.json();
 
-    if (resultado.status === 'ok') {
+    if (resultado.status === "ok") {
       const usuarioData = resultado.data;
-      document.getElementById('userName').textContent = usuarioData.email || 'Aluno';
+      document.getElementById("userName").textContent =
+        usuarioData.email || "Aluno";
       loadUserProgress();
     } else {
-      window.location.href = '../../pages/aluno/login_aluno/index.html';
+      window.location.href = "../../pages/aluno/login_aluno/index.html";
     }
   } catch (erro) {
-    console.error('Erro ao validar sessão:', erro);
-    window.location.href = '../../pages/aluno/login_aluno/index.html';
+    console.error("Erro ao validar sessão:", erro);
+    window.location.href = "../../pages/aluno/login_aluno/index.html";
   }
 }
 

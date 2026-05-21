@@ -1,5 +1,5 @@
 <?php
-    include_once('../../conexao.php');
+    include_once('../conexao.php');
 
     $retorno = [
         'status'    => '',
@@ -8,10 +8,13 @@
     ];
 
     if(isset($_GET['id'])){
-        $stmt = $conexao->prepare("SELECT * FROM Academia WHERE id = ?");
+        $stmt = $conexao->prepare("SELECT * FROM Modalidade WHERE id = ?");
         $stmt->bind_param("i", $_GET['id']);
+    } elseif(isset($_GET['academia_id'])){
+        $stmt = $conexao->prepare("SELECT * FROM Modalidade WHERE academia_id = ? ORDER BY tipo");
+        $stmt->bind_param("i", $_GET['academia_id']);
     } else {
-        $stmt = $conexao->prepare("SELECT * FROM Academia");
+        $stmt = $conexao->prepare("SELECT * FROM Modalidade ORDER BY tipo");
     }
     
     $stmt->execute();
@@ -31,7 +34,7 @@
     } else {
         $retorno = [
             'status'    => 'nok',
-            'mensagem'  => 'Nenhuma academia encontrada',
+            'mensagem'  => 'Nenhuma modalidade encontrada',
             'data'      => []
         ];
     }

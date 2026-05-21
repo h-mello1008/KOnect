@@ -1,5 +1,5 @@
 <?php
-    include_once('../../conexao.php');
+    include_once('../conexao.php');
 
     $retorno = [
         'status'    => '',
@@ -8,30 +8,29 @@
     ];
 
     if(isset($_GET['id'])){
-        $nivelTecnico = $_POST['nivelTecnico'] ?? '';
-        $limiteAlunos = $_POST['limiteAlunos'] ?? 0;
-        $modalidade_id = $_POST['modalidade_id'] ?? null;
-        $instrutor_id = $_POST['instrutor_id'] ?? null;
+        $tempoMinimo    = $_POST['tempoMinimo'] ?? 0;
+        $descricao      = $_POST['descricao'] ?? '';
+        $requisitos     = $_POST['requisitos'] ?? '';
+        $pontuacaoMinima = $_POST['pontuacaoMinima'] ?? 0;
     
         $stmt = $conexao->prepare("
-            UPDATE Turma SET 
-                nivelTecnico = ?, limiteAlunos = ?,
-                modalidade_id = ?, instrutor_id = ?
-            WHERE codigoTurma = ?
+            UPDATE GraduacaoRegra SET 
+                tempoMinimo = ?, descricao = ?, requisitos = ?, pontuacaoMinima = ?
+            WHERE id = ?
         ");
-        $stmt->bind_param("siiii", $nivelTecnico, $limiteAlunos, $modalidade_id, $instrutor_id, $_GET['id']);
+        $stmt->bind_param("isisi", $tempoMinimo, $descricao, $requisitos, $pontuacaoMinima, $_GET['id']);
         $stmt->execute();
 
         if($stmt->affected_rows > 0){
             $retorno = [
                 'status'    => 'ok',
-                'mensagem'  => 'Turma alterada com sucesso',
+                'mensagem'  => 'Regra de graduação alterada com sucesso',
                 'data'      => []
             ];
         } else {
             $retorno = [
                 'status'    => 'nok',
-                'mensagem'  => 'Erro ao alterar turma',
+                'mensagem'  => 'Erro ao alterar regra de graduação',
                 'data'      => []
             ];
         }
@@ -39,7 +38,7 @@
     } else {
         $retorno = [
             'status'    => 'nok',
-            'mensagem'  => 'ID da turma não informado',
+            'mensagem'  => 'ID da regra não informado',
             'data'      => []
         ];
     }

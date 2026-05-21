@@ -9,18 +9,18 @@
 
     if(isset($_GET['id'])){
         $nome = $_POST['nome'] ?? '';
-        $cnpj = $_POST['cnpj'] ?? '';
         $endereco = $_POST['endereco'] ?? '';
+        $status_ativo = isset($_POST['status_ativo']) ? (int)$_POST['status_ativo'] : 1;
     
         $stmt = $conexao->prepare("
             UPDATE Academia SET 
-                nome = ?, cnpj = ?, endereco = ?
+                nome = ?, endereco = ?, status_ativo = ?
             WHERE id = ?
         ");
-        $stmt->bind_param("sssi", $nome, $cnpj, $endereco, $_GET['id']);
+        $stmt->bind_param("ssii", $nome, $endereco, $status_ativo, $_GET['id']);
         $stmt->execute();
 
-        if($stmt->affected_rows > 0){
+        if($stmt->affected_rows > 0 || $stmt->error == ''){
             $retorno = [
                 'status'    => 'ok',
                 'mensagem'  => 'Academia alterada com sucesso',
@@ -47,3 +47,4 @@
     header("Content-type:application/json;charset:utf-8");
     echo json_encode($retorno);
 ?>
+

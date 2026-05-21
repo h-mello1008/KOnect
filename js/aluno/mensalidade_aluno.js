@@ -7,34 +7,36 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function loadMensalidades() {
   try {
-    const response = await fetch('../../php/aluno/mensalidade_get.php', {
-      method: 'GET'
+    const response = await fetch("../../../php/aluno/mensalidade_get.php", {
+      method: "GET",
     });
 
     const resultado = await response.json();
 
-    if (resultado.status === 'ok' && resultado.data.length > 0) {
+    if (resultado.status === "ok" && resultado.data.length > 0) {
       renderMensalidades(resultado.data);
     } else {
       renderMensalidadesVazias();
     }
   } catch (erro) {
-    console.error('Erro ao carregar mensalidades:', erro);
+    console.error("Erro ao carregar mensalidades:", erro);
     renderErroCarregamento();
   }
 }
 
 function renderMensalidades(mensalidades) {
-  const containerMensalidades = document.getElementById('containerMensalidades');
-  
+  const containerMensalidades = document.getElementById(
+    "containerMensalidades",
+  );
+
   if (!containerMensalidades) return;
 
   // Separar mensalidades em categorias
-  const vencidas = mensalidades.filter(m => m.dias_vencimento > 0);
-  const pendentes = mensalidades.filter(m => m.dias_vencimento < 0);
-  const hojePaga = mensalidades.filter(m => m.dias_vencimento === 0);
+  const vencidas = mensalidades.filter((m) => m.dias_vencimento > 0);
+  const pendentes = mensalidades.filter((m) => m.dias_vencimento < 0);
+  const hojePaga = mensalidades.filter((m) => m.dias_vencimento === 0);
 
-  let html = '';
+  let html = "";
 
   // Se há mensalidades vencidas, mostrar com destaque
   if (vencidas.length > 0) {
@@ -44,7 +46,7 @@ function renderMensalidades(mensalidades) {
           <i class="bi bi-exclamation-circle-fill me-2"></i> Mensalidades Vencidas (${vencidas.length})
         </h6>
         <div class="row g-3">
-          ${vencidas.map(m => renderCartaoMensalidade(m, 'danger')).join('')}
+          ${vencidas.map((m) => renderCartaoMensalidade(m, "danger")).join("")}
         </div>
       </div>
     `;
@@ -58,7 +60,7 @@ function renderMensalidades(mensalidades) {
           <i class="bi bi-clock-fill me-2"></i> Vence Hoje
         </h6>
         <div class="row g-3">
-          ${hojePaga.map(m => renderCartaoMensalidade(m, 'warning')).join('')}
+          ${hojePaga.map((m) => renderCartaoMensalidade(m, "warning")).join("")}
         </div>
       </div>
     `;
@@ -72,7 +74,7 @@ function renderMensalidades(mensalidades) {
           <i class="bi bi-hourglass-split me-2"></i> Mensalidades Pendentes (${pendentes.length})
         </h6>
         <div class="row g-3">
-          ${pendentes.map(m => renderCartaoMensalidade(m, 'info')).join('')}
+          ${pendentes.map((m) => renderCartaoMensalidade(m, "info")).join("")}
         </div>
       </div>
     `;
@@ -83,39 +85,39 @@ function renderMensalidades(mensalidades) {
   // Adicionar resumo no topo
   const totalVencido = vencidas.reduce((sum, m) => sum + m.valor, 0);
   const totalPendente = pendentes.reduce((sum, m) => sum + m.valor, 0);
-  
+
   renderResumoMensalidades(totalVencido, totalPendente);
 }
 
 function renderCartaoMensalidade(mensalidade, tipo) {
   const data = new Date(mensalidade.dataVencimento);
   const dataFormatada = formatarData(data);
-  
-  let statusBadge = '';
-  let statusTexto = '';
-  let iconeStatus = '';
-  let corBorda = '';
+
+  let statusBadge = "";
+  let statusTexto = "";
+  let iconeStatus = "";
+  let corBorda = "";
 
   if (mensalidade.dias_vencimento > 0) {
     const diasAtraso = mensalidade.dias_vencimento;
-    statusTexto = `${diasAtraso} dia${diasAtraso !== 1 ? 's' : ''} vencido${diasAtraso !== 1 ? 's' : ''}`;
+    statusTexto = `${diasAtraso} dia${diasAtraso !== 1 ? "s" : ""} vencido${diasAtraso !== 1 ? "s" : ""}`;
     iconeStatus = '<i class="bi bi-exclamation-triangle-fill text-danger"></i>';
     statusBadge = `<span class="badge bg-danger">${statusTexto}</span>`;
-    corBorda = 'border-danger';
+    corBorda = "border-danger";
   } else if (mensalidade.dias_vencimento < 0) {
     const diasRestantes = Math.abs(mensalidade.dias_vencimento);
-    statusTexto = `${diasRestantes} dia${diasRestantes !== 1 ? 's' : ''} para vencer`;
+    statusTexto = `${diasRestantes} dia${diasRestantes !== 1 ? "s" : ""} para vencer`;
     iconeStatus = '<i class="bi bi-hourglass-split text-info"></i>';
     statusBadge = `<span class="badge bg-info">${statusTexto}</span>`;
-    corBorda = 'border-info';
+    corBorda = "border-info";
   } else {
-    statusTexto = 'Vence hoje!';
+    statusTexto = "Vence hoje!";
     iconeStatus = '<i class="bi bi-exclamation-circle-fill text-warning"></i>';
     statusBadge = `<span class="badge bg-warning text-dark">${statusTexto}</span>`;
-    corBorda = 'border-warning';
+    corBorda = "border-warning";
   }
 
-  const valorFormatado = `R$ ${mensalidade.valor.toFixed(2).replace('.', ',')}`;
+  const valorFormatado = `R$ ${mensalidade.valor.toFixed(2).replace(".", ",")}`;
   const mesReferencia = formatarMesReferencia(mensalidade.mes_referencia);
 
   return `
@@ -157,13 +159,13 @@ function renderCartaoMensalidade(mensalidade, tipo) {
 }
 
 function renderResumoMensalidades(totalVencido, totalPendente) {
-  const containerResumo = document.getElementById('resumoMensalidades');
-  
+  const containerResumo = document.getElementById("resumoMensalidades");
+
   if (!containerResumo) return;
 
-  const vencidoFormatado = `R$ ${totalVencido.toFixed(2).replace('.', ',')}`;
-  const pendenteFormatado = `R$ ${totalPendente.toFixed(2).replace('.', ',')}`;
-  const totalFormatado = `R$ ${(totalVencido + totalPendente).toFixed(2).replace('.', ',')}`;
+  const vencidoFormatado = `R$ ${totalVencido.toFixed(2).replace(".", ",")}`;
+  const pendenteFormatado = `R$ ${totalPendente.toFixed(2).replace(".", ",")}`;
+  const totalFormatado = `R$ ${(totalVencido + totalPendente).toFixed(2).replace(".", ",")}`;
 
   const html = `
     <div class="row g-3 mb-4">
@@ -207,9 +209,11 @@ function renderResumoMensalidades(totalVencido, totalPendente) {
 }
 
 function renderMensalidadesVazias() {
-  const containerMensalidades = document.getElementById('containerMensalidades');
-  const containerResumo = document.getElementById('resumoMensalidades');
-  
+  const containerMensalidades = document.getElementById(
+    "containerMensalidades",
+  );
+  const containerResumo = document.getElementById("resumoMensalidades");
+
   if (containerMensalidades) {
     containerMensalidades.innerHTML = `
       <div class="text-center py-5">
@@ -221,13 +225,15 @@ function renderMensalidadesVazias() {
   }
 
   if (containerResumo) {
-    containerResumo.innerHTML = '';
+    containerResumo.innerHTML = "";
   }
 }
 
 function renderErroCarregamento() {
-  const containerMensalidades = document.getElementById('containerMensalidades');
-  
+  const containerMensalidades = document.getElementById(
+    "containerMensalidades",
+  );
+
   if (containerMensalidades) {
     containerMensalidades.innerHTML = `
       <div class="alert alert-danger" role="alert">
@@ -239,23 +245,35 @@ function renderErroCarregamento() {
 }
 
 function formatarData(data) {
-  const opcoes = { year: 'numeric', month: 'long', day: 'numeric' };
-  return data.toLocaleDateString('pt-BR', opcoes);
+  const opcoes = { year: "numeric", month: "long", day: "numeric" };
+  return data.toLocaleDateString("pt-BR", opcoes);
 }
 
 function formatarMesReferencia(mesReferencia) {
-  if (!mesReferencia) return 'Sem data';
-  
-  const [ano, mes] = mesReferencia.split('-');
+  if (!mesReferencia) return "Sem data";
+
+  const [ano, mes] = mesReferencia.split("-");
   const meses = [
-    'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro",
   ];
-  
+
   return `${meses[parseInt(mes) - 1]} de ${ano}`;
 }
 
 function abrirModalPagamento(mensalidadeId, valor, mes) {
   // Função para abrir modal de pagamento (pode ser integrada com gateway de pagamento)
-  alert(`Preparando pagamento de ${valor} para ${mes}\n\nEsta funcionalidade será integrada com o gateway de pagamento.`);
+  alert(
+    `Preparando pagamento de ${valor} para ${mes}\n\nEsta funcionalidade será integrada com o gateway de pagamento.`,
+  );
 }

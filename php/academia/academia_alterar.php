@@ -1,5 +1,5 @@
 <?php
-    include_once('../../conexao.php');
+    include_once('../conexao.php');
 
     $retorno = [
         'status'    => '',
@@ -8,27 +8,28 @@
     ];
 
     if(isset($_GET['id'])){
-        $nivel_acesso = $_POST['nivel_acesso'] ?? 1;
-        $academia_id = $_POST['academia_id'] ?? null;
+        $nome = $_POST['nome'] ?? '';
+        $endereco = $_POST['endereco'] ?? '';
+        $status_ativo = isset($_POST['status_ativo']) ? (int)$_POST['status_ativo'] : 1;
     
         $stmt = $conexao->prepare("
-            UPDATE Admin SET 
-                nivel_acesso = ?, academia_id = ?
-            WHERE id_usuario = ?
+            UPDATE Academia SET 
+                nome = ?, endereco = ?, status_ativo = ?
+            WHERE id = ?
         ");
-        $stmt->bind_param("iii", $nivel_acesso, $academia_id, $_GET['id']);
+        $stmt->bind_param("ssii", $nome, $endereco, $status_ativo, $_GET['id']);
         $stmt->execute();
 
-        if($stmt->affected_rows > 0){
+        if($stmt->affected_rows > 0 || $stmt->error == ''){
             $retorno = [
                 'status'    => 'ok',
-                'mensagem'  => 'Admin alterado com sucesso',
+                'mensagem'  => 'Academia alterada com sucesso',
                 'data'      => []
             ];
         } else {
             $retorno = [
                 'status'    => 'nok',
-                'mensagem'  => 'Erro ao alterar admin',
+                'mensagem'  => 'Erro ao alterar academia',
                 'data'      => []
             ];
         }
@@ -36,7 +37,7 @@
     } else {
         $retorno = [
             'status'    => 'nok',
-            'mensagem'  => 'ID do admin não informado',
+            'mensagem'  => 'ID da academia não informado',
             'data'      => []
         ];
     }

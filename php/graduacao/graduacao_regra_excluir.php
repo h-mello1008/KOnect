@@ -1,5 +1,5 @@
 <?php
-    include_once('../../conexao.php');
+    include_once('../conexao.php');
 
     $retorno = [
         'status'    => '',
@@ -8,26 +8,20 @@
     ];
 
     if(isset($_GET['id'])){
-        // Primeiro delete do Instrutor, depois do Usuario
-        $stmt = $conexao->prepare("DELETE FROM Instrutor WHERE id_usuario = ?");
+        $stmt = $conexao->prepare("DELETE FROM GraduacaoRegra WHERE id = ?");
         $stmt->bind_param("i", $_GET['id']);
         $stmt->execute();
 
         if($stmt->affected_rows > 0){
-            $stmt_usuario = $conexao->prepare("DELETE FROM Usuario WHERE id = ?");
-            $stmt_usuario->bind_param("i", $_GET['id']);
-            $stmt_usuario->execute();
-
             $retorno = [
                 'status'    => 'ok',
-                'mensagem'  => 'Instrutor excluído com sucesso',
+                'mensagem'  => 'Regra de graduação excluída com sucesso',
                 'data'      => []
             ];
-            $stmt_usuario->close();
         } else {
             $retorno = [
                 'status'    => 'nok',
-                'mensagem'  => 'Instrutor não encontrado',
+                'mensagem'  => 'Regra de graduação não encontrada',
                 'data'      => []
             ];
         }
@@ -35,7 +29,7 @@
     } else {
         $retorno = [
             'status'    => 'nok',
-            'mensagem'  => 'ID do instrutor não informado',
+            'mensagem'  => 'ID da regra não informado',
             'data'      => []
         ];
     }

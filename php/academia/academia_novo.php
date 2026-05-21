@@ -1,5 +1,5 @@
 <?php
-    include_once('../../conexao.php');
+    include_once('../conexao.php');
 
     $retorno = [
         'status'    => '',
@@ -18,7 +18,7 @@
             'data'      => []
         ];
     } else {
-        $stmt = $conexao->prepare("INSERT INTO Academia(nome, cnpj, endereco) VALUES(?, ?, ?)");
+        $stmt = $conexao->prepare("INSERT INTO Academia(nome, cnpj, endereco, status_ativo) VALUES(?, ?, ?, 1)");
         $stmt->bind_param("sss", $nome, $cnpj, $endereco);
         $stmt->execute();
 

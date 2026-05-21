@@ -1,5 +1,5 @@
 <?php
-    include_once('../../conexao.php');
+    include_once('../conexao.php');
 
     $retorno = [
         'status'    => '',
@@ -8,21 +8,20 @@
     ];
 
     if(isset($_GET['id'])){
-        // Delete da turma cascata também deleta Aluno_Turma
-        $stmt = $conexao->prepare("DELETE FROM Turma WHERE codigoTurma = ?");
+        $stmt = $conexao->prepare("DELETE FROM Academia WHERE id = ?");
         $stmt->bind_param("i", $_GET['id']);
         $stmt->execute();
 
         if($stmt->affected_rows > 0){
             $retorno = [
                 'status'    => 'ok',
-                'mensagem'  => 'Turma excluída com sucesso',
+                'mensagem'  => 'Academia excluída com sucesso',
                 'data'      => []
             ];
         } else {
             $retorno = [
                 'status'    => 'nok',
-                'mensagem'  => 'Turma não encontrada',
+                'mensagem'  => 'Academia não encontrada',
                 'data'      => []
             ];
         }
@@ -30,7 +29,7 @@
     } else {
         $retorno = [
             'status'    => 'nok',
-            'mensagem'  => 'ID da turma não informado',
+            'mensagem'  => 'ID da academia não informado',
             'data'      => []
         ];
     }

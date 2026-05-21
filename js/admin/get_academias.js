@@ -9,7 +9,7 @@ async function buscarAcademias() {
 
     try {
         // Chama o arquivo PHP que retorna o JSON
-        const resposta = await fetch('academia_get_ativas.php');
+        const resposta = await fetch('../../../php/admin/academia_get_ativas.php');
         const json = await resposta.json();
 
         // Limpa a tabela para inserir os novos dados

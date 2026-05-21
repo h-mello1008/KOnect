@@ -16,7 +16,9 @@ CREATE TABLE Academia (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     cnpj VARCHAR(20),
-    endereco VARCHAR(255)
+    endereco VARCHAR(255),
+    status_ativo TINYINT(1) DEFAULT 1,
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE Usuario (
@@ -104,6 +106,20 @@ CREATE TABLE Modalidade (
     FOREIGN KEY (academia_id) REFERENCES Academia(id)
 );
 
+CREATE TABLE GraduacaoRegra (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    graduacao_id INT NOT NULL,
+    modalidade_id INT NOT NULL,
+    tempoMinimo INT DEFAULT 0,
+    descricao VARCHAR(255),
+    requisitos VARCHAR(500),
+    pontuacaoMinima INT DEFAULT 0,
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (graduacao_id) REFERENCES Graduacao(id),
+    FOREIGN KEY (modalidade_id) REFERENCES Modalidade(id),
+    UNIQUE KEY unique_grad_mod (graduacao_id, modalidade_id)
+);
+
 -- =============================================
 -- 4. TURMAS E AULAS (DEPENDEM DE MODALIDADE E INSTRUTOR)
 -- =============================================
@@ -157,7 +173,14 @@ CREATE TABLE Matricula (
 CREATE TABLE Mensalidade (
     id INT AUTO_INCREMENT PRIMARY KEY,
     valor DECIMAL(10, 2) NOT NULL,
-    dataLancamento DATE DEFAULT (DATE_ADD(CURDATE(), INTERVAL IF(DAY(CURDATE()) > 5, 1, 0) MONTH - (DAY(CURDATE()) - 5) DAY)),
+    dataLancamento DATE DEFAULT (
+        IF(DAY(CURDATE()) > 5,
+            -- Se passou do dia 5, pega o dia 5 do próximo mês
+            LAST_DAY(CURDATE()) + INTERVAL 5 DAY,
+            -- Se não passou, pega o dia 5 do mês atual
+            LAST_DAY(CURDATE() - INTERVAL 1 MONTH) + INTERVAL 5 DAY
+        )
+    ),
     mes_referencia VARCHAR(7),
     dataVencimento DATE NOT NULL,
     status_pagamento ENUM('Pendente', 'Pago', 'Vencido') DEFAULT 'Pendente',
@@ -168,7 +191,6 @@ CREATE TABLE Mensalidade (
     FOREIGN KEY (matricula_id) REFERENCES Matricula(id),
     FOREIGN KEY (academia_id) REFERENCES Academia(id)
 );
-
 CREATE TABLE ExameFaixa (
     id INT AUTO_INCREMENT PRIMARY KEY,
     dataExame DATETIME,
@@ -202,9 +224,11 @@ ALTER TABLE Aluno ADD COLUMN status VARCHAR(20) DEFAULT 'Ativo';
 -- =============================================
 
 -- Inserir academias de teste
-INSERT INTO Academia (nome, cnpj, endereco) VALUES
-('Academia KOnect Central', '12345678901234', 'Rua Principal, 123'),
-('Academia KOnect Norte', '98765432101234', 'Rua Norte, 456');
+INSERT INTO Academia (nome, cnpj, endereco, status_ativo) VALUES
+('Academia KOnect Central', '12345678901234', 'Rua Principal, 123', 1),
+('Academia KOnect Norte', '98765432101234', 'Rua Norte, 456', 1),
+('Academia KOnect Sul', '11111111111111', 'Avenida Sul, 789', 1),
+('Academia KOnect Leste', '22222222222222', 'Rua Leste, 321', 0);
 
 -- Inserir graduações
 INSERT INTO Graduacao (corFaixa, hierarquia, tempoMinimo) VALUES
@@ -218,7 +242,9 @@ INSERT INTO Graduacao (corFaixa, hierarquia, tempoMinimo) VALUES
 INSERT INTO Usuario (email, senha) VALUES
 ('admin@konect.com', 'admin123'),
 ('instrutor@konect.com', 'instr123'),
-('aluno@konect.com', 'aluno123');
+('aluno@konect.com', 'aluno123'),
+('aluno2@konect.com', 'aluno123'),
+('aluno3@konect.com', 'aluno123');
 
 -- Inserir admin de teste
 INSERT INTO Admin (id_usuario, nivel_acesso, academia_id) VALUES
@@ -228,32 +254,63 @@ INSERT INTO Admin (id_usuario, nivel_acesso, academia_id) VALUES
 INSERT INTO Instrutor (id_usuario, nome, telefone_responsavel, cpf, dataNascimento, academia_id) VALUES
 (2, 'João Silva', '11999999999', '12345678901', '1990-01-01', 1);
 
--- Inserir aluno de teste
+-- Inserir alunos de teste
 INSERT INTO Aluno (id_usuario, nome, telefone, peso, mesInicio, graduacao_id, status) VALUES
-(3, 'Pedro Santos', '11987654321', 75.5, '2024-01-15', 1, 'Ativo');
+(3, 'Pedro Santos', '11987654321', 75.5, '2024-01-15', 1, 'Ativo'),
+(4, 'Maria Silva', '11987654322', 62.3, '2024-02-10', 1, 'Ativo'),
+(5, 'Carlos Oliveira', '11987654323', 88.5, '2024-01-20', 2, 'Ativo');
 
 -- Inserir modalidade de teste
 INSERT INTO Modalidade (tipo, descricao, cargaHoraria, academia_id) VALUES
 ('Karatê', 'Aulas de Karatê tradicional', 60, 1),
 ('Judô', 'Aulas de Judô', 90, 1),
-('Taekwondo', 'Aulas de Taekwondo', 60, 1);
+('Taekwondo', 'Aulas de Taekwondo', 60, 1),
+('Kung Fu', 'Aulas de Kung Fu', 75, 1),
+('Muay Thai', 'Aulas de Muay Thai', 60, 2);
+
+-- Inserir regras de graduação por modalidade
+INSERT INTO GraduacaoRegra (graduacao_id, modalidade_id, tempoMinimo, descricao, requisitos, pontuacaoMinima) VALUES
+(1, 1, 0, 'Iniciante em Karatê', 'Dominar postura básica e golpes fundamentais', 0),
+(2, 1, 6, 'Intermediário em Karatê', 'Dominar kumites básicos e katas fundamentais', 70),
+(3, 1, 12, 'Avançado em Karatê', 'Completar todos os katas e kumites intermediários', 85),
+(1, 2, 0, 'Iniciante em Judô', 'Dominar os movimentos básicos de queda', 0),
+(2, 2, 8, 'Intermediário em Judô', 'Dominar os técnicas de projeção e solo', 75),
+(3, 2, 16, 'Avançado em Judô', 'Competição e técnicas avançadas', 85),
+(1, 3, 0, 'Iniciante em Taekwondo', 'Dominar postura e chutes básicos', 0),
+(2, 3, 6, 'Intermediário em Taekwondo', 'Formas básicas e sparring controlado', 70),
+(3, 3, 12, 'Avançado em Taekwondo', 'Competição e formas avançadas', 85);
 
 -- Inserir turma de teste
 INSERT INTO Turma (nivelTecnico, limiteAlunos, modalidade_id, instrutor_id) VALUES
-('Iniciante', 15, 1, 2);
+('Iniciante', 15, 1, 2),
+('Intermediário', 12, 1, 2),
+('Iniciante', 18, 2, 2);
 
--- Inserir aluno na turma
+-- Inserir alunos nas turmas
 INSERT INTO Aluno_Turma (turma_id, aluno_id) VALUES
-(1, 3);
+(1, 3),
+(1, 4),
+(2, 5);
 
--- Inserir matrícula de teste
+-- Inserir matrículas de teste
 INSERT INTO Matricula (dataInicio, status_matricula, aluno_id, modalidade_id, academia_id) VALUES
-('2024-01-15', 'Ativo', 3, 1, 1);
+('2024-01-15', 'Ativo', 3, 1, 1),
+('2024-02-10', 'Ativo', 4, 1, 1),
+('2024-01-20', 'Ativo', 5, 2, 1);
 
--- Inserir mensalidade de teste
-INSERT INTO Mensalidade (valor, dataLancamento, mes_referencia, dataVencimento, status_pagamento, matricula_id, academia_id) VALUES
-(300.00, DATE_SUB(CURDATE(), INTERVAL 5 DAY), DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m'), DATE_SUB(CURDATE(), INTERVAL 10 DAY), 'Vencido', 1, 1),
-(300.00, CURDATE(), DATE_FORMAT(CURDATE(), '%Y-%m'), DATE_ADD(CURDATE(), INTERVAL 5 DAY), 'Pendente', 1, 1);
+-- Inserir mensalidades de teste (com vários status)
+INSERT INTO Mensalidade (valor, dataLancamento, mes_referencia, dataVencimento, status_pagamento, data_pagamento, matricula_id, academia_id) VALUES
+-- Mensalidades do aluno 3
+(300.00, DATE_SUB(CURDATE(), INTERVAL 65 DAY), DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 2 MONTH), '%Y-%m'), DATE_SUB(CURDATE(), INTERVAL 55 DAY), 'Pago', DATE_SUB(CURDATE(), INTERVAL 50 DAY), 1, 1),
+(300.00, DATE_SUB(CURDATE(), INTERVAL 35 DAY), DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m'), DATE_SUB(CURDATE(), INTERVAL 25 DAY), 'Vencido', NULL, 1, 1),
+(300.00, CURDATE(), DATE_FORMAT(CURDATE(), '%Y-%m'), DATE_ADD(CURDATE(), INTERVAL 5 DAY), 'Pendente', NULL, 1, 1),
+-- Mensalidades do aluno 4
+(300.00, DATE_SUB(CURDATE(), INTERVAL 35 DAY), DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m'), DATE_SUB(CURDATE(), INTERVAL 25 DAY), 'Pago', DATE_SUB(CURDATE(), INTERVAL 20 DAY), 2, 1),
+(300.00, CURDATE(), DATE_FORMAT(CURDATE(), '%Y-%m'), DATE_ADD(CURDATE(), INTERVAL 5 DAY), 'Pendente', NULL, 2, 1),
+-- Mensalidades do aluno 5
+(350.00, DATE_SUB(CURDATE(), INTERVAL 65 DAY), DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 2 MONTH), '%Y-%m'), DATE_SUB(CURDATE(), INTERVAL 55 DAY), 'Pago', DATE_SUB(CURDATE(), INTERVAL 52 DAY), 3, 1),
+(350.00, DATE_SUB(CURDATE(), INTERVAL 35 DAY), DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m'), DATE_SUB(CURDATE(), INTERVAL 25 DAY), 'Pago', DATE_SUB(CURDATE(), INTERVAL 22 DAY), 3, 1),
+(350.00, CURDATE(), DATE_FORMAT(CURDATE(), '%Y-%m'), DATE_ADD(CURDATE(), INTERVAL 5 DAY), 'Pendente', NULL, 3, 1);
 
 COMMIT;
 
@@ -264,27 +321,3 @@ COMMIT;
 -- Verificar se as tabelas foram criadas
 SHOW TABLES;
 
--- Verificar dados de teste
-SELECT 'Academias:' as info;
-SELECT * FROM Academia;
-
-SELECT 'Usuários:' as info;
-SELECT * FROM Usuario;
-
-SELECT 'Admins:' as info;
-SELECT * FROM Admin;
-
-SELECT 'Instrutores:' as info;
-SELECT * FROM Instrutor;
-
-SELECT 'Alunos:' as info;
-SELECT * FROM Aluno;
-
-SELECT 'Modalidades:' as info;
-SELECT * FROM Modalidade;
-
-SELECT 'Turmas:' as info;
-SELECT * FROM Turma;
-
-SELECT 'Matrículas:' as info;
-SELECT * FROM Matricula;

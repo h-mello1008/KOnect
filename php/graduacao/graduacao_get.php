@@ -1,5 +1,5 @@
 <?php
-    include_once('../../conexao.php');
+    include_once('../conexao.php');
 
     $retorno = [
         'status'    => '',
@@ -11,7 +11,7 @@
         $stmt = $conexao->prepare("SELECT * FROM Graduacao WHERE id = ?");
         $stmt->bind_param("i", $_GET['id']);
     } else {
-        $stmt = $conexao->prepare("SELECT * FROM Graduacao");
+        $stmt = $conexao->prepare("SELECT * FROM Graduacao ORDER BY hierarquia");
     }
     
     $stmt->execute();
