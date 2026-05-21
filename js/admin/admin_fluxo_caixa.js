@@ -141,7 +141,7 @@ async function filtrarPorAcademia(academiaId) {
   if (academiaId) {
     // Carregar fluxo específico da academia
     const response = await fetch(
-      `../../php/mensalidade/mensalidade_fluxo_caixa.php?academia_id=${academiaId}`,
+      `../../../php/mensalidade/mensalidade_fluxo_caixa.php?academia_id=${academiaId}`,
     );
     const resultado = await response.json();
 
