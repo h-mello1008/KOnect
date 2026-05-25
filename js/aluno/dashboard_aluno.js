@@ -8,29 +8,43 @@ document.addEventListener("DOMContentLoaded", function () {
   setupEventListeners();
 });
 
-async function verificarInadimplencia(){
+async function verificarInadimplencia() {
   try {
     const response = await fetch('/KOnect/php/aluno/mensalidade_get.php', { credentials: 'include' });
-    const texto = await response.text();
-    console.log("resposta ", texto)
-    const resultado = JSON.parse(texto)
+    const resultado = await response.json();
 
-    if(resultado.status == 'ok' && resultado.data.length > 0){
+    if (resultado.status === 'ok' && resultado.data.length > 0) {
+      const hoje = new Date();
+      hoje.setHours(0, 0, 0, 0);
 
-      const mensalidadeVencida = resultado.data.some(m => {
-        if (m.status_pagamento === 'Pago' || m.status_pagamento === 'Pendente'){
-          console.log("Pago ou Pendente")
-          return false;
-        } else if(m.status_pagamento === 'Vencido'){
-          return true;
+      let temVencida = false;
+      let diasMaisProximoVencimento = Infinity;
+
+      resultado.data.forEach(m => {
+        if (m.status_pagamento === 'Vencido') {
+          temVencida = true;
+        } 
+        else if (m.status_pagamento === 'Pendente') {
+          const dataVenc = new Date(m.dataVencimento);
+          const dataVencimentoLoc = new Date(dataVenc.getTime() + dataVenc.getTimezoneOffset() * 60000);
+          dataVencimentoLoc.setHours(0, 0, 0, 0);
+
+          const difTempo = dataVencimentoLoc.getTime() - hoje.getTime();
+          const diasRestantes = Math.ceil(difTempo / (1000 * 3600 * 24));
+
+          if (diasRestantes >= 0 && diasRestantes < diasMaisProximoVencimento) {
+            diasMaisProximoVencimento = diasRestantes;
+          }
         }
       });
 
-      if (mensalidadeVencida == true){
+      if (temVencida) {
         renderAvisoBloqueio();
+      } else if (diasMaisProximoVencimento <= 7) {
+        renderAvisoPendente(diasMaisProximoVencimento);
       }
     }
-  } catch (erro) {
+  } catch (erro) { 
     console.error('Erro ao verificar situação financeira do aluno: ', erro);
   }
 }
@@ -56,6 +70,37 @@ function renderAvisoBloqueio(){
     </div>
   `;
 
+  containerAvisos.insertAdjacentHTML('beforeend', avisoHTML);
+}
+
+function renderAvisoPendente(dias) {
+  const containerAvisos = document.getElementById('containerAvisos');
+  if (!containerAvisos) return;
+
+  let textoDias = '';
+  if (dias === 0) {
+    textoDias = '<strong>hoje</strong>';
+  } else if (dias === 1) {
+    textoDias = '<strong>amanhã</strong>';
+  } else {
+    textoDias = `em <strong>${dias} dias</strong>`;
+  }
+
+  const avisoHTML = `
+    <div class="p-3 border-start border-danger border-4 bg-dark rounded mt-3 shadow-sm">
+      <div class="d-flex align-items-center mb-1">
+        <i class="bi bi-clock-fill text-danger me-2 fs-5"></i>
+        <p class="mb-0 fw-bold text-danger>Lembrete de Vencimento</p>
+      </div>
+      <p class="small text-muted mb-0">
+        Sua próxima mensalidade vence ${textoDias}. Evite correrias e realize o pagamento com antecedência!
+        <br>
+        <a href="../mensalidades/index.html" class="text-info text-decoration-underline fw-bold mt-1 d-inline-block">
+          <i class="bi bi-wallet2 me-1"></i> Acessar mensalidades
+        </a>
+      </p>
+    </div>
+  `;
   containerAvisos.insertAdjacentHTML('beforeend', avisoHTML);
 }
 
