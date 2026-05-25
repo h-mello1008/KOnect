@@ -1,5 +1,5 @@
 <?php
-    include_once('../conexao.php'); // Ajuste o caminho do conexao.php se necessário
+    include_once('../conexao.php');
 
     $retorno = [
         'status'    => '',
@@ -10,12 +10,10 @@
     if(isset($_GET['id'])){
         $id_usuario = (int)$_GET['id'];
 
-        // 1º Passo: Deletar as dependências (Aluno)
         $stmt_aluno = $conexao->prepare("DELETE FROM Aluno WHERE id_usuario = ?");
         $stmt_aluno->bind_param("i", $id_usuario);
         $stmt_aluno->execute();
 
-        // 2º Passo: Deletar a conta principal (Usuario)
         if($stmt_aluno->affected_rows > 0 || $stmt_aluno->errno === 0){
             $stmt_usuario = $conexao->prepare("DELETE FROM Usuario WHERE id = ?");
             $stmt_usuario->bind_param("i", $id_usuario);
