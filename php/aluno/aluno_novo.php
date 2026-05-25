@@ -1,5 +1,5 @@
 <?php
-    include_once('../conexao.php'); // O caminho certo!
+    include_once('../conexao.php');
 
     $retorno = [
         'status'    => '',

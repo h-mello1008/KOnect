@@ -45,11 +45,9 @@ async function carregarPainelAlunos() {
         if (json.status === 'ok' && json.data.length > 0) {
             json.data.forEach(aluno => {
                 
-                // Regras para alimentar as estatísticas globais (Simulação tática baseada em status)
                 if(aluno.status === 'Bloqueado') countAlunosBloqueados++;
-                if(aluno.plano === 'mensal' && aluno.status !== 'Inativo') countAlertasPagamento++; // exemplo lógico de alerta
+                if(aluno.plano === 'mensal' && aluno.status !== 'Inativo') countAlertasPagamento++;
 
-                // Determinação de badges de status
                 let badgeClass = 'badge-sucesso';
                 if(aluno.status === 'Inativo') badgeClass = 'badge-alerta';
                 if(aluno.status === 'Bloqueado') badgeClass = 'badge-perigo';
@@ -76,7 +74,6 @@ async function carregarPainelAlunos() {
                 tbody.appendChild(tr);
             });
 
-            // Atualiza os contadores na tela principal do instrutor
             document.getElementById('qtdAlertasPagamento').textContent = countAlertasPagamento;
             document.getElementById('qtdAlunosBloqueados').textContent = countAlunosBloqueados;
 
@@ -109,14 +106,82 @@ function abrirPresenca(aluno) {
     instModalPresenca.show();
 }
 
-function abrirFaixa(aluno) {
-    document.getElementById('nomeFaixaAtleta').textContent = aluno.nome;
-    // Aqui seu time vai buscar a cor real da tabela de Graduação futuramente
-    document.getElementById('txtCorFaixa').textContent = aluno.graduacao_id == 2 ? 'Azul' : 'Branca';
+async function abrirFaixa(aluno) {
+    const modalBody = document.getElementById('bodyModalFaixa');
+
+    modalBody.innerHTML = `
+        <div class="text-center text-muted">
+            <div class="spinner-border text-danger mb-3" role="status"></div>
+            <p>Calculando requisitos de exame...</p>
+        </div>
+    `;
     instModalFaixa.show();
+
+    try {
+        const response = await fetch(`../../php/instrutor/aluno_progresso_faixa.php?id=${aluno.id_usuario}`);
+        const json = await response.json();
+
+        if (json.status === 'ok') {
+            const data = json.data;
+            const presencas = data.presencas;
+            const meta = data.meta_aulas;
+            
+            let porcentagem = 0;
+            let textoRodape = "";
+            let htmlProximaFaixa = "";
+
+            if (data.proxima_faixa) {
+                porcentagem = meta > 0 ? Math.floor((presencas / meta) * 100) : 0;
+                if (porcentagem > 100) porcentagem = 100;
+                
+                let aulasFaltantes = meta - presencas;
+                if (aulasFaltantes <= 0) {
+                    textoRodape = `<span class="text-success fw-bold"><i class="bi bi-check-circle-fill"></i> Aluno apto para o próximo exame!</span>`;
+                    porcentagem = 100;
+                } else {
+                    textoRodape = `Faltam <strong class="text-white">${aulasFaltantes} aulas</strong> para se tornar elegível ao exame.`;
+                }
+                
+                htmlProximaFaixa = `<div class="text-muted small mt-2">Próxima meta: <span class="text-white fw-bold">${data.proxima_faixa}</span></div>`;
+            } else {
+                porcentagem = 100;
+                textoRodape = `<span class="text-warning fw-bold"><i class="bi bi-star-fill"></i> Graduação máxima alcançada no sistema.</span>`;
+            }
+
+            modalBody.innerHTML = `
+                <div class="text-center">
+                    <div class="fs-1 mb-2">🥋</div>
+                    <h5 class="fw-bold text-white mb-3">${data.nome}</h5>
+                    
+                    <div class="p-3 bg-black bg-opacity-40 rounded border border-secondary mb-4 text-center">
+                        <span class="text-muted small d-block mb-1">Faixa Atual</span>
+                        <span class="fw-bold text-danger fs-4 text-uppercase">${data.faixa_atual}</span>
+                        ${htmlProximaFaixa}
+                    </div>
+                </div>
+
+                <div class="mb-2 d-flex justify-content-between small">
+                    <span class="text-muted">Aulas Assistidas: <strong class="text-white">${presencas}/${meta}</strong></span>
+                    <span class="text-white fw-bold">${porcentagem}%</span>
+                </div>
+                
+                <div class="progress mb-3" style="height: 12px; background-color: rgba(255,255,255,0.05); border: 1px solid var(--border);">
+                    <div class="progress-bar bg-danger progress-bar-striped ${porcentagem < 100 ? 'progress-bar-animated' : ''}" 
+                         role="progressbar" 
+                         style="width: ${porcentagem}%"></div>
+                </div>
+                
+                <p class="text-center small mb-0" style="color: var(--muted);">${textoRodape}</p>
+            `;
+        } else {
+            modalBody.innerHTML = `<p class="text-center text-danger py-4">Erro: ${json.mensagem}</p>`;
+        }
+    } catch (e) {
+        console.error("Erro na evolução de faixa:", e);
+        modalBody.innerHTML = `<p class="text-center text-danger py-4">Erro ao se conectar com o servidor.</p>`;
+    }
 }
 
-// FEATURE NOVA: Aprofundamento no salvar do Gerenciar Perfil dos Alunos
 async function salvarPerfilAluno() {
     const id = document.getElementById('edit_id_usuario').value;
     const form = document.getElementById('formEditarPerfil');
@@ -132,7 +197,7 @@ async function salvarPerfilAluno() {
         if (json.status === 'ok') {
             alert(json.mensagem);
             instModalPerfil.hide();
-            carregarPainelAlunos(); // Atualiza em tempo real sem refresh
+            carregarPainelAlunos();
         } else {
             alert("Erro do Sistema: " + json.mensagem);
         }

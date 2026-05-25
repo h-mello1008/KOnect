@@ -321,3 +321,4 @@ COMMIT;
 -- Verificar se as tabelas foram criadas
 SHOW TABLES;
 
+ALTER TABLE Aluno ADD COLUMN IF NOT EXISTS status VARCHAR(20) DEFAULT 'Ativo'; -- coloca esse atributo novo ai - bolsoni
