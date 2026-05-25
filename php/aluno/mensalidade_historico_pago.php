@@ -1,6 +1,6 @@
 <?php
     session_start();
-    include_once('../conexao.php');
+    include_once(__DIR__ . '/../conexao.php');
     
     $retorno = [
         'status'    => '',
@@ -22,7 +22,7 @@
 
     $usuario_id = $_SESSION['usuario']['id'];
 
-    // Query para buscar mensalidades do aluno
+    // Query para buscar mensalidades pagas do aluno
     $query = "
         SELECT 
             m.id,
@@ -34,13 +34,13 @@
             m.data_pagamento,
             a.nome as academia_nome,
             modalidade.tipo as modalidade_tipo,
-            DATEDIFF(CURDATE(), m.dataVencimento) as dias_vencimento
+            DATEDIFF(m.data_pagamento, m.dataVencimento) as dias_antecipacao
         FROM Mensalidade m
         INNER JOIN Matricula mat ON m.matricula_id = mat.id
         INNER JOIN Academia a ON m.academia_id = a.id
         INNER JOIN Modalidade modalidade ON mat.modalidade_id = modalidade.id
-        WHERE mat.aluno_id = ?
-        ORDER BY m.dataVencimento DESC
+        WHERE mat.aluno_id = ? AND m.status_pagamento = 'Pago'
+        ORDER BY m.data_pagamento DESC
     ";
 
     $stmt = $conexao->prepare($query);
@@ -53,24 +53,15 @@
         while($linha = $resultado->fetch_assoc()){
             // Converter valores para tipo apropriado
             $linha['valor'] = (float)$linha['valor'];
-            $linha['dias_vencimento'] = (int)$linha['dias_vencimento'];
+            $linha['dias_antecipacao'] = (int)$linha['dias_antecipacao'];
             
-            // Adicionar informações adicionais
-            if($linha['status_pagamento'] === 'Pendente'){
-                if($linha['dias_vencimento'] > 0){
-                    $linha['status_pagamento'] = 'Vencido';
-                }
-            }
-            
-            // Calcular status de exibição e dias em atraso
-            if($linha['dias_vencimento'] > 0){
-                $linha['dias_atraso'] = $linha['dias_vencimento'];
-                $linha['status_display'] = 'Vencido';
-            } else if($linha['dias_vencimento'] < 0){
-                $linha['dias_restantes'] = abs($linha['dias_vencimento']);
-                $linha['status_display'] = 'Pendente';
+            // Calcular se foi pago antecipadamente
+            if($linha['dias_antecipacao'] < 0){
+                $linha['dias_antecipacao_display'] = abs($linha['dias_antecipacao']) . ' dias antes';
+            } else if($linha['dias_antecipacao'] > 0){
+                $linha['dias_antecipacao_display'] = $linha['dias_antecipacao'] . ' dias após o vencimento';
             } else {
-                $linha['status_display'] = 'Vence hoje!';
+                $linha['dias_antecipacao_display'] = 'No dia do vencimento';
             }
             
             $mensalidades[] = $linha;
@@ -78,13 +69,13 @@
 
         $retorno = [
             'status'    => 'ok',
-            'mensagem'  => 'Mensalidades encontradas',
+            'mensagem'  => 'Histórico de pagamentos encontrado',
             'data'      => $mensalidades
         ];
     } else {
         $retorno = [
             'status'    => 'ok',
-            'mensagem'  => 'Nenhuma mensalidade encontrada',
+            'mensagem'  => 'Nenhum pagamento realizado',
             'data'      => []
         ];
     }
