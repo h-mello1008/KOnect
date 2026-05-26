@@ -40,7 +40,6 @@
         }
         
         try {
-            // Tenta inserir o usuário base
             $stmt_usuario = $conexao->prepare("INSERT INTO Usuario(email, senha) VALUES(?, ?)");
             $stmt_usuario->bind_param("ss", $email, $senha);
             $stmt_usuario->execute();
@@ -48,7 +47,6 @@
             if($stmt_usuario->affected_rows > 0){
                 $usuario_id = $stmt_usuario->insert_id;
 
-                // Tenta inserir os dados do aluno
                 $stmt_aluno = $conexao->prepare("
                     INSERT INTO Aluno(
                         id_usuario, nome, telefone, redeSocial, peso,
@@ -57,9 +55,6 @@
                     ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ");
                 
-                // Mapeamento exato de 14 variáveis: 
-                // i (id), s (nome), s (tel), s (rede), d (peso), s (nasc), s (hora)
-                // s (cor), i (nivel), s (mes), s (plano), i (termos), i (atestado), i (graduacao)
                 $stmt_aluno->bind_param(
                     "isssdsssissiii",
                     $usuario_id, $nome, $telefone, $redeSocial, $peso,
