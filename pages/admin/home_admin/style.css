@@ -1,11 +1,11 @@
 :root {
-  --navy: #0f0a1a;
-  --card-bg: #1a0505;
+  --bg-deep: #1a0505;
+  --bg-card: #260a0a;
+  --border: #3d1414;
   --accent: #e11d48;
   --rose: #f43f5e;
-  --text: #e2e8f0;
-  --muted: #aebbcd;
-  --border: rgba(255, 255, 255, 0.07);
+  --text: #ffffff;
+  --muted: #d1a3a3;
 }
 
 * {
@@ -16,31 +16,30 @@
 
 body {
   font-family: "DM Sans", sans-serif;
-  background: #0f0a1a;
+  background: var(--bg-deep);
   color: var(--text);
   min-height: 100vh;
 }
 
-h1,
-h2,
-h3,
-.brand {
+h1, h2, h3, h4, h5, .brand {
   font-family: "Syne", sans-serif;
 }
 
-.topnav {
-  background: rgba(26, 5, 5, 0.9);
-  border-bottom: 1px solid var(--border);
-  backdrop-filter: blur(12px);
-  position: sticky;
-  top: 0;
-  z-index: 100;
+.text-muted {
+  color: var(--muted) !important;
+  opacity: 1 !important;
 }
 
-.brand {
+.topnav {
+  background-color: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+}
+
+.brand, a.brand {
   font-size: 1.4rem;
   font-weight: 800;
   color: #fff;
+  letter-spacing: -1px;
 }
 
 .brand span:first-child {
@@ -82,111 +81,43 @@ h3,
   background: rgba(244, 63, 94, 0.22);
 }
 
-.welcome-card {
-  display: flex;
-  align-items: center;
-  gap: 1.5rem;
-  background: var(--card-bg);
+.hub-card {
+  background-color: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 2rem 2.5rem;
+  border-radius: 16px;
+  padding: 32px 24px;
+  color: var(--text);
+  text-decoration: none;
+  display: block;
+  transition: all 0.3s ease;
+  text-align: center;
 }
 
-.welcome-icon {
+.hub-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--accent);
+  color: var(--text);
+  box-shadow: 0 10px 20px rgba(225, 29, 72, 0.15);
+}
+
+.hub-icon {
   width: 64px;
   height: 64px;
-  min-width: 64px;
-  border-radius: 18px;
-  background: rgba(244, 63, 94, 0.15);
-  display: flex;
+  border-radius: 16px;
+  background-color: rgba(225, 29, 72, 0.1);
+  color: var(--accent);
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.8rem;
-  color: var(--rose);
+  font-size: 2rem;
+  margin-bottom: 20px;
+  transition: all 0.3s;
 }
 
-.welcome-card h1 {
-  font-size: 1.6rem;
-  font-weight: 800;
+.hub-card:hover .hub-icon {
+  background-color: var(--accent);
+  color: white;
 }
-.welcome-card .sub {
-  color: var(--muted);
-  font-size: 0.9rem;
-  margin-top: 0.25rem;
-}
-
-.dash-card {
-  background: var(--card-bg);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 1.8rem;
-  height: 100%;
-  transition:
-    border-color 0.2s,
-    transform 0.2s;
-}
-
-.dash-card:hover {
-  border-color: rgba(244, 63, 94, 0.3);
-  transform: translateY(-3px);
-}
-
-.dash-icon {
-  width: 52px;
-  height: 52px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  margin-bottom: 1rem;
-}
-
-.dash-icon--rose {
-  background: rgba(244, 63, 94, 0.15);
-}
-.dash-icon--rose i {
-  color: #f43f5e;
-}
-.dash-icon--green {
-  background: rgba(34, 197, 94, 0.15);
-}
-.dash-icon--green i {
-  color: #22c55e;
-}
-.dash-icon--amber {
-  background: rgba(245, 158, 11, 0.15);
-}
-.dash-icon--amber i {
-  color: #f59e0b;
-}
-
-.dash-card h3 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 0.4rem;
-}
-.dash-card p {
-  color: var(--muted);
-  font-size: 0.88rem;
-  line-height: 1.5;
-  margin-bottom: 1rem;
-}
-
-.card-link {
-  color: var(--rose);
-  text-decoration: none;
-  font-size: 0.88rem;
-  font-weight: 600;
-}
-
-.card-link:hover {
-  text-decoration: underline;
-}
-
-/* ============================================
-   ADMIN TABS
-   ============================================ */
 
 .admin-tabs {
   display: flex;
@@ -229,12 +160,8 @@ h3,
   display: block;
 }
 
-/* ============================================
-   SECTION CARDS
-   ============================================ */
-
 .section-card {
-  background: var(--card-bg);
+  background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 20px;
   padding: 2rem;
@@ -253,10 +180,6 @@ h3,
   color: var(--muted);
   margin-bottom: 2rem;
 }
-
-/* ============================================
-   ADMIN TABLES
-   ============================================ */
 
 .admin-table {
   width: 100%;
@@ -287,10 +210,6 @@ h3,
 .admin-table tbody tr:hover {
   background: rgba(244, 63, 94, 0.05);
 }
-
-/* ============================================
-   STATUS BADGES
-   ============================================ */
 
 .status-badge {
   display: inline-block;
@@ -337,10 +256,6 @@ h3,
   border: 1px solid rgba(168, 85, 247, 0.3);
 }
 
-/* ============================================
-   ACTION BUTTONS
-   ============================================ */
-
 .btn-acao {
   background: transparent;
   border: none;
@@ -363,10 +278,6 @@ h3,
 .btn-deletar:hover {
   color: #ef4444;
 }
-
-/* ============================================
-   FORM CARDS
-   ============================================ */
 
 .form-card {
   background: rgba(255, 255, 255, 0.02);
@@ -415,10 +326,6 @@ textarea.form-control {
   resize: vertical;
 }
 
-/* ============================================
-   BUTTONS
-   ============================================ */
-
 .btn-primary {
   background: var(--rose);
   color: white;
@@ -457,10 +364,6 @@ textarea.form-control {
   border-color: rgba(255, 255, 255, 0.2);
 }
 
-/* ============================================
-   MODALS
-   ============================================ */
-
 .modal {
   display: none;
   position: fixed;
@@ -475,7 +378,7 @@ textarea.form-control {
 }
 
 .modal-content {
-  background: var(--card-bg);
+  background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 20px;
   width: 90%;
@@ -539,10 +442,6 @@ textarea.form-control {
   padding: 2rem;
   border-top: 1px solid var(--border);
 }
-
-/* ============================================
-   STATS GRID
-   ============================================ */
 
 .stats-grid {
   display: grid;
@@ -616,10 +515,6 @@ textarea.form-control {
   color: var(--muted);
   font-size: 0.8rem;
 }
-
-/* ============================================
-   RESPONSIVE
-   ============================================ */
 
 @media (max-width: 768px) {
   .section-card {
