@@ -1,5 +1,5 @@
 <?php
-    include_once('../../conexao.php');
+    include_once('../conexao.php');
 
     $retorno = [
         'status'    => '',
@@ -10,7 +10,7 @@
     $nome = $_POST['nome'] ?? '';
     $telefone = $_POST['telefone'] ?? '';
     $cpf = $_POST['cpf'] ?? '';
-    $dataNascimento = $_POST['dataNascimento'] ?? '';
+    $dataNascimento = (!empty($_POST['dataNascimento'])) ? $_POST['dataNascimento'] : null;
     $nome_fantasia = $_POST['nome_fantasia'] ?? '';
     $razao_social = $_POST['razao_social'] ?? '';
     $cnpj = $_POST['cnpj'] ?? '';
@@ -21,7 +21,8 @@
     $aceitou_termos = isset($_POST['aceitou_termos']) ? (int)$_POST['aceitou_termos'] : 0;
     $email = $_POST['email'] ?? '';
     $senha = $_POST['senha'] ?? '';
-    $academia_id = $_POST['academia_id'] ?? null;
+    $raw_academia_id = $_POST['academia_id'] ?? null;
+    $academia_id = (!empty($raw_academia_id) && $raw_academia_id !== 'null') ? (int)$raw_academia_id : null;
 
     if(empty($email) || empty($senha) || empty($nome)){
         $retorno = [
@@ -31,60 +32,68 @@
         ];
     } else {
         session_start();
-        
-        // Inserir usuário base
-        $stmt_usuario = $conexao->prepare("INSERT INTO Usuario(email, senha) VALUES(?, ?)");
-        $stmt_usuario->bind_param("ss", $email, $senha);
-        $stmt_usuario->execute();
 
-        if($stmt_usuario->affected_rows > 0){
-            $usuario_id = $stmt_usuario->insert_id;
+        try {
+            // Inserir usuário base
+            $stmt_usuario = $conexao->prepare("INSERT INTO Usuario(email, senha) VALUES(?, ?)");
+            $stmt_usuario->bind_param("ss", $email, $senha);
+            $stmt_usuario->execute();
 
-            // Inserir instrutor
-            $stmt_instrutor = $conexao->prepare("
-                INSERT INTO Instrutor(
-                    id_usuario, nome, telefone_responsavel, cpf, dataNascimento,
-                    nome_fantasia, razao_social, cnpj, horario_abertura,
-                    horario_fechamento, periodo_contrato, renovacao_automatica, aceitou_termos, academia_id
-                ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ");
-            
-            $stmt_instrutor->bind_param(
-                "isssssssssiiii",
-                $usuario_id, $nome, $telefone, $cpf, $dataNascimento,
-                $nome_fantasia, $razao_social, $cnpj, $horario_abertura,
-                $horario_fechamento, $periodo_contrato, $renovacao_automatica, $aceitou_termos, $academia_id
-            );
-            $stmt_instrutor->execute();
+            if($stmt_usuario->affected_rows > 0){
+                $usuario_id = $stmt_usuario->insert_id;
 
-            if($stmt_instrutor->affected_rows > 0){
-                $_SESSION['usuario'] = [
-                    'id' => $usuario_id,
-                    'email' => $email,
-                    'tipo' => 'instrutor'
-                ];
+                // Inserir instrutor
+                $stmt_instrutor = $conexao->prepare("
+                    INSERT INTO Instrutor(
+                        id_usuario, nome, telefone_responsavel, cpf, dataNascimento,
+                        nome_fantasia, razao_social, cnpj, horario_abertura,
+                        horario_fechamento, periodo_contrato, renovacao_automatica, aceitou_termos, academia_id
+                    ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ");
 
-                $retorno = [
-                    'status'    => 'ok',
-                    'mensagem'  => 'Instrutor registrado com sucesso',
-                    'data'      => ['usuario_id' => $usuario_id]
-                ];
+                $stmt_instrutor->bind_param(
+                    "issssssssssiii",
+                    $usuario_id, $nome, $telefone, $cpf, $dataNascimento,
+                    $nome_fantasia, $razao_social, $cnpj, $horario_abertura,
+                    $horario_fechamento, $periodo_contrato, $renovacao_automatica, $aceitou_termos, $academia_id
+                );
+                $stmt_instrutor->execute();
+
+                if($stmt_instrutor->affected_rows > 0){
+                    $_SESSION['usuario'] = [
+                        'id' => $usuario_id,
+                        'email' => $email,
+                        'tipo' => 'instrutor'
+                    ];
+
+                    $retorno = [
+                        'status'    => 'ok',
+                        'mensagem'  => 'Instrutor registrado com sucesso',
+                        'data'      => ['usuario_id' => $usuario_id]
+                    ];
+                } else {
+                    $retorno = [
+                        'status'    => 'nok',
+                        'mensagem'  => 'Erro ao registrar instrutor: ' . $stmt_instrutor->error,
+                        'data'      => []
+                    ];
+                }
+                $stmt_instrutor->close();
             } else {
                 $retorno = [
                     'status'    => 'nok',
-                    'mensagem'  => 'Erro ao registrar instrutor',
+                    'mensagem'  => 'Erro ao criar usuário: ' . $stmt_usuario->error,
                     'data'      => []
                 ];
             }
-            $stmt_instrutor->close();
-        } else {
+            $stmt_usuario->close();
+        } catch (Exception $e) {
             $retorno = [
                 'status'    => 'nok',
-                'mensagem'  => 'Erro ao criar usuário',
+                'mensagem'  => 'Erro no banco de dados: ' . $e->getMessage(),
                 'data'      => []
             ];
         }
-        $stmt_usuario->close();
     }
 
     $conexao->close();

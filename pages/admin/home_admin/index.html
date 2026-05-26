@@ -3,29 +3,16 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../../globalstyles/style.css" />
     <title>Home Admin — KOnect</title>
   </head>
   <body>
-    <nav class="topnav">
-      <div
-        class="container d-flex align-items-center justify-content-between py-3"
-      >
-        <span class="brand"
-          >KO<span>nect</span> <span class="brand-badge">Admin</span></span
-        >
+    <nav class="topnav py-3 mb-5">
+      <div class="container d-flex align-items-center justify-content-between">
+        <a class="brand" href="../../../index.html" style="text-decoration:none;color:white">KO<span>nect</span> <span class="brand-badge">Admin</span></a>
         <div class="d-flex align-items-center gap-3">
           <span class="admin-name" id="adminNome"></span>
           <button class="btn-logout" onclick="logout()">
@@ -35,64 +22,38 @@
       </div>
     </nav>
 
-    <main class="container py-5">
-      <div class="welcome-card mb-5">
-        <div class="welcome-icon">
-          <i class="bi bi-shield-fill"></i>
+    <main class="container">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold mb-2">Painel de Controle</h2>
+        <p class="text-muted">Bem-vindo, <span id="adminNomeTitle">Administrador</span>. Selecione um módulo.</p>
+      </div>
+
+      <div class="row g-4 justify-content-center mb-5">
+        <div class="col-md-4 col-sm-6">
+          <a href="../instrutores/index.html" class="hub-card">
+            <div class="hub-icon"><i class="bi bi-people-fill"></i></div>
+            <h5 class="fw-bold">Instrutores</h5>
+            <p class="text-muted small mb-0">Gerencie os instrutores da plataforma</p>
+          </a>
         </div>
-        <div>
-          <h1>Bem-vindo, <span id="adminNomeTitle">Administrador</span>!</h1>
-          <p class="sub">Você está acessando o painel de controle do KOnect.</p>
+        <div class="col-md-4 col-sm-6">
+          <a href="../get_academias/get_academias.html" class="hub-card">
+            <div class="hub-icon"><i class="bi bi-mortarboard-fill"></i></div>
+            <h5 class="fw-bold">Alunos</h5>
+            <p class="text-muted small mb-0">Visualize e gerencie os alunos</p>
+          </a>
+        </div>
+        <div class="col-md-4 col-sm-6">
+          <a href="../get_academias/get_academias.html" class="hub-card">
+            <div class="hub-icon"><i class="bi bi-bar-chart-fill"></i></div>
+            <h5 class="fw-bold">Relatórios</h5>
+            <p class="text-muted small mb-0">Estatísticas gerais da plataforma</p>
+          </a>
         </div>
       </div>
 
-      <div class="row g-4 mb-5">
-        <div class="col-md-4">
-          <div class="dash-card">
-            <div class="dash-icon dash-icon--rose">
-              <i class="bi bi-people-fill"></i>
-            </div>
-            <h3>Instrutores</h3>
-            <p>Gerencie os instrutores cadastrados na plataforma.</p>
-            <a
-              href="../cadastro_instrutor/cadastro_instrutor.html"
-              class="card-link"
-              >Acessar <i class="bi bi-arrow-right"></i
-            ></a>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="dash-card">
-            <div class="dash-icon dash-icon--green">
-              <i class="bi bi-mortarboard-fill"></i>
-            </div>
-            <h3>Alunos</h3>
-            <p>Visualize e gerencie todos os alunos matriculados.</p>
-            <a href="../get_academias/get_academias.html" class="card-link"
-              >Acessar <i class="bi bi-arrow-right"></i
-            ></a>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="dash-card">
-            <div class="dash-icon dash-icon--amber">
-              <i class="bi bi-bar-chart-fill"></i>
-            </div>
-            <h3>Relatórios</h3>
-            <p>Acompanhe as estatísticas gerais da plataforma.</p>
-            <a href="../get_academias/get_academias.html" class="card-link"
-              >Acessar <i class="bi bi-arrow-right"></i
-            ></a>
-          </div>
-        </div>
-      </div>
-
-      <!-- TABS PARA FEATURES -->
       <div class="admin-tabs mb-4">
-        <button
-          class="tab-btn tab-btn--active"
-          onclick="abrirTab(event, 'academias')"
-        >
+        <button class="tab-btn tab-btn--active" onclick="abrirTab(event, 'academias')">
           <i class="bi bi-building"></i> Academias
         </button>
         <button class="tab-btn" onclick="abrirTab(event, 'graduacao')">
@@ -103,14 +64,10 @@
         </button>
       </div>
 
-      <!-- ABA 1: GERENCIAMENTO DE ACADEMIAS -->
       <div id="academias" class="tab-content tab-content--active">
         <div class="section-card">
           <h2 class="section-title">Gerenciar Academias Ativas</h2>
-          <p class="section-subtitle">
-            Atualize informações das academias e controle seu status.
-          </p>
-
+          <p class="section-subtitle">Atualize informações das academias e controle seu status.</p>
           <div class="table-responsive">
             <table class="admin-table">
               <thead>
@@ -124,9 +81,7 @@
               </thead>
               <tbody id="corpoAcademias">
                 <tr>
-                  <td colspan="5" class="text-center text-muted">
-                    Carregando...
-                  </td>
+                  <td colspan="5" class="text-center text-muted">Carregando...</td>
                 </tr>
               </tbody>
             </table>
@@ -134,14 +89,10 @@
         </div>
       </div>
 
-      <!-- ABA 2: REGRAS DE GRADUAÇÃO -->
       <div id="graduacao" class="tab-content">
         <div class="section-card">
           <h2 class="section-title">Personalizar Regras de Graduação</h2>
-          <p class="section-subtitle">
-            Configure regras de promoção por estilo de arte marcial.
-          </p>
-
+          <p class="section-subtitle">Configure regras de promoção por estilo de arte marcial.</p>
           <div class="row g-4">
             <div class="col-lg-6">
               <div class="form-card">
@@ -149,84 +100,44 @@
                 <form id="formNovaRegra">
                   <div class="mb-3">
                     <label class="form-label">Modalidade *</label>
-                    <select
-                      id="novaRegraModalidade"
-                      class="form-control"
-                      required
-                    >
+                    <select id="novaRegraModalidade" class="form-control" required>
                       <option value="">Selecione a Modalidade</option>
                     </select>
                   </div>
-
                   <div class="mb-3">
                     <label class="form-label">Graduação *</label>
-                    <select
-                      id="novaRegraGraduacao"
-                      class="form-control"
-                      required
-                    >
+                    <select id="novaRegraGraduacao" class="form-control" required>
                       <option value="">Selecione a Graduação</option>
                     </select>
                   </div>
-
                   <div class="row">
                     <div class="col-md-6">
                       <div class="mb-3">
                         <label class="form-label">Tempo Mínimo (meses)</label>
-                        <input
-                          type="number"
-                          id="novaRegraTempo"
-                          class="form-control"
-                          min="0"
-                          value="0"
-                        />
+                        <input type="number" id="novaRegraTempo" class="form-control" min="0" value="0" />
                       </div>
                     </div>
                     <div class="col-md-6">
                       <div class="mb-3">
                         <label class="form-label">Pontuação Mínima</label>
-                        <input
-                          type="number"
-                          id="novaRegraPontuacao"
-                          class="form-control"
-                          min="0"
-                          value="0"
-                        />
+                        <input type="number" id="novaRegraPontuacao" class="form-control" min="0" value="0" />
                       </div>
                     </div>
                   </div>
-
                   <div class="mb-3">
                     <label class="form-label">Descrição</label>
-                    <input
-                      type="text"
-                      id="novaRegraDescricao"
-                      class="form-control"
-                      placeholder="Ex: Deve dominar os kumites básicos"
-                    />
+                    <input type="text" id="novaRegraDescricao" class="form-control" placeholder="Ex: Deve dominar os kumites básicos" />
                   </div>
-
                   <div class="mb-3">
                     <label class="form-label">Requisitos</label>
-                    <textarea
-                      id="novaRegraRequisitos"
-                      class="form-control"
-                      rows="3"
-                      placeholder="Detalhes dos requisitos técnicos..."
-                    ></textarea>
+                    <textarea id="novaRegraRequisitos" class="form-control" rows="3" placeholder="Detalhes dos requisitos técnicos..."></textarea>
                   </div>
-
-                  <button
-                    type="button"
-                    class="btn-primary"
-                    onclick="criarNovaRegra()"
-                  >
+                  <button type="button" class="btn-primary" onclick="criarNovaRegra()">
                     <i class="bi bi-plus-circle"></i> Criar Regra
                   </button>
                 </form>
               </div>
             </div>
-
             <div class="col-lg-6">
               <div class="table-responsive">
                 <table class="admin-table">
@@ -242,9 +153,7 @@
                   </thead>
                   <tbody id="corpoRegras">
                     <tr>
-                      <td colspan="6" class="text-center text-muted">
-                        Carregando...
-                      </td>
+                      <td colspan="6" class="text-center text-muted">Carregando...</td>
                     </tr>
                   </tbody>
                 </table>
@@ -254,14 +163,10 @@
         </div>
       </div>
 
-      <!-- ABA 3: FLUXO DE CAIXA -->
       <div id="fluxo" class="tab-content">
         <div class="section-card">
           <h2 class="section-title">Monitorar Fluxo de Caixa</h2>
-          <p class="section-subtitle">
-            Acompanhe o status de pagamentos e receitas das academias.
-          </p>
-
+          <p class="section-subtitle">Acompanhe o status de pagamentos e receitas das academias.</p>
           <div id="estatisticasFluxoCaixa" class="stats-grid mb-5">
             <div class="stat-card stat-card--green">
               <div class="stat-icon">
@@ -274,7 +179,6 @@
               </div>
             </div>
           </div>
-
           <div class="table-responsive">
             <table class="admin-table">
               <thead>
@@ -289,9 +193,7 @@
               </thead>
               <tbody id="corpoMensalidades">
                 <tr>
-                  <td colspan="6" class="text-center text-muted">
-                    Carregando...
-                  </td>
+                  <td colspan="6" class="text-center text-muted">Carregando...</td>
                 </tr>
               </tbody>
             </table>
@@ -300,14 +202,11 @@
       </div>
     </main>
 
-    <!-- MODAL: EDITAR ACADEMIA -->
     <div id="modalEditarAcademia" class="modal">
       <div class="modal-content">
         <div class="modal-header">
           <h3>Editar Academia</h3>
-          <button class="btn-fechar" onclick="fecharModalAcademia()">
-            &times;
-          </button>
+          <button class="btn-fechar" onclick="fecharModalAcademia()">&times;</button>
         </div>
         <div class="modal-body">
           <div class="mb-3">
@@ -316,12 +215,7 @@
           </div>
           <div class="mb-3">
             <label class="form-label">CNPJ (Não pode ser alterado)</label>
-            <input
-              type="text"
-              id="editAcademiaCNPJ"
-              class="form-control"
-              disabled
-            />
+            <input type="text" id="editAcademiaCNPJ" class="form-control" disabled />
           </div>
           <div class="mb-3">
             <label class="form-label">Endereço</label>
@@ -335,47 +229,30 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn-secondary" onclick="fecharModalAcademia()">
-            Cancelar
-          </button>
-          <button class="btn-primary" onclick="salvarAlteracoesAcademia()">
-            Salvar
-          </button>
+          <button class="btn-secondary" onclick="fecharModalAcademia()">Cancelar</button>
+          <button class="btn-primary" onclick="salvarAlteracoesAcademia()">Salvar</button>
         </div>
       </div>
     </div>
 
-    <!-- MODAL: EDITAR REGRA -->
     <div id="modalEditarRegra" class="modal">
       <div class="modal-content">
         <div class="modal-header">
           <h3>Editar Regra de Graduação</h3>
-          <button class="btn-fechar" onclick="fecharModalRegra()">
-            &times;
-          </button>
+          <button class="btn-fechar" onclick="fecharModalRegra()">&times;</button>
         </div>
         <div class="modal-body">
           <div class="row">
             <div class="col-md-6">
               <div class="mb-3">
                 <label class="form-label">Tempo Mínimo (meses)</label>
-                <input
-                  type="number"
-                  id="editRegraTempoMinimo"
-                  class="form-control"
-                  min="0"
-                />
+                <input type="number" id="editRegraTempoMinimo" class="form-control" min="0" />
               </div>
             </div>
             <div class="col-md-6">
               <div class="mb-3">
                 <label class="form-label">Pontuação Mínima</label>
-                <input
-                  type="number"
-                  id="editRegraPontuacaoMinima"
-                  class="form-control"
-                  min="0"
-                />
+                <input type="number" id="editRegraPontuacaoMinima" class="form-control" min="0" />
               </div>
             </div>
           </div>
@@ -385,20 +262,12 @@
           </div>
           <div class="mb-3">
             <label class="form-label">Requisitos</label>
-            <textarea
-              id="editRegraRequisitos"
-              class="form-control"
-              rows="3"
-            ></textarea>
+            <textarea id="editRegraRequisitos" class="form-control" rows="3"></textarea>
           </div>
         </div>
         <div class="modal-footer">
-          <button class="btn-secondary" onclick="fecharModalRegra()">
-            Cancelar
-          </button>
-          <button class="btn-primary" onclick="salvarAlteracoesRegra()">
-            Salvar
-          </button>
+          <button class="btn-secondary" onclick="fecharModalRegra()">Cancelar</button>
+          <button class="btn-primary" onclick="salvarAlteracoesRegra()">Salvar</button>
         </div>
       </div>
     </div>
@@ -407,22 +276,5 @@
     <script src="../../../js/admin/admin_academias.js"></script>
     <script src="../../../js/admin/admin_graduacao_regras.js"></script>
     <script src="../../../js/admin/admin_fluxo_caixa.js"></script>
-
-    <script>
-      function abrirTab(evt, tabName) {
-        const tabContents = document.querySelectorAll(".tab-content");
-        tabContents.forEach((tab) => {
-          tab.classList.remove("tab-content--active");
-        });
-
-        const tabBtns = document.querySelectorAll(".tab-btn");
-        tabBtns.forEach((btn) => {
-          btn.classList.remove("tab-btn--active");
-        });
-
-        document.getElementById(tabName).classList.add("tab-content--active");
-        evt.currentTarget.classList.add("tab-btn--active");
-      }
-    </script>
   </body>
 </html>

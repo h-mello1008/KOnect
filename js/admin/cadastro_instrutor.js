@@ -55,6 +55,5 @@ document
       }
     } catch (erro) {
       alert("Erro ao salvar instrutor: " + erro.message);
-      console.error("Erro:", erro);
     }
   });
