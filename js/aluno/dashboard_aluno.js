@@ -154,11 +154,9 @@ function setupEventListeners() {
 }
 
 function logout() {
-  // Clear session data
   localStorage.removeItem("aluno_logado");
   localStorage.removeItem("userCourse");
   localStorage.removeItem("userProgress");
 
-  // Redirect to home
-  window.location.href = "../../index.html";
+  window.location.href = "../../../index.html";
 }
