@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function loadMensalidades() {
   try {
-    const response = await fetch('../../php/aluno/mensalidade_get.php', {
+    const response = await fetch('../../../php/aluno/mensalidade_get.php', {
       method: 'GET'
     });
 

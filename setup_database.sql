@@ -189,6 +189,18 @@ CREATE TABLE Frequencia (
 
 ALTER TABLE Aluno ADD COLUMN status VARCHAR(20) DEFAULT 'Ativo';
 
+CREATE TABLE AtestadoMedico (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    aluno_id INT NOT NULL,
+    nome_arquivo VARCHAR(255) NOT NULL,
+    caminho_arquivo VARCHAR(500) NOT NULL,
+    tipo_arquivo VARCHAR(10) NOT NULL,
+    data_upload DATETIME DEFAULT CURRENT_TIMESTAMP,
+    data_validade DATE NOT NULL,
+    status ENUM('Ativo', 'Expirado', 'Substituído') DEFAULT 'Ativo',
+    FOREIGN KEY (aluno_id) REFERENCES Aluno(id_usuario)
+);
+
 INSERT INTO Academia (nome, cnpj, endereco, status_ativo) VALUES
 ('Academia KOnect Central', '12345678901234', 'Rua Principal, 123', 1),
 ('Academia KOnect Norte', '98765432101234', 'Rua Norte, 456', 1),

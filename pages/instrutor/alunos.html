@@ -88,12 +88,15 @@
                                         <option value="Bloqueado">🔴 Bloqueado</option>
                                     </select>
                                 </div>
+                                <div class="col-12">
+                                    <label class="form-label text-muted small fw-bold text-uppercase">Atestado Médico (PDF, JPG ou PNG — máx. 5 MB)</label>
+                                    <input type="file" id="edit_atestado_arquivo" accept=".pdf,.jpg,.jpeg,.png"
+                                           class="form-control form-control-instr">
+                                    <div id="edit_atestado_status" class="mt-2" style="font-size:.8rem;"></div>
+                                </div>
                                 <div class="col-md-6">
-                                    <label class="form-label text-muted small fw-bold text-uppercase">Atestado</label>
-                                    <select class="form-select form-select-instr" id="edit_atestado" name="atestadoMedico">
-                                        <option value="1">Regularizado</option>
-                                        <option value="0">Pendente</option>
-                                    </select>
+                                    <label class="form-label text-muted small fw-bold text-uppercase">Validade do Atestado <span class="text-danger">*</span></label>
+                                    <input type="date" id="edit_atestado_validade" class="form-control form-control-instr">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label text-muted small fw-bold text-uppercase">Condicionamento</label>
@@ -175,6 +178,61 @@
         </div>
       </div>
     </div>
+    <div class="modal fade" id="modalAtestadoMedico" tabindex="-1" data-bs-theme="dark">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content modal-content-instr">
+
+          <div class="modal-header border-bottom border-secondary pb-3">
+            <div>
+              <h5 class="modal-title fw-bold mb-0">
+                <i class="bi bi-file-earmark-medical-fill me-2 text-danger"></i>Relatório Médico
+              </h5>
+              <small class="text-muted" id="nomeAtestadoAtleta"></small>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+
+          <div class="modal-body p-4">
+            <div id="statusAtestadoAtual" class="mb-4"></div>
+
+            <div class="p-3 rounded" style="background:rgba(255,255,255,.04);border:1px solid var(--border-instr);">
+              <h6 class="fw-bold text-white mb-3">
+                <i class="bi bi-upload me-2 text-danger"></i>Enviar Novo Atestado
+              </h6>
+
+              <div id="erroAtestado" class="alert alert-danger py-2 small mb-3" style="display:none;"></div>
+
+              <div class="row g-3">
+                <div class="col-md-7">
+                  <label class="form-label small text-muted fw-bold text-uppercase">Arquivo (PDF, JPG ou PNG)</label>
+                  <input type="file" id="atestado_arquivo" accept=".pdf,.jpg,.jpeg,.png"
+                         class="form-control form-control-instr">
+                  <div class="text-muted mt-1" style="font-size:.75rem;">Tamanho máximo: 5 MB</div>
+                </div>
+                <div class="col-md-5">
+                  <label class="form-label small text-muted fw-bold text-uppercase">Data de Validade <span class="text-danger">*</span></label>
+                  <input type="date" id="atestado_validade" class="form-control form-control-instr">
+                </div>
+              </div>
+
+              <div class="mt-4">
+                <button class="btn-konect" onclick="salvarAtestado()">
+                  <i class="bi bi-floppy-fill me-2"></i>Salvar Atestado
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer border-top border-secondary pt-3">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+              <i class="bi bi-arrow-left me-1"></i>Voltar à lista de alunos
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
     <div class="modal fade" id="modalEvolucaoFaixa" tabindex="-1" data-bs-theme="dark"><div class="modal-dialog modal-dialog-centered"><div class="modal-content modal-content-instr"><div class="modal-header border-bottom-0 pb-0"><h5 class="modal-title fw-bold">Progresso de Exame</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body p-4" id="bodyModalFaixa"></div></div></div></div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

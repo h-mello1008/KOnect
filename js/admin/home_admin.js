@@ -22,7 +22,7 @@ validarSessao();
 
 function logout() {
   localStorage.removeItem("admin_logado");
-  window.location.href = "../../../pages/admin/login_admin/login_admin.html";
+  window.location.href = "../../../index.html";
 }
 
 function abrirTab(evt, tabName) {

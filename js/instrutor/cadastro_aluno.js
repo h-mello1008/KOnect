@@ -38,7 +38,7 @@ document.getElementById('formCadastroAluno').addEventListener('submit', async (e
             alert("Aluno salvo com sucesso!");
             form.reset();
             document.getElementById('valorNivel').textContent = '5';
-            window.location.href = '../../../pages/instrutor/cadastro_aluno/index.html';
+            window.location.href = '../alunos.html';
         } else {
             alert('Erro: ' + resultado.mensagem);
         }

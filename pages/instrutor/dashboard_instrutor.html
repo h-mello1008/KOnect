@@ -50,11 +50,19 @@
 
       <div class="row g-4 justify-content-center">
         <div class="col-md-4 col-sm-6">
-          <a href="alunos.html" class="hub-card">
+          <div class="hub-card" style="cursor:default;">
             <div class="hub-icon"><i class="bi bi-people-fill"></i></div>
             <h5 class="fw-bold">Alunos</h5>
-            <p class="text-muted small mb-0">Cadastros, perfis e faixas</p>
-          </a>
+            <p class="text-muted small mb-3">Cadastros, perfis e faixas</p>
+            <div class="d-flex gap-2 justify-content-center">
+              <a href="alunos.html" class="btn btn-sm btn-konect">
+                <i class="bi bi-sliders me-1"></i>Gerenciar
+              </a>
+              <button class="btn btn-sm btn-outline-danger" onclick="abrirModalExcluirAluno()">
+                <i class="bi bi-trash3-fill me-1"></i>Excluir
+              </button>
+            </div>
+          </div>
         </div>
         <div class="col-md-4 col-sm-6">
           <a href="academias.html" class="hub-card">
@@ -87,6 +95,115 @@
       </div>
     </main>
 
+    <div class="modal fade" id="modalExcluirAluno" tabindex="-1" data-bs-theme="dark">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content modal-content-instr">
+          <div class="modal-header border-bottom border-secondary pb-3">
+            <div>
+              <h5 class="modal-title fw-bold mb-0">
+                <i class="bi bi-person-x-fill me-2 text-danger"></i>Excluir Aluno
+              </h5>
+              <small class="text-muted">Selecione o aluno que deseja remover permanentemente.</small>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body p-4" id="corpoModalExcluirAluno">
+            <div class="text-center py-5 text-muted">
+              <div class="spinner-border text-danger mb-3" role="status"></div>
+              <p class="mb-0">Buscando alunos...</p>
+            </div>
+          </div>
+          <div class="modal-footer border-top border-secondary pt-3">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/KOnect/js/instrutor/dashboard_instrutor.js"></script>
+    <script>
+      let _instModalExcluir;
+
+      document.addEventListener('DOMContentLoaded', () => {
+        _instModalExcluir = new bootstrap.Modal(document.getElementById('modalExcluirAluno'));
+      });
+
+      async function abrirModalExcluirAluno() {
+        const corpo = document.getElementById('corpoModalExcluirAluno');
+        corpo.innerHTML = `
+          <div class="text-center py-5 text-muted">
+            <div class="spinner-border text-danger mb-3" role="status"></div>
+            <p class="mb-0">Buscando alunos...</p>
+          </div>`;
+        _instModalExcluir.show();
+
+        try {
+          const response = await fetch('/KOnect/php/instrutor/aluno_get.php');
+          const json = await response.json();
+
+          if (json.status !== 'ok' || json.data.length === 0) {
+            corpo.innerHTML = '<p class="text-center text-muted py-4">Nenhum aluno cadastrado.</p>';
+            return;
+          }
+
+          const linhas = json.data.map(a => {
+            let badge = 'badge-sucesso';
+            if (a.status === 'Inativo') badge = 'badge-alerta';
+            if (a.status === 'Bloqueado') badge = 'badge-perigo';
+            return `
+              <tr>
+                <td>
+                  <div class="fw-bold text-white">${a.nome}</div>
+                  <div class="text-muted small">${a.email || ''}</div>
+                </td>
+                <td class="text-center">
+                  <span class="badge ${badge} px-2 py-1 rounded-pill small">${a.status || 'Ativo'}</span>
+                </td>
+                <td class="text-end pe-2">
+                  <button class="btn btn-sm btn-outline-danger"
+                          onclick="confirmarExclusao(${a.id_usuario}, '${a.nome.replace(/'/g, "\\'")}')">
+                    <i class="bi bi-trash3-fill me-1"></i>Excluir
+                  </button>
+                </td>
+              </tr>`;
+          }).join('');
+
+          corpo.innerHTML = `
+            <div class="table-responsive">
+              <table class="table table-dark-konect table-hover align-middle mb-0">
+                <thead>
+                  <tr>
+                    <th>Aluno</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-end pe-2">Ação</th>
+                  </tr>
+                </thead>
+                <tbody>${linhas}</tbody>
+              </table>
+            </div>`;
+        } catch (e) {
+          corpo.innerHTML = '<p class="text-center text-danger py-4">Falha ao comunicar com o servidor.</p>';
+        }
+      }
+
+      async function confirmarExclusao(id, nome) {
+        const confirmado = confirm(`Tem certeza que deseja excluir o aluno "${nome}"?\n\nEsta ação é permanente e não pode ser desfeita.`);
+        if (!confirmado) return;
+
+        try {
+          const response = await fetch(`/KOnect/php/instrutor/aluno_excluir.php?id=${id}`);
+          const json = await response.json();
+
+          if (json.status === 'ok') {
+            abrirModalExcluirAluno();
+          } else {
+            alert('Erro ao excluir aluno: ' + json.mensagem);
+          }
+        } catch (e) {
+          alert('Falha ao se comunicar com o servidor.');
+        }
+      }
+    </script>
   </body>
 </html>

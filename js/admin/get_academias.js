@@ -8,7 +8,7 @@ async function buscarAcademias() {
 
     try {
         
-        const resposta = await fetch('../../../php/admin/academia_get_ativas.php');
+        const resposta = await fetch('../../../php/admin/get_academias_ativas.php');
         const json = await resposta.json();
 
         

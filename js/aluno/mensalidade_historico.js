@@ -23,7 +23,7 @@ async function setupHistorico() {
 
 async function fetchMensalidades() {
   try {
-    const res = await fetch('../../php/aluno/mensalidade_get.php');
+    const res = await fetch('../../../php/aluno/mensalidade_get.php');
     const json = await res.json();
     if (json.status === 'ok') {
       return json.data;
