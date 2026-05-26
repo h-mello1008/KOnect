@@ -7,7 +7,7 @@
         'data'      => []
     ];
 
-    // Consulta filtrando apenas as academias ativas
+    
     $stmt = $conexao->prepare("SELECT id, nome, responsavel FROM academia WHERE ativo = 1");
     $stmt->execute();
     

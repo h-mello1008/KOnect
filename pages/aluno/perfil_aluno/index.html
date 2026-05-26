@@ -17,19 +17,12 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/KOnect/css/konect.css" />
   </head>
-  <body>
+  <body class="theme-aluno">
     <aside class="sidebar p-4 d-none d-lg-block">
-      <div
-        class="brand mb-5"
-        style="
-          font-family: &quot;Syne&quot;;
-          font-weight: 800;
-          font-size: 1.5rem;
-        "
-      >
-        KO<span style="color: #ef4444">nect</span>
+      <div class="brand mb-5">
+        KO<span style="color:var(--accent)">nect</span>
       </div>
       <nav class="nav flex-column gap-2">
         <a href="./index.html" class="nav-link text-white active"
@@ -44,7 +37,7 @@
         <a href="#" class="nav-link text-muted"
           ><i class="bi bi-trophy me-2"></i> Graduação</a
         >
-        <hr class="my-4" style="border-color: #334155" />
+        <hr class="my-4 hr-dark" />
         <button id="btnLogout" class="btn btn-outline-danger w-100 text-start">
           <i class="bi bi-box-arrow-left me-2"></i> Sair
         </button>
@@ -53,7 +46,7 @@
 
     <main class="main-content">
       <header class="mb-5">
-        <h1 style="font-family: &quot;Syne&quot;; font-weight: 800">
+        <h1 class="header-aluno">
           Olá, <span id="userName" class="text-danger">Aluno</span>! 👋
         </h1>
         <p class="text-muted">Veja como está o seu progresso hoje.</p>

@@ -1,5 +1,3 @@
-// Arquivo: js/instrutor/alunos.js
-
 let instModalPerfil, instModalPresenca, instModalFaixa;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,9 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
     carregarAlunos();
 });
 
-// =========================================================================
-// MÓDULO 1: LISTAGEM DE ALUNOS (Lógica de Dados)
-// =========================================================================
 async function carregarAlunos() {
     const tbody = document.getElementById('tabelaAlunos');
     
@@ -35,9 +30,6 @@ async function carregarAlunos() {
     }
 }
 
-// =========================================================================
-// MÓDULO 1.1: LISTAGEM DE ALUNOS (Lógica Visual / DOM)
-// =========================================================================
 function desenharAlunoNaTabela(tbody, aluno) {
     const tr = document.createElement('tr');
     
@@ -76,9 +68,6 @@ function desenharAlunoNaTabela(tbody, aluno) {
     tbody.appendChild(tr);
 }
 
-// =========================================================================
-// MÓDULO 2: GESTÃO DE PERFIL
-// =========================================================================
 function abrirPerfil(aluno) {
     document.getElementById('edit_id_usuario').value = aluno.id_usuario;
     document.getElementById('edit_nome').value = aluno.nome;
@@ -116,12 +105,121 @@ async function salvarPerfilAluno() {
     }
 }
 
-// =========================================================================
-// MÓDULO 3: PRESENÇA E PROGRESSO DE FAIXA
-// =========================================================================
+let _alunoPresencaAtual = null;
+
 function abrirPresenca(aluno) {
+    _alunoPresencaAtual = aluno;
     document.getElementById('nomePresencaAtleta').textContent = aluno.nome;
+    document.getElementById('filtroDataInicio').value = '';
+    document.getElementById('filtroDataFim').value = '';
     instModalPresenca.show();
+    _buscarPresenca(aluno.id_usuario, null, null);
+}
+
+function filtrarPresenca() {
+    if (!_alunoPresencaAtual) return;
+    const inicio = document.getElementById('filtroDataInicio').value;
+    const fim    = document.getElementById('filtroDataFim').value;
+    _buscarPresenca(_alunoPresencaAtual.id_usuario, inicio || null, fim || null);
+}
+
+function limparFiltroPresenca() {
+    document.getElementById('filtroDataInicio').value = '';
+    document.getElementById('filtroDataFim').value = '';
+    if (_alunoPresencaAtual) _buscarPresenca(_alunoPresencaAtual.id_usuario, null, null);
+}
+
+async function _buscarPresenca(idAluno, dataInicio, dataFim) {
+    const corpo     = document.getElementById('corpoHistoricoPresenca');
+    const contador  = document.getElementById('contadorPresencas');
+    const totalSpan = document.getElementById('totalPresencas');
+
+    contador.style.display = 'none';
+    corpo.innerHTML = `
+        <div class="text-center py-5 text-muted">
+            <div class="spinner-border text-danger mb-3" role="status"></div>
+            <p class="mb-0">Buscando registros de treino...</p>
+        </div>`;
+
+    try {
+        let url = `/KOnect/php/instrutor/presenca_historico.php?id=${idAluno}`;
+        if (dataInicio) url += `&data_inicio=${dataInicio}`;
+        if (dataFim)    url += `&data_fim=${dataFim}`;
+
+        const response = await fetch(url);
+        const json = await response.json();
+
+        if (json.status !== 'ok') {
+            corpo.innerHTML = `<p class="text-center text-danger py-4">Erro: ${json.mensagem}</p>`;
+            return;
+        }
+
+        if (json.total === 0) {
+            corpo.innerHTML = _renderizarEstadoVazio(dataInicio, dataFim);
+            return;
+        }
+
+        totalSpan.textContent = json.total;
+        contador.style.display = 'block';
+        corpo.innerHTML = _renderizarTabelaPresenca(json.data);
+
+    } catch (e) {
+        console.error('Erro no histórico de presença:', e);
+        corpo.innerHTML = `<p class="text-center text-danger py-4">Falha ao se comunicar com o servidor.</p>`;
+    }
+}
+
+function _renderizarTabelaPresenca(registros) {
+    const linhas = registros.map(r => {
+        const data = r.data
+            ? new Date(r.data + 'T00:00:00').toLocaleDateString('pt-BR')
+            : '—';
+        const conteudo = r.conteudo
+            ? `<div class="text-muted small mt-1">${r.conteudo}</div>`
+            : '';
+        return `
+            <tr>
+                <td class="text-white fw-bold">${data}</td>
+                <td>${r.horario || '—'}</td>
+                <td>
+                    <span class="badge rounded-pill px-3" style="background:rgba(225,29,72,.15);color:var(--accent);border:1px solid rgba(225,29,72,.25);">
+                        ${r.modalidade || '—'}
+                    </span>
+                </td>
+                <td>
+                    <div class="fw-bold text-white"><i class="bi bi-person-fill me-1 text-danger"></i>${r.instrutor || '—'}</div>
+                    ${conteudo}
+                </td>
+            </tr>`;
+    }).join('');
+
+    return `
+        <div class="table-responsive">
+            <table class="table table-dark-konect table-hover align-middle mb-0" style="font-size:.9rem;">
+                <thead>
+                    <tr>
+                        <th><i class="bi bi-calendar3 me-1"></i>Data</th>
+                        <th><i class="bi bi-clock me-1"></i>Horário</th>
+                        <th><i class="bi bi-shield-fill me-1"></i>Modalidade</th>
+                        <th><i class="bi bi-person-badge me-1"></i>Instrutor / Mestre</th>
+                    </tr>
+                </thead>
+                <tbody>${linhas}</tbody>
+            </table>
+        </div>`;
+}
+
+function _renderizarEstadoVazio(dataInicio, dataFim) {
+    const temFiltro = dataInicio || dataFim;
+    const mensagem  = temFiltro
+        ? 'Nenhum registro de treino encontrado para os critérios selecionados.'
+        : 'Este aluno ainda não possui registros de treino.';
+    return `
+        <div class="text-center py-5">
+            <div class="mb-3" style="font-size:2.5rem;">🥋</div>
+            <p class="text-muted mb-3">${mensagem}</p>
+            ${temFiltro ? `<button class="btn btn-outline-secondary btn-sm" onclick="limparFiltroPresenca()"><i class="bi bi-arrow-left me-1"></i>Ver todos os registros</button>` : ''}
+        </div>`;
 }
 
 async function abrirFaixa(aluno) {
@@ -150,7 +248,6 @@ async function abrirFaixa(aluno) {
     }
 }
 
-// Lógica Visual para a Faixa
 function desenharProgressoFaixaNaTela(container, data) {
     let porcentagem = 0;
     let textoRodape = "";

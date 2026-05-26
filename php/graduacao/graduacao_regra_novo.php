@@ -21,7 +21,7 @@
             'data'      => []
         ];
     } else {
-        // Verificar se já existe regra para essa combinação
+        
         $stmt_check = $conexao->prepare("SELECT id FROM GraduacaoRegra WHERE graduacao_id = ? AND modalidade_id = ?");
         $stmt_check->bind_param("ii", $graduacao_id, $modalidade_id);
         $stmt_check->execute();

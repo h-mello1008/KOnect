@@ -8,7 +8,7 @@
     ];
 
     if(isset($_GET['academia_id'])){
-        // Obter estatísticas de fluxo de caixa de uma academia
+        
         $stmt = $conexao->prepare("
             SELECT 
                 COUNT(*) as total_mensalidades,
@@ -24,7 +24,7 @@
         ");
         $stmt->bind_param("i", $_GET['academia_id']);
     } else {
-        // Obter estatísticas gerais
+        
         $stmt = $conexao->prepare("
             SELECT 
                 COUNT(*) as total_mensalidades,

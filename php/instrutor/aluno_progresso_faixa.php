@@ -1,13 +1,13 @@
 <?php
-    // ==========================================================
-    // MODO DEBUG ATIVADO: Força o PHP a mostrar qualquer erro na tela
+    
+    
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
-    // ==========================================================
+    
 
-    // ATENÇÃO AO CAMINHO:
-    // Se este arquivo está em 'php/aluno/', use '../../conexao.php'
-    // Se este arquivo está em 'php/', use '../conexao.php'
+    
+    
+    
     include_once('../conexao.php'); 
 
     $retorno = [
@@ -19,7 +19,7 @@
     if(isset($_GET['id'])){
         $id_usuario = (int)$_GET['id'];
 
-        // 1. Busca os dados atuais do aluno
+        
         $sql_atual = "
             SELECT 
                 a.nome, 
@@ -34,7 +34,7 @@
         
         $stmt = $conexao->prepare($sql_atual);
         
-        // Se a conexão falhou, o prepare() retorna false e quebra aqui. O Modo Debug vai nos avisar!
+        
         if(!$stmt) {
             die("Erro fatal no SQL Atual: " . $conexao->error);
         }
@@ -48,7 +48,7 @@
             $hierarquia_atual = (int)$dados_aluno['hierarquia'];
             $presencas = (int)$dados_aluno['presencas_totais'];
 
-            // 2. Busca a próxima faixa
+            
             $sql_proxima = "SELECT corFaixa, tempoMinimo FROM Graduacao WHERE CAST(hierarquia AS UNSIGNED) > ? ORDER BY CAST(hierarquia AS UNSIGNED) ASC LIMIT 1";
             $stmt_prox = $conexao->prepare($sql_proxima);
             
@@ -94,7 +94,7 @@
     
     header("Content-type:application/json;charset:utf-8");
     
-    // Tratamento de erro final para garantir que algo apareça
+    
     $json = json_encode($retorno);
     if($json === false) {
         echo json_encode(['status' => 'nok', 'mensagem' => 'Erro interno de conversão JSON']);

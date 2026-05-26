@@ -8,7 +8,7 @@
         'data'      => []
     ];
 
-    // Verificar se o usuário está logado
+    
     if(!isset($_SESSION['usuario'])){
         $retorno = [
             'status'    => 'nok',
@@ -22,7 +22,7 @@
 
     $usuario_id = $_SESSION['usuario']['id'];
 
-    // Query para buscar mensalidades do aluno
+    
     $query = "
         SELECT 
             m.id,
@@ -51,18 +51,18 @@
     $mensalidades = [];
     if($resultado->num_rows > 0){
         while($linha = $resultado->fetch_assoc()){
-            // Converter valores para tipo apropriado
+            
             $linha['valor'] = (float)$linha['valor'];
             $linha['dias_vencimento'] = (int)$linha['dias_vencimento'];
             
-            // Adicionar informações adicionais
+            
             if($linha['status_pagamento'] === 'Pendente'){
                 if($linha['dias_vencimento'] > 0){
                     $linha['status_pagamento'] = 'Vencido';
                 }
             }
             
-            // Calcular status de exibição e dias em atraso
+            
             if($linha['dias_vencimento'] > 0){
                 $linha['dias_atraso'] = $linha['dias_vencimento'];
                 $linha['status_display'] = 'Vencido';

@@ -10,11 +10,11 @@ async function carregarGradeHoraria() {
     });
 
     try {
-        // Futuro fetch quando o PHP estiver pronto:
-        // const response = await fetch('/KOnect/php/instrutor/agenda_get.php');
-        // const resultado = await response.json();
         
-        // Simulação do resultado do banco (Mock) para a apresentação:
+        
+        
+        
+        
         const resultado = {
             status: 'ok',
             data: [

@@ -1,6 +1,6 @@
 <?php
-// Variáveis de conexão com o Banco de Dados
-$servidor = "localhost:3306";// Caso façam com o ip : 127.0.0.1
+
+$servidor = "localhost:3306";
 $usuario  = "root";
 $senha    = "";
 $nome_banco = "konnect";

@@ -8,7 +8,7 @@
         'data'      => []
     ];
 
-    // Verificar se o usuário está logado
+    
     if(!isset($_SESSION['usuario'])){
         $retorno = [
             'status'    => 'nok',
@@ -22,7 +22,7 @@
 
     $usuario_id = $_SESSION['usuario']['id'];
 
-    // Query para buscar mensalidades pagas do aluno
+    
     $query = "
         SELECT 
             m.id,
@@ -51,11 +51,11 @@
     $mensalidades = [];
     if($resultado->num_rows > 0){
         while($linha = $resultado->fetch_assoc()){
-            // Converter valores para tipo apropriado
+            
             $linha['valor'] = (float)$linha['valor'];
             $linha['dias_antecipacao'] = (int)$linha['dias_antecipacao'];
             
-            // Calcular se foi pago antecipadamente
+            
             if($linha['dias_antecipacao'] < 0){
                 $linha['dias_antecipacao_display'] = abs($linha['dias_antecipacao']) . ' dias antes';
             } else if($linha['dias_antecipacao'] > 0){

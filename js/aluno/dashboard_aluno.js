@@ -1,8 +1,5 @@
-// Dashboard Aluno - KOnect Platform
-// Script for student dashboard functionality
-
 document.addEventListener("DOMContentLoaded", function () {
-  // Initialize dashboard
+  
   verificarInadimplencia();
   validarSessao();
   setupEventListeners();
@@ -128,11 +125,11 @@ async function validarSessao() {
 }
 
 function loadUserProgress() {
-  // Load student progress data
+  
   const userCourse = localStorage.getItem("userCourse") || "Curso";
   document.getElementById("userCourse").textContent = userCourse;
 
-  // Update progress bar
+  
   const progress = localStorage.getItem("userProgress") || 0;
   updateProgressBar(progress);
 }

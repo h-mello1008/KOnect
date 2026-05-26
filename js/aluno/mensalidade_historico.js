@@ -1,5 +1,3 @@
-// Script para a página de histórico de mensalidades
-
 document.addEventListener('DOMContentLoaded', function () {
   validarSessao();
   setupHistorico();
@@ -18,7 +16,7 @@ async function setupHistorico() {
     renderWithFilters();
   });
 
-  // Carregar dados iniciais
+  
   window._mensalidadesHistorico = await fetchMensalidades();
   renderWithFilters();
 }

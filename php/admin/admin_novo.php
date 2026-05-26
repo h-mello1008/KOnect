@@ -21,7 +21,7 @@
     } else {
         session_start();
         
-        // Inserir usuário base
+        
         $stmt_usuario = $conexao->prepare("INSERT INTO Usuario(email, senha) VALUES(?, ?)");
         $stmt_usuario->bind_param("ss", $email, $senha);
         $stmt_usuario->execute();
@@ -29,7 +29,7 @@
         if($stmt_usuario->affected_rows > 0){
             $usuario_id = $stmt_usuario->insert_id;
 
-            // Inserir admin
+            
             $stmt_admin = $conexao->prepare("
                 INSERT INTO Admin(id_usuario, nivel_acesso, academia_id)
                 VALUES(?, ?, ?)

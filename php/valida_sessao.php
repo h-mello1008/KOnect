@@ -2,14 +2,14 @@
     session_start();
     if(isset($_SESSION['usuario'])){
         $retorno = [
-            'status'    => 'ok', // ok - nok
-            'mensagem'  => '', // mensagem que envio para o front
+            'status'    => 'ok', 
+            'mensagem'  => '', 
             'data'      => $_SESSION['usuario']
         ];
     }else{
         $retorno = [
-            'status'    => 'nok', // ok - nok
-            'mensagem'  => 'Usuário não autenticado', // mensagem que envio para o front
+            'status'    => 'nok', 
+            'mensagem'  => 'Usuário não autenticado', 
             'data'      => []
         ];
     }

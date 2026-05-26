@@ -1,7 +1,3 @@
-// ============================================
-// GERENCIAMENTO DE REGRAS DE GRADUAÇÃO
-// ============================================
-
 let regras = [];
 let modalidades = [];
 let graduacoes = [];
@@ -9,21 +5,21 @@ let regraEmEdicao = null;
 
 async function carregarDadosGraduacao() {
   try {
-    // Carregar graduações
+    
     const resGrad = await fetch("../../../php/graduacao/graduacao_get.php");
     const resGradJSON = await resGrad.json();
     if (resGradJSON.status === "ok") {
       graduacoes = resGradJSON.data;
     }
 
-    // Carregar modalidades
+    
     const resMod = await fetch("../../../php/modalidade/modalidade_get.php");
     const resModJSON = await resMod.json();
     if (resModJSON.status === "ok") {
       modalidades = resModJSON.data;
     }
 
-    // Carregar regras
+    
     await carregarRegras();
     preencherSelectsGraduacao();
   } catch (erro) {
@@ -226,10 +222,8 @@ async function confirmarExcluirRegra(regraId) {
   }
 }
 
-// Carregar dados ao abrir a página
 document.addEventListener("DOMContentLoaded", carregarDadosGraduacao);
 
-// Fechar modal ao clicar fora
 window.addEventListener("click", function (event) {
   const modal = document.getElementById("modalEditarRegra");
   if (event.target === modal) {

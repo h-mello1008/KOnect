@@ -184,10 +184,6 @@ h3,
   text-decoration: underline;
 }
 
-/* ============================================
-   ADMIN TABS
-   ============================================ */
-
 .admin-tabs {
   display: flex;
   gap: 1rem;
@@ -229,10 +225,6 @@ h3,
   display: block;
 }
 
-/* ============================================
-   SECTION CARDS
-   ============================================ */
-
 .section-card {
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -253,10 +245,6 @@ h3,
   color: var(--muted);
   margin-bottom: 2rem;
 }
-
-/* ============================================
-   ADMIN TABLES
-   ============================================ */
 
 .admin-table {
   width: 100%;
@@ -287,10 +275,6 @@ h3,
 .admin-table tbody tr:hover {
   background: rgba(244, 63, 94, 0.05);
 }
-
-/* ============================================
-   STATUS BADGES
-   ============================================ */
 
 .status-badge {
   display: inline-block;
@@ -337,10 +321,6 @@ h3,
   border: 1px solid rgba(168, 85, 247, 0.3);
 }
 
-/* ============================================
-   ACTION BUTTONS
-   ============================================ */
-
 .btn-acao {
   background: transparent;
   border: none;
@@ -363,10 +343,6 @@ h3,
 .btn-deletar:hover {
   color: #ef4444;
 }
-
-/* ============================================
-   FORM CARDS
-   ============================================ */
 
 .form-card {
   background: rgba(255, 255, 255, 0.02);
@@ -415,10 +391,6 @@ textarea.form-control {
   resize: vertical;
 }
 
-/* ============================================
-   BUTTONS
-   ============================================ */
-
 .btn-primary {
   background: var(--rose);
   color: white;
@@ -456,10 +428,6 @@ textarea.form-control {
   background: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.2);
 }
-
-/* ============================================
-   MODALS
-   ============================================ */
 
 .modal {
   display: none;
@@ -540,10 +508,6 @@ textarea.form-control {
   border-top: 1px solid var(--border);
 }
 
-/* ============================================
-   STATS GRID
-   ============================================ */
-
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -616,10 +580,6 @@ textarea.form-control {
   color: var(--muted);
   font-size: 0.8rem;
 }
-
-/* ============================================
-   RESPONSIVE
-   ============================================ */
 
 @media (max-width: 768px) {
   .section-card {

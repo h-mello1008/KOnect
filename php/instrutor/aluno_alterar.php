@@ -27,27 +27,27 @@
                 $valores[] = $_POST[$campo];
 
                 if($campo === 'peso') {
-                    $tipos_bind .= "d"; // double
+                    $tipos_bind .= "d"; 
                 } elseif(in_array($campo, ['aceitou_termos', 'atestadoMedico', 'graduacao_id', 'nivelCondicionamento'])) {
-                    $tipos_bind .= "i"; // int (inteiro)
+                    $tipos_bind .= "i"; 
                 } else {
-                    $tipos_bind .= "s"; // string (texto)
+                    $tipos_bind .= "s"; 
                 }
             }
         }
 
         if(count($query_parts) > 0){
             $sql = "UPDATE Aluno SET " . implode(", ", $query_parts) . " WHERE id_usuario = ?";
-            $tipos_bind .= "i"; // Adiciona o tipo do ID no final
-            $valores[] = $id_usuario; // Adiciona o ID no array de valores
+            $tipos_bind .= "i"; 
+            $valores[] = $id_usuario; 
 
             $stmt = $conexao->prepare($sql);
             
-            // O operador ... (splat) desempacota o array para o bind_param dinâmico (Requer PHP 5.6+)
+            
             $stmt->bind_param($tipos_bind, ...$valores);
             $stmt->execute();
 
-            if($stmt->errno === 0){ // Garante que foi sucesso, mesmo se nenhum dado for alterado na prática
+            if($stmt->errno === 0){ 
                 $retorno = [
                     'status'    => 'ok',
                     'mensagem'  => 'Perfil atualizado com sucesso!',

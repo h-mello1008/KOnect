@@ -8,7 +8,7 @@
     ];
 
     if(isset($_GET['academia_id'])){
-        // Obter fluxo de caixa de uma academia específica
+        
         $stmt = $conexao->prepare("
             SELECT 
                 m.id,
@@ -35,7 +35,7 @@
         ");
         $stmt->bind_param("i", $_GET['academia_id']);
     } elseif(isset($_GET['id'])){
-        // Obter uma mensalidade específica
+        
         $stmt = $conexao->prepare("
             SELECT 
                 m.id,
@@ -61,7 +61,7 @@
         ");
         $stmt->bind_param("i", $_GET['id']);
     } else {
-        // Obter todas as mensalidades
+        
         $stmt = $conexao->prepare("
             SELECT 
                 m.id,

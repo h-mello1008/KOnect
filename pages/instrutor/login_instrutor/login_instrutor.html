@@ -1,33 +1,21 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="/KOnect/css/konect.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
     <title>LOGIN INSTRUTOR</title>
   </head>
-  <body>
+  <body class="theme-instrutor">
     <div id="pg-login-instrutor" class="page">
       <form id="formLoginInstrutor">
         <div class="login-wrap">
           <div class="login-box">
-            <div
-              class="login-icon"
-              style="background: rgba(59, 130, 246, 0.15)"
-            >
-              <i class="bi bi-person-video3" style="color: var(--accent2)"></i>
+            <div class="login-icon login-icon-blue">
+              <i class="bi bi-person-video3"></i>
             </div>
             <h2>Portal Instrutor</h2>
             <p class="sub">Bem-vindo de volta, professor!</p>
@@ -35,31 +23,15 @@
 
             <div class="mb-3">
               <label class="form-label">E-mail</label>
-              <input
-                type="email"
-                class="form-control"
-                id="emailLoginInstrutor"
-                placeholder="instrutor@konect.com"
-                value="instrutor@konect.com"
-              />
+              <input type="email" class="form-control" id="emailLoginInstrutor" placeholder="instrutor@konect.com" value="instrutor@konect.com" />
             </div>
             <div class="mb-4">
               <label class="form-label">Senha</label>
-              <input
-                type="password"
-                class="form-control"
-                id="senhaLoginInstrutor"
-                value="instr123"
-                placeholder="••••••••"
-              />
+              <input type="password" class="form-control" id="senhaLoginInstrutor" value="instr123" placeholder="••••••••" />
             </div>
-            <button type="submit" class="btn btn-danger px-5 fw-bold">
-              Entrar como Instrutor
-            </button>
+            <button type="submit" class="btn btn-danger px-5 fw-bold">Entrar como Instrutor</button>
             <div class="back-link">
-              <a href="../../../index.html"
-                ><i class="bi bi-arrow-left me-1"></i>Voltar ao início</a
-              >
+              <a href="../../../index.html"><i class="bi bi-arrow-left me-1"></i>Voltar ao início</a>
             </div>
           </div>
         </div>

@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KOnect</title>
 
-    =
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -18,12 +17,10 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
       rel="stylesheet"
     />
-    =
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="css/konect.css" />
   </head>
   <body>
     <div id="pg-home" class="page active">
-      =
       <nav class="topnav">
         <div
           class="container d-flex align-items-center justify-content-between py-3"
@@ -142,32 +139,26 @@
         <div class="row g-3">
           <div class="col-6 col-md-3">
             <div class="stat-card text-center">
-              <div class="stat-num" style="color: var(--accent)">1.2k</div>
-              <div class="text-muted" style="font-size: 0.85rem">
-                Alunos ativos
-              </div>
+              <div class="stat-num text-accent">1.2k</div>
+              <div class="text-muted fs-85">Alunos ativos</div>
             </div>
           </div>
           <div class="col-6 col-md-3">
             <div class="stat-card text-center">
-              <div class="stat-num" style="color: var(--green)">87</div>
-              <div class="text-muted" style="font-size: 0.85rem">
-                Instrutores
-              </div>
+              <div class="stat-num text-green-konect">87</div>
+              <div class="text-muted fs-85">Instrutores</div>
             </div>
           </div>
           <div class="col-6 col-md-3">
             <div class="stat-card text-center">
-              <div class="stat-num" style="color: var(--amber)">340</div>
-              <div class="text-muted" style="font-size: 0.85rem">Cursos</div>
+              <div class="stat-num text-amber-konect">340</div>
+              <div class="text-muted fs-85">Cursos</div>
             </div>
           </div>
           <div class="col-6 col-md-3">
             <div class="stat-card text-center">
-              <div class="stat-num" style="color: var(--rose)">98%</div>
-              <div class="text-muted" style="font-size: 0.85rem">
-                Satisfação
-              </div>
+              <div class="stat-num text-rose-konect">98%</div>
+              <div class="text-muted fs-85">Satisfação</div>
             </div>
           </div>
         </div>
@@ -208,12 +199,12 @@
             <p>Bem-vindo, Administrador!</p>
           </div>
           <div class="welcome-banner d-flex align-items-center gap-3 mb-4">
-            <div class="role-icon red" style="margin-bottom: 0">
+            <div class="role-icon red mb-0">
               <i class="bi bi-shield-fill"></i>
             </div>
             <div>
               <div class="fw-bold">Acesso Total ao Sistema</div>
-              <div class="text-muted" style="font-size: 0.85rem">
+              <div class="text-muted fs-85">
                 Você pode gerenciar instrutores, alunos e configurações da
                 plataforma.
               </div>
@@ -222,114 +213,74 @@
           <div class="row g-3 mb-4">
             <div class="col-6 col-xl-3">
               <div class="stat-card">
-                <div class="text-muted mb-1" style="font-size: 0.8rem">
-                  Total de Alunos
-                </div>
-                <div class="stat-num" style="color: var(--accent)">248</div>
+                <div class="text-muted mb-1 fs-80">Total de Alunos</div>
+                <div class="stat-num text-accent">248</div>
               </div>
             </div>
             <div class="col-6 col-xl-3">
               <div class="stat-card">
-                <div class="text-muted mb-1" style="font-size: 0.8rem">
-                  Instrutores
-                </div>
-                <div class="stat-num" style="color: var(--green)">12</div>
+                <div class="text-muted mb-1 fs-80">Instrutores</div>
+                <div class="stat-num text-green-konect">12</div>
               </div>
             </div>
             <div class="col-6 col-xl-3">
               <div class="stat-card">
-                <div class="text-muted mb-1" style="font-size: 0.8rem">
-                  Cursos Ativos
-                </div>
-                <div class="stat-num" style="color: var(--amber)">34</div>
+                <div class="text-muted mb-1 fs-80">Cursos Ativos</div>
+                <div class="stat-num text-amber-konect">34</div>
               </div>
             </div>
             <div class="col-6 col-xl-3">
               <div class="stat-card">
-                <div class="text-muted mb-1" style="font-size: 0.8rem">
-                  Novos este mês
-                </div>
-                <div class="stat-num" style="color: var(--rose)">+47</div>
+                <div class="text-muted mb-1 fs-80">Novos este mês</div>
+                <div class="stat-num text-rose-konect">+47</div>
               </div>
             </div>
           </div>
           <div class="row g-3">
             <div class="col-md-6">
               <div class="action-card" onclick="adminTab('cad-instrutor')">
-                <div
-                  class="action-icon"
-                  style="
-                    background: rgba(59, 130, 246, 0.15);
-                    color: var(--accent2);
-                  "
-                >
+                <div class="action-icon action-icon-blue">
                   <i class="bi bi-person-plus-fill"></i>
                 </div>
                 <div>
                   <div class="fw-semibold">Cadastrar Instrutor</div>
-                  <div class="text-muted" style="font-size: 0.85rem">
-                    Adicionar novo instrutor à plataforma
-                  </div>
+                  <div class="text-muted fs-85">Adicionar novo instrutor à plataforma</div>
                 </div>
                 <i class="bi bi-arrow-right ms-auto text-muted"></i>
               </div>
             </div>
             <div class="col-md-6">
               <div class="action-card" onclick="adminTab('cad-aluno')">
-                <div
-                  class="action-icon"
-                  style="
-                    background: rgba(34, 197, 94, 0.15);
-                    color: var(--green);
-                  "
-                >
+                <div class="action-icon action-icon-green">
                   <i class="bi bi-person-plus"></i>
                 </div>
                 <div>
                   <div class="fw-semibold">Cadastrar Aluno</div>
-                  <div class="text-muted" style="font-size: 0.85rem">
-                    Adicionar novo aluno à plataforma
-                  </div>
+                  <div class="text-muted fs-85">Adicionar novo aluno à plataforma</div>
                 </div>
                 <i class="bi bi-arrow-right ms-auto text-muted"></i>
               </div>
             </div>
             <div class="col-md-6">
               <div class="action-card" onclick="adminTab('instrutores')">
-                <div
-                  class="action-icon"
-                  style="
-                    background: rgba(244, 63, 94, 0.15);
-                    color: var(--rose);
-                  "
-                >
+                <div class="action-icon action-icon-rose">
                   <i class="bi bi-people-fill"></i>
                 </div>
                 <div>
                   <div class="fw-semibold">Ver Instrutores</div>
-                  <div class="text-muted" style="font-size: 0.85rem">
-                    Listar e gerenciar instrutores
-                  </div>
+                  <div class="text-muted fs-85">Listar e gerenciar instrutores</div>
                 </div>
                 <i class="bi bi-arrow-right ms-auto text-muted"></i>
               </div>
             </div>
             <div class="col-md-6">
               <div class="action-card" onclick="adminTab('alunos')">
-                <div
-                  class="action-icon"
-                  style="
-                    background: rgba(245, 158, 11, 0.15);
-                    color: var(--amber);
-                  "
-                >
+                <div class="action-icon action-icon-amber">
                   <i class="bi bi-mortarboard-fill"></i>
                 </div>
                 <div>
                   <div class="fw-semibold">Ver Alunos</div>
-                  <div class="text-muted" style="font-size: 0.85rem">
-                    Listar e gerenciar alunos
-                  </div>
+                  <div class="text-muted fs-85">Listar e gerenciar alunos</div>
                 </div>
                 <i class="bi bi-arrow-right ms-auto text-muted"></i>
               </div>
@@ -600,29 +551,13 @@
             <h2>Painel do Instrutor</h2>
             <p>Bem-vindo, Instrutor!</p>
           </div>
-          <div
-            class="welcome-banner d-flex align-items-center gap-3 mb-4"
-            style="
-              border-color: rgba(59, 130, 246, 0.2);
-              background: linear-gradient(
-                135deg,
-                rgba(59, 130, 246, 0.12),
-                rgba(59, 130, 246, 0.04)
-              );
-            "
-          >
-            <div
-              class="action-icon"
-              style="
-                background: rgba(59, 130, 246, 0.15);
-                color: var(--accent2);
-              "
-            >
+          <div class="welcome-banner welcome-banner-blue d-flex align-items-center gap-3 mb-4">
+            <div class="action-icon action-icon-blue">
               <i class="bi bi-person-video3"></i>
             </div>
             <div>
               <div class="fw-bold">Área do Instrutor</div>
-              <div class="text-muted" style="font-size: 0.85rem">
+              <div class="text-muted fs-85">
                 Gerencie seus alunos e acompanhe o progresso das turmas.
               </div>
             </div>
@@ -630,80 +565,50 @@
           <div class="row g-3 mb-4">
             <div class="col-6 col-md-3">
               <div class="stat-card">
-                <div class="text-muted mb-1" style="font-size: 0.8rem">
-                  Meus Alunos
-                </div>
-                <div
-                  class="stat-num"
-                  style="color: var(--accent)"
-                  id="instr-count-alunos"
-                >
-                  0
-                </div>
+                <div class="text-muted mb-1 fs-80">Meus Alunos</div>
+                <div class="stat-num text-accent" id="instr-count-alunos">0</div>
               </div>
             </div>
             <div class="col-6 col-md-3">
               <div class="stat-card">
-                <div class="text-muted mb-1" style="font-size: 0.8rem">
-                  Ativos
-                </div>
-                <div class="stat-num" style="color: var(--green)">3</div>
+                <div class="text-muted mb-1 fs-80">Ativos</div>
+                <div class="stat-num text-green-konect">3</div>
               </div>
             </div>
             <div class="col-6 col-md-3">
               <div class="stat-card">
-                <div class="text-muted mb-1" style="font-size: 0.8rem">
-                  Turmas
-                </div>
-                <div class="stat-num" style="color: var(--amber)">2</div>
+                <div class="text-muted mb-1 fs-80">Turmas</div>
+                <div class="stat-num text-amber-konect">2</div>
               </div>
             </div>
             <div class="col-6 col-md-3">
               <div class="stat-card">
-                <div class="text-muted mb-1" style="font-size: 0.8rem">
-                  Concluídos
-                </div>
-                <div class="stat-num" style="color: var(--rose)">1</div>
+                <div class="text-muted mb-1 fs-80">Concluídos</div>
+                <div class="stat-num text-rose-konect">1</div>
               </div>
             </div>
           </div>
           <div class="row g-3">
             <div class="col-md-6">
               <div class="action-card" onclick="instrTab('cad-aluno-instr')">
-                <div
-                  class="action-icon"
-                  style="
-                    background: rgba(34, 197, 94, 0.15);
-                    color: var(--green);
-                  "
-                >
+                <div class="action-icon action-icon-green">
                   <i class="bi bi-person-plus"></i>
                 </div>
                 <div>
                   <div class="fw-semibold">Cadastrar Aluno</div>
-                  <div class="text-muted" style="font-size: 0.85rem">
-                    Adicionar novo aluno à sua turma
-                  </div>
+                  <div class="text-muted fs-85">Adicionar novo aluno à sua turma</div>
                 </div>
                 <i class="bi bi-arrow-right ms-auto text-muted"></i>
               </div>
             </div>
             <div class="col-md-6">
               <div class="action-card" onclick="instrTab('meus-alunos')">
-                <div
-                  class="action-icon"
-                  style="
-                    background: rgba(59, 130, 246, 0.15);
-                    color: var(--accent2);
-                  "
-                >
+                <div class="action-icon action-icon-blue">
                   <i class="bi bi-people"></i>
                 </div>
                 <div>
                   <div class="fw-semibold">Ver Meus Alunos</div>
-                  <div class="text-muted" style="font-size: 0.85rem">
-                    Acompanhar progresso e dados
-                  </div>
+                  <div class="text-muted fs-85">Acompanhar progresso e dados</div>
                 </div>
                 <i class="bi bi-arrow-right ms-auto text-muted"></i>
               </div>
@@ -860,26 +765,13 @@
           <p>Continue de onde parou!</p>
         </div>
 
-        <div
-          class="welcome-banner d-flex align-items-center gap-3 mb-4"
-          style="
-            border-color: rgba(34, 197, 94, 0.2);
-            background: linear-gradient(
-              135deg,
-              rgba(34, 197, 94, 0.1),
-              rgba(34, 197, 94, 0.03)
-            );
-          "
-        >
-          <div
-            class="action-icon"
-            style="background: rgba(34, 197, 94, 0.15); color: var(--green)"
-          >
+        <div class="welcome-banner welcome-banner-green d-flex align-items-center gap-3 mb-4">
+          <div class="action-icon action-icon-green">
             <i class="bi bi-mortarboard-fill"></i>
           </div>
           <div>
             <div class="fw-bold">Olá, Aluno! 👋</div>
-            <div class="text-muted" style="font-size: 0.85rem">
+            <div class="text-muted fs-85">
               Você está matriculado em <strong>Desenvolvimento Web</strong>.
               Continue estudando!
             </div>
@@ -889,114 +781,65 @@
         <div class="row g-3 mb-4">
           <div class="col-6 col-md-3">
             <div class="stat-card">
-              <div class="text-muted mb-1" style="font-size: 0.8rem">
-                Cursos
-              </div>
-              <div class="stat-num" style="color: var(--green)">2</div>
+              <div class="text-muted mb-1 fs-80">Cursos</div>
+              <div class="stat-num text-green-konect">2</div>
             </div>
           </div>
           <div class="col-6 col-md-3">
             <div class="stat-card">
-              <div class="text-muted mb-1" style="font-size: 0.8rem">
-                Aulas concluídas
-              </div>
-              <div class="stat-num" style="color: var(--accent)">14</div>
+              <div class="text-muted mb-1 fs-80">Aulas concluídas</div>
+              <div class="stat-num text-accent">14</div>
             </div>
           </div>
           <div class="col-6 col-md-3">
             <div class="stat-card">
-              <div class="text-muted mb-1" style="font-size: 0.8rem">
-                Horas estudadas
-              </div>
-              <div class="stat-num" style="color: var(--amber)">36h</div>
+              <div class="text-muted mb-1 fs-80">Horas estudadas</div>
+              <div class="stat-num text-amber-konect">36h</div>
             </div>
           </div>
           <div class="col-6 col-md-3">
             <div class="stat-card">
-              <div class="text-muted mb-1" style="font-size: 0.8rem">
-                Progresso geral
-              </div>
-              <div class="stat-num" style="color: var(--rose)">62%</div>
+              <div class="text-muted mb-1 fs-80">Progresso geral</div>
+              <div class="stat-num text-rose-konect">62%</div>
             </div>
           </div>
         </div>
 
         <div class="form-card">
           <div class="section-title">
-            <i class="bi bi-book-fill" style="color: var(--green)"></i> Meus
-            Cursos
+            <i class="bi bi-book-fill text-green-konect"></i> Meus Cursos
           </div>
           <div class="row g-3">
             <div class="col-md-6">
-              <div
-                style="
-                  background: rgba(255, 255, 255, 0.03);
-                  border: 1px solid var(--border);
-                  border-radius: 14px;
-                  padding: 1.2rem;
-                "
-              >
-                <div
-                  class="d-flex justify-content-between align-items-center mb-2"
-                >
+              <div class="course-card-inner">
+                <div class="d-flex justify-content-between align-items-center mb-2">
                   <span class="fw-semibold">Desenvolvimento Web</span>
                   <span class="badge-role badge-instr">Em andamento</span>
                 </div>
-                <div class="text-muted" style="font-size: 0.82rem">
-                  Instrutor: Maria Silva
-                </div>
+                <div class="text-muted fs-80">Instrutor: Maria Silva</div>
                 <div class="mt-2">
-                  <div
-                    class="d-flex justify-content-between"
-                    style="font-size: 0.8rem"
-                  >
+                  <div class="d-flex justify-content-between fs-80">
                     <span>Progresso</span><span>75%</span>
                   </div>
-                  <div
-                    class="progress mt-1"
-                    style="height: 6px; background: rgba(255, 255, 255, 0.05)"
-                  >
-                    <div
-                      class="progress-bar"
-                      style="width: 75%; background: var(--green)"
-                    ></div>
+                  <div class="progress progress-bar-sm mt-1">
+                    <div class="progress-bar bg-success" style="width: 75%"></div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="col-md-6">
-              <div
-                style="
-                  background: rgba(255, 255, 255, 0.03);
-                  border: 1px solid var(--border);
-                  border-radius: 14px;
-                  padding: 1.2rem;
-                "
-              >
-                <div
-                  class="d-flex justify-content-between align-items-center mb-2"
-                >
+              <div class="course-card-inner">
+                <div class="d-flex justify-content-between align-items-center mb-2">
                   <span class="fw-semibold">Design UX/UI</span>
                   <span class="badge-role badge-aluno">Novo</span>
                 </div>
-                <div class="text-muted" style="font-size: 0.82rem">
-                  Instrutor: Carlos Mendes
-                </div>
+                <div class="text-muted fs-80">Instrutor: Carlos Mendes</div>
                 <div class="mt-2">
-                  <div
-                    class="d-flex justify-content-between"
-                    style="font-size: 0.8rem"
-                  >
+                  <div class="d-flex justify-content-between fs-80">
                     <span>Progresso</span><span>20%</span>
                   </div>
-                  <div
-                    class="progress mt-1"
-                    style="height: 6px; background: rgba(255, 255, 255, 0.05)"
-                  >
-                    <div
-                      class="progress-bar"
-                      style="width: 20%; background: var(--accent)"
-                    ></div>
+                  <div class="progress progress-bar-sm mt-1">
+                    <div class="progress-bar bg-danger" style="width: 20%"></div>
                   </div>
                 </div>
               </div>
@@ -1010,16 +853,9 @@
 
     <div class="modal fade" id="deleteModal" tabindex="-1">
       <div class="modal-dialog modal-dialog-centered">
-        <div
-          class="modal-content"
-          style="
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-          "
-        >
+        <div class="modal-content modal-dark">
           <div class="modal-body p-4 text-center">
-            <div style="font-size: 2.5rem; margin-bottom: 1rem">🗑️</div>
+            <div class="fs-1 mb-3">🗑️</div>
             <h5 class="fw-bold mb-2">Confirmar exclusão</h5>
             <p class="text-muted">
               Tem certeza que deseja excluir este registro?<br />Esta ação não

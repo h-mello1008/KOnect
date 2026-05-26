@@ -1,6 +1,3 @@
-// Mensalidades do Aluno - KOnect Platform
-// Script for displaying student payments/tuition
-
 document.addEventListener("DOMContentLoaded", function () {
   loadMensalidades();
 });
@@ -29,14 +26,14 @@ function renderMensalidades(mensalidades) {
   
   if (!containerMensalidades) return;
 
-  // Separar mensalidades em categorias
+  
   const vencidas = mensalidades.filter(m => m.dias_vencimento > 0);
   const pendentes = mensalidades.filter(m => m.dias_vencimento < 0);
   const hojePaga = mensalidades.filter(m => m.dias_vencimento === 0);
 
   let html = '';
 
-  // Se há mensalidades vencidas, mostrar com destaque
+  
   if (vencidas.length > 0) {
     html += `
       <div class="mb-4">
@@ -50,7 +47,7 @@ function renderMensalidades(mensalidades) {
     `;
   }
 
-  // Mensalidades que vence hoje
+  
   if (hojePaga.length > 0) {
     html += `
       <div class="mb-4">
@@ -64,7 +61,7 @@ function renderMensalidades(mensalidades) {
     `;
   }
 
-  // Mensalidades pendentes
+  
   if (pendentes.length > 0) {
     html += `
       <div class="mb-4">
@@ -80,7 +77,7 @@ function renderMensalidades(mensalidades) {
 
   containerMensalidades.innerHTML = html;
 
-  // Adicionar resumo no topo
+  
   const totalVencido = vencidas.reduce((sum, m) => sum + m.valor, 0);
   const totalPendente = pendentes.reduce((sum, m) => sum + m.valor, 0);
   
@@ -256,6 +253,6 @@ function formatarMesReferencia(mesReferencia) {
 }
 
 function abrirModalPagamento(mensalidadeId, valor, mes) {
-  // Função para abrir modal de pagamento (pode ser integrada com gateway de pagamento)
+  
   alert(`Preparando pagamento de ${valor} para ${mes}\n\nEsta funcionalidade será integrada com o gateway de pagamento.`);
 }

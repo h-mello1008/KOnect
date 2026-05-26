@@ -17,19 +17,12 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/KOnect/css/konect.css" />
   </head>
-  <body>
+  <body class="theme-aluno">
     <aside class="sidebar p-4 d-none d-lg-block">
-      <div
-        class="brand mb-5"
-        style="
-          font-family: &quot;Syne&quot;;
-          font-weight: 800;
-          font-size: 1.5rem;
-        "
-      >
-        KO<span style="color: #ef4444">nect</span>
+      <div class="brand mb-5">
+        KO<span style="color:var(--accent)">nect</span>
       </div>
       <nav class="nav flex-column gap-2">
         <a href="../perfil_aluno/index.html" class="nav-link text-muted"
@@ -44,7 +37,7 @@
         <a href="#" class="nav-link text-muted"
           ><i class="bi bi-trophy me-2"></i> Graduação</a
         >
-        <hr class="my-4" style="border-color: #334155" />
+        <hr class="my-4 hr-dark" />
         <button id="btnLogout" class="btn btn-outline-danger w-100 text-start">
           <i class="bi bi-box-arrow-left me-2"></i> Sair
         </button>
@@ -53,14 +46,14 @@
 
     <main class="main-content">
       <header class="mb-5">
-        <h1 style="font-family: &quot;Syne&quot;; font-weight: 800">
+        <h1 class="header-aluno">
           Mensalidades <span class="text-danger">💳</span>
         </h1>
         <p class="text-muted">Controle e acompanhe suas mensalidades.</p>
       </header>
 
       <div id="optionsView" class="row g-4">
-        <!-- Opção 1: Visualizar Mensalidades com Filtro -->
+        
         <div class="col-md-6">
           <div class="option-card" id="viewMensalidadesBtn">
             <div class="option-icon">
@@ -75,7 +68,7 @@
           </div>
         </div>
 
-        <!-- Opção 2: Histórico de Pagamentos -->
+        
         <div class="col-md-6">
           <div class="option-card" id="viewHistoricoBtn">
             <div class="option-icon">
@@ -90,18 +83,18 @@
         </div>
       </div>
 
-      <!-- View de Mensalidades com Filtro -->
+      
       <div id="mensalidadesView" class="d-none">
         <div class="d-flex align-items-center gap-3 mb-4">
           <button id="backBtn" class="btn btn-outline-secondary">
             <i class="bi bi-arrow-left me-2"></i> Voltar
           </button>
-          <h2 style="font-family: &quot;Syne&quot;; font-weight: 700">
+          <h2 class="header-aluno">
             Minhas Mensalidades
           </h2>
         </div>
 
-        <!-- Filtros -->
+        
         <div class="filter-section mb-4">
           <div class="d-flex gap-2 flex-wrap">
             <button class="filter-btn active" data-filter="todos">
@@ -119,7 +112,7 @@
           </div>
         </div>
 
-        <!-- Resumo de Mensalidades -->
+        
         <div class="row g-3 mb-4">
           <div class="col-md-3">
             <div class="summary-card">
@@ -159,7 +152,7 @@
           </div>
         </div>
 
-        <!-- Lista de Mensalidades -->
+        
         <div id="mensalidadesList" class="mensalidades-list">
           <div class="spinner-border text-danger" role="status">
             <span class="visually-hidden">Carregando...</span>
@@ -167,18 +160,18 @@
         </div>
       </div>
 
-      <!-- View de Histórico de Pagamentos -->
+      
       <div id="historicoView" class="d-none">
         <div class="d-flex align-items-center gap-3 mb-4">
           <button id="backBtn2" class="btn btn-outline-secondary">
             <i class="bi bi-arrow-left me-2"></i> Voltar
           </button>
-          <h2 style="font-family: &quot;Syne&quot;; font-weight: 700">
+          <h2 class="header-aluno">
             Histórico de Pagamentos
           </h2>
         </div>
 
-        <!-- Resumo de Pagamentos -->
+        
         <div class="row g-3 mb-4">
           <div class="col-md-4">
             <div class="summary-card">
@@ -209,7 +202,7 @@
           </div>
         </div>
 
-        <!-- Lista de Pagamentos -->
+        
         <div id="historicoList" class="mensalidades-list">
           <div class="spinner-border text-danger" role="status">
             <span class="visually-hidden">Carregando...</span>
@@ -222,4 +215,3 @@
     <script src="mensalidades.js"></script>
   </body>
 </html>
-
