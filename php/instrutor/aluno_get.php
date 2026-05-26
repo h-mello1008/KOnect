@@ -1,5 +1,5 @@
 <?php
-    include_once('../conexao.php'); // Ajuste o caminho do conexao.php se necessário
+    include_once('../conexao.php');
 
     $retorno = [
         'status'    => '',
@@ -7,7 +7,6 @@
         'data'      => []
     ];
 
-    // Se passar ID, busca um específico. Se não, busca todos.
     if(isset($_GET['id'])){
         $stmt = $conexao->prepare("
             SELECT u.email, a.* FROM Usuario u 
