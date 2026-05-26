@@ -7,7 +7,7 @@ async function carregarTabelaPagamentos() {
 
     try {
         // Reutilizamos a rota de alunos, pois o status financeiro (Ativo/Inativo/Bloqueado) está nela
-        const response = await fetch('/KOnect/php/instrutor/aluno_get.php');
+        const response = await fetch('../../php/instrutor/aluno_get.php');
         const resultado = await response.json();
         
         tbody.innerHTML = ''; // Limpa a tabela

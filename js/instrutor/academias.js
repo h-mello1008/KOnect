@@ -6,7 +6,7 @@ async function carregarAcademias() {
     const container = document.getElementById('listaAcademias');
     
     try {
-        const response = await fetch('/KOnect/php/instrutor/academia_get.php');
+        const response = await fetch('../../php/instrutor/academia_get.php');
         const resultado = await response.json();
         
         container.innerHTML = '';

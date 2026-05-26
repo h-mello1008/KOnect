@@ -17,7 +17,7 @@ async function carregarAlunos() {
     const tbody = document.getElementById('tabelaAlunos');
     
     try {
-        const response = await fetch('/KOnect/php/instrutor/aluno_get.php');
+        const response = await fetch('../../php/instrutor/aluno_get.php');
         const resultado = await response.json();
         
         tbody.innerHTML = '';
@@ -97,7 +97,7 @@ async function salvarPerfilAluno() {
     const formData = new FormData(form);
 
     try {
-        const response = await fetch(`/KOnect/php/instrutor/aluno_alterar.php?id=${id}`, {
+        const response = await fetch(`../../php/instrutor/aluno_alterar.php?id=${id}`, {
             method: 'POST',
             body: formData
         });
@@ -136,7 +136,7 @@ async function abrirFaixa(aluno) {
     instModalFaixa.show();
 
     try {
-        const response = await fetch(`/KOnect/php/instrutor/aluno_progresso_faixa.php?id=${aluno.id_usuario}`);
+        const response = await fetch(`../../php/instrutor/aluno_progresso_faixa.php?id=${aluno.id_usuario}`);
         const json = await response.json();
 
         if (json.status === 'ok') {

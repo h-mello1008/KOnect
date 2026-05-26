@@ -7,7 +7,7 @@ document.getElementById('formNovoAviso').addEventListener('submit', async (e) =>
 
     try {
         // Envia para um futuro PHP que salvará o aviso no banco de dados
-        const response = await fetch('/KOnect/php/instrutor/aviso_novo.php', {
+        const response = await fetch('../../php/instrutor/aviso_novo.php', {
             method: 'POST',
             body: formData
         });
