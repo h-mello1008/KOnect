@@ -6,7 +6,7 @@ async function carregarInstrutores() {
     const tbody = document.getElementById('tabelaInstrutores');
 
     try {
-        const response = await fetch('/KOnect/php/admin/instrutor_get.php');
+        const response = await fetch('../../../php/admin/instrutor_get.php');
         const resultado = await response.json();
 
         tbody.innerHTML = '';
