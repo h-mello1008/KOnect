@@ -203,7 +203,7 @@ async function confirmarExcluirRegra(regraId) {
   if (confirm("Tem certeza que deseja excluir esta regra?")) {
     try {
       const response = await fetch(
-        `/KOnect/php/graduacao/graduacao_regra_excluir.php?id=${regraId}`,
+        `../../../php/graduacao/graduacao_regra_excluir.php?id=${regraId}`,
       );
       const resultado = await response.json();
 
