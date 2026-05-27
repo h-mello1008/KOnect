@@ -176,13 +176,13 @@ Produto (id, nome, precoVenda, estoqueAtual, academia_id)
 2. **Acessar a API:**
 
    ```
-   Base URL: http://localhost/konect/KOnect/
+   Base URL: http://localhost/KOnect/
    ```
 
 3. **Fazer login:**
 
    ```bash
-   curl -X POST http://localhost/konect/KOnect/php/usuario/usuario_login.php \
+   curl -X POST http://localhost/KOnect/php/usuario/usuario_login.php \
      -d "email=admin@konect.com&senha=admin123"
    ```
 
@@ -195,7 +195,7 @@ Produto (id, nome, precoVenda, estoqueAtual, academia_id)
 ### 📁 ESTRUTURA FINAL
 
 ```
-/opt/lampp/htdocs/konect/KOnect/
+/opt/lampp/htdocs/KOnect/
 ├── README.md
 ├── API_DOCUMENTATION.md
 ├── EXEMPLOS_REQUISICOES.md

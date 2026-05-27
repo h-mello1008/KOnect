@@ -5,7 +5,7 @@ let academiaFiltro = null;
 async function carregarFluxoCaixa() {
   try {
     const response = await fetch(
-      "/KOnect/KOnect/php/mensalidade/mensalidade_fluxo_caixa.php",
+      "/KOnect/php/mensalidade/mensalidade_fluxo_caixa.php",
     );
     const resultado = await response.json();
 
@@ -22,7 +22,7 @@ async function carregarFluxoCaixa() {
 
 async function carregarMensalidades(academiaId = null) {
   try {
-    let url = "/KOnect/KOnect/php/mensalidade/mensalidade_get.php";
+    let url = "/KOnect/php/mensalidade/mensalidade_get.php";
     if (academiaId) {
       url += `?academia_id=${academiaId}`;
     }
@@ -134,7 +134,7 @@ function renderizarMensalidades() {
 async function filtrarPorAcademia(academiaId) {
   if (academiaId) {
     const response = await fetch(
-      `/KOnect/KOnect/php/mensalidade/mensalidade_fluxo_caixa.php?academia_id=${academiaId}`,
+      `/KOnect/php/mensalidade/mensalidade_fluxo_caixa.php?academia_id=${academiaId}`,
     );
     const resultado = await response.json();
 

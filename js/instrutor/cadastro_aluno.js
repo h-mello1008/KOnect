@@ -4,7 +4,7 @@ document.getElementById('formCadastroAluno').addEventListener('submit', async (e
     const instrutorLogado = JSON.parse(localStorage.getItem('instrutor_logado') || '{}');
     if (!instrutorLogado.id) {
         alert('Sessão expirada. Faça login novamente.');
-        window.location.href = '/KOnect/KOnect/pages/instrutor/login_instrutor/login_instrutor.html';
+        window.location.href = '/KOnect/pages/instrutor/login_instrutor/login_instrutor.html';
         return;
     }
 
@@ -35,7 +35,7 @@ document.getElementById('formCadastroAluno').addEventListener('submit', async (e
     });
 
     try {
-        const response = await fetch('/KOnect/KOnect/php/aluno/aluno_novo.php', {
+        const response = await fetch('/KOnect/php/aluno/aluno_novo.php', {
             method: 'POST',
             body: formData
         });
@@ -44,7 +44,7 @@ document.getElementById('formCadastroAluno').addEventListener('submit', async (e
 
         if (resultado.status === 'ok') {
             alert("Aluno salvo com sucesso!");
-            window.location.href = '/KOnect/KOnect/pages/instrutor/alunos.html';
+            window.location.href = '/KOnect/pages/instrutor/alunos.html';
         } else {
             alert('Erro: ' + resultado.mensagem);
         }
