@@ -22,12 +22,22 @@
   <body>
     <nav class="topnav py-3 mb-5">
       <div class="container d-flex align-items-center justify-content-between">
-        <a
-          class="brand"
-          href="../home_admin/index.html"
-          style="text-decoration: none; color: white"
-          >KO<span>nect</span> <span class="brand-badge">Admin</span></a
-        >
+        <div class="d-flex align-items-center gap-4">
+          <a
+            class="brand"
+            href="../../../index.html"
+            style="text-decoration: none; color: white"
+            >KO<span>nect</span> <span class="brand-badge">Admin</span></a
+          >
+          <a
+            href="../home_admin/index.html"
+            class="btn btn-sm btn-outline-light"
+            style="border-color: var(--border)"
+          >
+            <i class="bi bi-arrow-left"></i> Painel Admin
+          </a>
+        </div>
+        <div class="fw-bold text-muted">Módulo: Relatórios</div>
         <div class="d-flex align-items-center gap-3">
           <span class="admin-name" id="adminNome"></span>
           <button class="btn-logout" onclick="logout()">

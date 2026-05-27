@@ -18,7 +18,7 @@ async function carregarGradeHoraria() {
             ordenarAulas(resultado.data).forEach(aula => {
                 desenharAulaNaGrade(aula);
             });
-
+Módulo
             diasDaSemana.forEach(dia => {
                 const coluna = document.getElementById(`classes-${dia}`);
                 if (coluna && coluna.children.length === 0) {
