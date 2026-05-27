@@ -25,7 +25,7 @@ document.getElementById('formCadastroAluno').addEventListener('submit', async (e
         plano: form.querySelector('[name="plano"]:checked').value,
         aceitou_termos: form.querySelector('[name="aceite_termos"]').checked ? 1 : 0,
         atestadoMedico: form.querySelector('[name="atestado_medico"]').files[0]?.name ? 1 : 0,
-        graduacao_id: null,
+        graduacao_id: 1,
         instrutor_id: instrutorLogado.id
     };
 

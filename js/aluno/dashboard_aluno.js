@@ -13,25 +13,11 @@ async function validarSessao() {
     if (resultado.status === 'ok') {
       const usuarioData = resultado.data;
       document.getElementById('userName').textContent = usuarioData.email || 'Aluno';
-      loadUserProgress();
     } else {
       window.location.href = '/KOnect/pages/aluno/login_aluno/index.html';
     }
   } catch (erro) {
     window.location.href = '/KOnect/pages/aluno/login_aluno/index.html';
-  }
-}
-
-function loadUserProgress() {
-  const userCourse = localStorage.getItem("userCourse") || "Curso";
-  document.getElementById("userCourse").textContent = userCourse;
-  updateProgressBar(localStorage.getItem("userProgress") || 0);
-}
-
-function updateProgressBar(percentage) {
-  const progressFill = document.getElementById("progressBar");
-  if (progressFill) {
-    progressFill.style.width = percentage + "%";
   }
 }
 
@@ -195,8 +181,6 @@ async function carregarAvisosAcademia() {
 
 function logout() {
   localStorage.removeItem("aluno_logado");
-  localStorage.removeItem("userCourse");
-  localStorage.removeItem("userProgress");
 
   window.location.href = "../../../index.html";
 }
