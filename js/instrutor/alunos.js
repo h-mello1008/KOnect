@@ -132,9 +132,49 @@ async function salvarPerfilAluno() {
     }
 }
 
-function abrirPresenca(aluno) {
-    document.getElementById('nomePresencaAtleta').textContent = aluno.nome;
+async function abrirPresenca(aluno) {
+    // Seleciona o corpo do modal de presença
+    const modalBody = document.querySelector('#modalHistoricoPresenca .modal-body');
+    
+    // Mostra o nome do aluno e um ícone de carregamento enquanto busca
+    modalBody.innerHTML = `
+        <p class="fw-bold text-white mb-3 fs-5">${aluno.nome}</p>
+        <div class="text-center text-muted py-3">
+            <div class="spinner-border text-danger mb-2" role="status"></div>
+            <p>Calculando total de presenças...</p>
+        </div>
+    `;
+    
     instModalPresenca.show();
+
+    try {
+        const response = await fetch(`/KOnect/php/instrutor/aluno_progresso_faixa.php?id=${aluno.id_usuario}`);
+        const json = await response.json();
+
+        if (json.status === 'ok') {
+            const totalPresencas = json.data.presencas;
+            
+            modalBody.innerHTML = `
+                <p class="fw-bold text-white mb-3 fs-5">${aluno.nome}</p>
+                <div class="p-4 rounded text-center" style="background-color: rgba(225, 29, 72, 0.1); border: 1px solid var(--accent);">
+                    <i class="bi bi-calendar-check-fill fs-1 d-block mb-2" style="color: var(--accent);"></i>
+                    <h1 class="fw-bold text-white mb-0" style="font-size: 3rem;">${totalPresencas}</h1>
+                    <span class="text-muted small text-uppercase fw-bold mt-2 d-block">Presenças Registradas</span>
+                </div>
+            `;
+        } else {
+            modalBody.innerHTML = `
+                <p class="fw-bold text-white mb-3 fs-5">${aluno.nome}</p>
+                <p class="text-danger">Erro: ${json.mensagem}</p>
+            `;
+        }
+    } catch (erro) {
+        console.error("Erro ao buscar presenças:", erro);
+        modalBody.innerHTML = `
+            <p class="fw-bold text-white mb-3 fs-5">${aluno.nome}</p>
+            <p class="text-danger">Erro ao comunicar com o servidor.</p>
+        `;
+    }
 }
 
 async function abrirFaixa(aluno) {
