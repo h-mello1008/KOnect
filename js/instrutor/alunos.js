@@ -18,7 +18,7 @@ async function carregarAlunos() {
     }
 
     try {
-        const response = await fetch('../../php/instrutor/aluno_get.php');
+        const response = await fetch(`/KOnect/KOnect/php/instrutor/aluno_get.php?instrutor_id=${instrutorLogado.id}`);
         const resultado = await response.json();
 
         tbody.innerHTML = '';
@@ -94,11 +94,7 @@ async function salvarPerfilAluno() {
     const formData = new FormData(form);
 
     try {
-<<<<<<< HEAD
         const response = await fetch(`/KOnect/KOnect/php/instrutor/aluno_alterar.php?id=${id}`, {
-=======
-        const response = await fetch(`../../php/instrutor/aluno_alterar.php?id=${id}`, {
->>>>>>> main
             method: 'POST',
             body: formData
         });
@@ -134,11 +130,7 @@ async function abrirFaixa(aluno) {
     instModalFaixa.show();
 
     try {
-<<<<<<< HEAD
         const response = await fetch(`/KOnect/KOnect/php/instrutor/aluno_progresso_faixa.php?id=${aluno.id_usuario}`);
-=======
-        const response = await fetch(`../../php/instrutor/aluno_progresso_faixa.php?id=${aluno.id_usuario}`);
->>>>>>> main
         const json = await response.json();
 
         if (json.status === 'ok') {
