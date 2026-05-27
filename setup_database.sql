@@ -201,6 +201,20 @@ CREATE TABLE IF NOT EXISTS Avisos (
     FOREIGN KEY (academia_id) REFERENCES Academia(id)
 );
 
+CREATE TABLE IF NOT EXISTS Agenda (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    dia VARCHAR(3) NOT NULL,
+    hora TIME NOT NULL,
+    modalidade VARCHAR(255) NOT NULL,
+    instrutor_id INT NOT NULL,
+    academia_id INT NOT NULL,
+    ativo TINYINT(1) DEFAULT 1,
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    data_atualizacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (instrutor_id) REFERENCES Instrutor(id_usuario),
+    FOREIGN KEY (academia_id) REFERENCES Academia(id)
+);
+
 INSERT INTO Academia (nome, cnpj, endereco, status_ativo) VALUES
 ('Academia KOnect Central', '12345678901234', 'Rua Principal, 123', 1),
 ('Academia KOnect Norte', '98765432101234', 'Rua Norte, 456', 1),

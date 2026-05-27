@@ -2,14 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   carregarAgendaAluno();
 });
 
-const agendaPadraoAluno = [
-  { dia: 'seg', hora: '08:00', modalidade: 'Muay Thai' },
-  { dia: 'seg', hora: '19:00', modalidade: 'Sparring' },
-  { dia: 'qua', hora: '19:00', modalidade: 'Técnico' },
-  { dia: 'sex', hora: '18:00', modalidade: 'Graduados' }
-];
-
-function carregarAgendaAluno() {
+async function carregarAgendaAluno() {
   const diasDaSemana = ['seg', 'ter', 'qua', 'qui', 'sex'];
 
   diasDaSemana.forEach((dia) => {
@@ -17,12 +10,17 @@ function carregarAgendaAluno() {
     if (coluna) coluna.innerHTML = '';
   });
 
-  const aulasSalvas = JSON.parse(localStorage.getItem('agenda_instrutor') || 'null');
-  const aulas = Array.isArray(aulasSalvas) ? aulasSalvas : agendaPadraoAluno;
+  try {
+    const response = await fetch('/KOnect/php/aluno/agenda_get.php', { credentials: 'include' });
+    const resultado = await response.json();
+    const aulas = resultado.status === 'ok' && Array.isArray(resultado.data) ? resultado.data : [];
 
-  ordenarAulas(aulas).forEach((aula) => {
-    desenharAulaAluno(aula.dia, aula.hora, aula.modalidade);
-  });
+    ordenarAulas(aulas).forEach((aula) => {
+      desenharAulaAluno(aula.dia, aula.hora, aula.modalidade);
+    });
+  } catch (erro) {
+    console.error('Erro ao carregar agenda do aluno:', erro);
+  }
 
   diasDaSemana.forEach((dia) => {
     const coluna = document.getElementById(`aulas-aluno-${dia}`);
@@ -39,15 +37,15 @@ function desenharAulaAluno(dia, hora, modalidade) {
   const cardAula = document.createElement('div');
   cardAula.className = 'class-card';
   cardAula.innerHTML = `
-    <span class="class-time">${hora}</span>
-    <span class="text-muted d-block mt-1">${modalidade}</span>
+    <span class="class-time">${escapeHtml(hora)}</span>
+    <span class="text-muted d-block mt-1">${escapeHtml(modalidade)}</span>
   `;
 
   coluna.appendChild(cardAula);
 }
 
 function ordenarAulas(aulas) {
-  const ordemDias = ['seg', 'ter', 'qua', 'qui', 'sex'];
+  const ordemDias = ['seg', 'ter', 'qua', 'qui', 'sex', 'sab', 'dom'];
 
   return [...aulas].sort((aulaA, aulaB) => {
     const ordemDiaA = ordemDias.indexOf(aulaA.dia);
@@ -56,4 +54,13 @@ function ordenarAulas(aulas) {
     if (ordemDiaA !== ordemDiaB) return ordemDiaA - ordemDiaB;
     return aulaA.hora.localeCompare(aulaB.hora);
   });
+}
+
+function escapeHtml(valor) {
+  return String(valor)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
 }
