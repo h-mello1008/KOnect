@@ -849,7 +849,7 @@ body:not(.page-light) .btn-outline-secondary:hover {
 .badge-alerta  { background-color: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.4); }
 .badge-perigo  { background-color: rgba(225, 29, 72, 0.2);  color: #ff85a2; border: 1px solid rgba(225, 29, 72, 0.4); }
 
-.modal {
+.modal:not(.fade) {
   display: none;
   position: fixed;
   z-index: 1060;
@@ -862,11 +862,15 @@ body:not(.page-light) .btn-outline-secondary:hover {
   justify-content: center;
 }
 
+<<<<<<< Updated upstream
 .modal-backdrop {
   z-index: 1050;
 }
 
 .modal-content {
+=======
+.modal:not(.fade) > .modal-content {
+>>>>>>> Stashed changes
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: 20px;
@@ -882,7 +886,7 @@ body:not(.page-light) .btn-outline-secondary:hover {
   to   { transform: translateY(0); opacity: 1; }
 }
 
-.modal-header {
+.modal:not(.fade) .modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -890,11 +894,11 @@ body:not(.page-light) .btn-outline-secondary:hover {
   border-bottom: 1px solid var(--border);
 }
 
-.modal-header h3 { margin: 0; font-size: 1.2rem; }
+.modal:not(.fade) .modal-header h3 { margin: 0; font-size: 1.2rem; }
 
-.modal-body { padding: 2rem; }
+.modal:not(.fade) .modal-body { padding: 2rem; }
 
-.modal-footer {
+.modal:not(.fade) .modal-footer {
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
@@ -1234,7 +1238,7 @@ body:not(.page-light) .btn-outline-secondary:hover {
     font-size: 0.8rem;
   }
 
-  .modal-content {
+  .modal:not(.fade) > .modal-content {
     width: 95%;
     max-height: 90vh;
   }

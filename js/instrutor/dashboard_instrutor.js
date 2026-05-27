@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function fazerLogout() {
     localStorage.removeItem('instrutor_logado');
-    window.location.href = '/KOnect/KOnect/pages/instrutor/login_instrutor/login_instrutor.html';
+    window.location.href = '/KOnect/index.html';
 }
 
 function abrirTab(evt, tabName) {

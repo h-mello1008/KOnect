@@ -5,8 +5,21 @@ document.addEventListener('DOMContentLoaded', () => {
     instModalPresenca = new bootstrap.Modal(document.getElementById('modalHistoricoPresenca'));
     instModalFaixa    = new bootstrap.Modal(document.getElementById('modalEvolucaoFaixa'));
 
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('hidden.bs.modal', limparBackdropsTravados);
+    });
+
     carregarAlunos();
 });
+
+function limparBackdropsTravados() {
+    if (document.querySelector('.modal.show')) return;
+
+    document.querySelectorAll('.modal-backdrop').forEach(backdrop => backdrop.remove());
+    document.body.classList.remove('modal-open');
+    document.body.style.removeProperty('overflow');
+    document.body.style.removeProperty('padding-right');
+}
 
 async function carregarAlunos() {
     const tbody = document.getElementById('tabelaAlunos');
@@ -18,7 +31,10 @@ async function carregarAlunos() {
     }
 
     try {
-        const response = await fetch(`/KOnect/KOnect/php/instrutor/aluno_get.php?instrutor_id=${instrutorLogado.id}`);
+        const response = await fetch(`/KOnect/php/instrutor/aluno_get.php?instrutor_id=${instrutorLogado.id}`);
+        if (!response.ok) {
+            throw new Error(`Erro HTTP ${response.status} ao buscar alunos`);
+        }
         const resultado = await response.json();
 
         tbody.innerHTML = '';
@@ -94,10 +110,13 @@ async function salvarPerfilAluno() {
     const formData = new FormData(form);
 
     try {
-        const response = await fetch(`/KOnect/KOnect/php/instrutor/aluno_alterar.php?id=${id}`, {
+        const response = await fetch(`/KOnect/php/instrutor/aluno_alterar.php?id=${id}`, {
             method: 'POST',
             body: formData
         });
+        if (!response.ok) {
+            throw new Error(`Erro HTTP ${response.status} ao salvar aluno`);
+        }
         const json = await response.json();
 
         if (json.status === 'ok') {
@@ -130,7 +149,7 @@ async function abrirFaixa(aluno) {
     instModalFaixa.show();
 
     try {
-        const response = await fetch(`/KOnect/KOnect/php/instrutor/aluno_progresso_faixa.php?id=${aluno.id_usuario}`);
+        const response = await fetch(`/KOnect/php/instrutor/aluno_progresso_faixa.php?id=${aluno.id_usuario}`);
         const json = await response.json();
 
         if (json.status === 'ok') {
@@ -148,7 +167,7 @@ async function deletarAluno(aluno, tr) {
     if (!confirm(`Tem certeza que deseja deletar o aluno "${aluno.nome}"? Esta ação não pode ser desfeita.`)) return;
 
     try {
-        const response = await fetch(`/KOnect/KOnect/php/instrutor/aluno_deletar.php?id=${aluno.id_usuario}`, {
+        const response = await fetch(`/KOnect/php/instrutor/aluno_deletar.php?id=${aluno.id_usuario}`, {
             method: 'DELETE'
         });
         const json = await response.json();

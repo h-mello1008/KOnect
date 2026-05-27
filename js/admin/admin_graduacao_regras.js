@@ -5,13 +5,13 @@ let regraEmEdicao = null;
 
 async function carregarDadosGraduacao() {
   try {
-    const resGrad = await fetch("/KOnect/KOnect/php/graduacao/graduacao_get.php");
+    const resGrad = await fetch("/KOnect/php/graduacao/graduacao_get.php");
     const resGradJSON = await resGrad.json();
     if (resGradJSON.status === "ok") {
       graduacoes = resGradJSON.data;
     }
 
-    const resMod = await fetch("/KOnect/KOnect/php/modalidade/modalidade_get.php");
+    const resMod = await fetch("/KOnect/php/modalidade/modalidade_get.php");
     const resModJSON = await resMod.json();
     if (resModJSON.status === "ok") {
       modalidades = resModJSON.data;
@@ -27,7 +27,7 @@ async function carregarDadosGraduacao() {
 async function carregarRegras() {
   try {
     const response = await fetch(
-      "/KOnect/KOnect/php/graduacao/graduacao_regra_get.php",
+      "/KOnect/php/graduacao/graduacao_regra_get.php",
     );
     const resultado = await response.json();
 
@@ -112,7 +112,7 @@ async function criarNovaRegra() {
 
   try {
     const response = await fetch(
-      `/KOnect/KOnect/php/graduacao/graduacao_regra_novo.php`,
+      `/KOnect/php/graduacao/graduacao_regra_novo.php`,
       {
         method: "POST",
         body: formData,
@@ -177,7 +177,7 @@ async function salvarAlteracoesRegra() {
 
   try {
     const response = await fetch(
-      `/KOnect/KOnect/php/graduacao/graduacao_regra_alterar.php?id=${regraEmEdicao.id}`,
+      `/KOnect/php/graduacao/graduacao_regra_alterar.php?id=${regraEmEdicao.id}`,
       {
         method: "POST",
         body: formData,
@@ -203,7 +203,7 @@ async function confirmarExcluirRegra(regraId) {
   if (confirm("Tem certeza que deseja excluir esta regra?")) {
     try {
       const response = await fetch(
-        `/KOnect/KOnect/php/graduacao/graduacao_regra_excluir.php?id=${regraId}`,
+        `/KOnect/php/graduacao/graduacao_regra_excluir.php?id=${regraId}`,
       );
       const resultado = await response.json();
 

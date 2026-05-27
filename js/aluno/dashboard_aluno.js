@@ -69,7 +69,7 @@ async function realizarCheckIn() {
 
 async function verificarInadimplencia() {
   try {
-    const response = await fetch('/KOnect/KOnect/php/aluno/mensalidade_get.php', { credentials: 'include' });
+    const response = await fetch('/KOnect/php/aluno/mensalidade_get.php', { credentials: 'include' });
     const resultado = await response.json();
 
     if (resultado.status === 'ok' && resultado.data.length > 0) {
@@ -166,7 +166,7 @@ async function carregarAvisosAcademia() {
   if (!container) return;
 
   try {
-    const response = await fetch('/KOnect/KOnect/php/aluno/avisos_get.php', { credentials: 'include' });
+    const response = await fetch('/KOnect/php/aluno/avisos_get.php', { credentials: 'include' });
     const resultado = await response.json();
 
     if (resultado.status === 'ok' && resultado.data.length > 0) {
