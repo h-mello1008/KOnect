@@ -34,7 +34,6 @@
         session_start();
 
         try {
-            // Inserir usuário base
             $stmt_usuario = $conexao->prepare("INSERT INTO Usuario(email, senha) VALUES(?, ?)");
             $stmt_usuario->bind_param("ss", $email, $senha);
             $stmt_usuario->execute();
@@ -42,7 +41,6 @@
             if($stmt_usuario->affected_rows > 0){
                 $usuario_id = $stmt_usuario->insert_id;
 
-                // Inserir instrutor
                 $stmt_instrutor = $conexao->prepare("
                     INSERT INTO Instrutor(
                         id_usuario, nome, telefone_responsavel, cpf, dataNascimento,

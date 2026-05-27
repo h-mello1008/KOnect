@@ -36,31 +36,11 @@
             <p class="text-muted small mb-0">Gerencie os instrutores da plataforma</p>
           </a>
         </div>
-        <div class="col-md-4 col-sm-6">
-          <a href="../get_academias/get_academias.html" class="hub-card">
-            <div class="hub-icon"><i class="bi bi-mortarboard-fill"></i></div>
-            <h5 class="fw-bold">Alunos</h5>
-            <p class="text-muted small mb-0">Visualize e gerencie os alunos</p>
-          </a>
-        </div>
-        <div class="col-md-4 col-sm-6">
-          <a href="../get_academias/get_academias.html" class="hub-card">
-            <div class="hub-icon"><i class="bi bi-bar-chart-fill"></i></div>
-            <h5 class="fw-bold">Relatórios</h5>
-            <p class="text-muted small mb-0">Estatísticas gerais da plataforma</p>
-          </a>
-        </div>
       </div>
 
       <div class="admin-tabs mb-4">
         <button class="tab-btn tab-btn--active" onclick="abrirTab(event, 'academias')">
           <i class="bi bi-building"></i> Academias
-        </button>
-        <button class="tab-btn" onclick="abrirTab(event, 'graduacao')">
-          <i class="bi bi-award"></i> Regras de Graduação
-        </button>
-        <button class="tab-btn" onclick="abrirTab(event, 'fluxo')">
-          <i class="bi bi-cash-coin"></i> Fluxo de Caixa
         </button>
       </div>
 
@@ -89,117 +69,6 @@
         </div>
       </div>
 
-      <div id="graduacao" class="tab-content">
-        <div class="section-card">
-          <h2 class="section-title">Personalizar Regras de Graduação</h2>
-          <p class="section-subtitle">Configure regras de promoção por estilo de arte marcial.</p>
-          <div class="row g-4">
-            <div class="col-lg-6">
-              <div class="form-card">
-                <h4>Nova Regra de Graduação</h4>
-                <form id="formNovaRegra">
-                  <div class="mb-3">
-                    <label class="form-label">Modalidade *</label>
-                    <select id="novaRegraModalidade" class="form-control" required>
-                      <option value="">Selecione a Modalidade</option>
-                    </select>
-                  </div>
-                  <div class="mb-3">
-                    <label class="form-label">Graduação *</label>
-                    <select id="novaRegraGraduacao" class="form-control" required>
-                      <option value="">Selecione a Graduação</option>
-                    </select>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <div class="mb-3">
-                        <label class="form-label">Tempo Mínimo (meses)</label>
-                        <input type="number" id="novaRegraTempo" class="form-control" min="0" value="0" />
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <div class="mb-3">
-                        <label class="form-label">Pontuação Mínima</label>
-                        <input type="number" id="novaRegraPontuacao" class="form-control" min="0" value="0" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="mb-3">
-                    <label class="form-label">Descrição</label>
-                    <input type="text" id="novaRegraDescricao" class="form-control" placeholder="Ex: Deve dominar os kumites básicos" />
-                  </div>
-                  <div class="mb-3">
-                    <label class="form-label">Requisitos</label>
-                    <textarea id="novaRegraRequisitos" class="form-control" rows="3" placeholder="Detalhes dos requisitos técnicos..."></textarea>
-                  </div>
-                  <button type="button" class="btn-primary" onclick="criarNovaRegra()">
-                    <i class="bi bi-plus-circle"></i> Criar Regra
-                  </button>
-                </form>
-              </div>
-            </div>
-            <div class="col-lg-6">
-              <div class="table-responsive">
-                <table class="admin-table">
-                  <thead>
-                    <tr>
-                      <th>Modalidade</th>
-                      <th>Faixa</th>
-                      <th>Tempo Min.</th>
-                      <th>Pontos Min.</th>
-                      <th>Descrição</th>
-                      <th>Ações</th>
-                    </tr>
-                  </thead>
-                  <tbody id="corpoRegras">
-                    <tr>
-                      <td colspan="6" class="text-center text-muted">Carregando...</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div id="fluxo" class="tab-content">
-        <div class="section-card">
-          <h2 class="section-title">Monitorar Fluxo de Caixa</h2>
-          <p class="section-subtitle">Acompanhe o status de pagamentos e receitas das academias.</p>
-          <div id="estatisticasFluxoCaixa" class="stats-grid mb-5">
-            <div class="stat-card stat-card--green">
-              <div class="stat-icon">
-                <i class="bi bi-check-circle-fill"></i>
-              </div>
-              <div class="stat-info">
-                <span class="stat-label">Pago</span>
-                <span class="stat-valor">R$ 0,00</span>
-                <span class="stat-qty">0 mensalidades</span>
-              </div>
-            </div>
-          </div>
-          <div class="table-responsive">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Aluno</th>
-                  <th>Modalidade</th>
-                  <th>Mês</th>
-                  <th>Valor</th>
-                  <th>Vencimento</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody id="corpoMensalidades">
-                <tr>
-                  <td colspan="6" class="text-center text-muted">Carregando...</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
     </main>
 
     <div id="modalEditarAcademia" class="modal">
@@ -235,46 +104,7 @@
       </div>
     </div>
 
-    <div id="modalEditarRegra" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>Editar Regra de Graduação</h3>
-          <button class="btn-fechar" onclick="fecharModalRegra()">&times;</button>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="mb-3">
-                <label class="form-label">Tempo Mínimo (meses)</label>
-                <input type="number" id="editRegraTempoMinimo" class="form-control" min="0" />
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="mb-3">
-                <label class="form-label">Pontuação Mínima</label>
-                <input type="number" id="editRegraPontuacaoMinima" class="form-control" min="0" />
-              </div>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Descrição</label>
-            <input type="text" id="editRegraDescricao" class="form-control" />
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Requisitos</label>
-            <textarea id="editRegraRequisitos" class="form-control" rows="3"></textarea>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn-secondary" onclick="fecharModalRegra()">Cancelar</button>
-          <button class="btn-primary" onclick="salvarAlteracoesRegra()">Salvar</button>
-        </div>
-      </div>
-    </div>
-
     <script src="../../../js/admin/home_admin.js"></script>
     <script src="../../../js/admin/admin_academias.js"></script>
-    <script src="../../../js/admin/admin_graduacao_regras.js"></script>
-    <script src="../../../js/admin/admin_fluxo_caixa.js"></script>
   </body>
 </html>

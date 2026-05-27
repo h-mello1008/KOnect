@@ -9,14 +9,21 @@
 
     if(isset($_GET['id'])){
         $stmt = $conexao->prepare("
-            SELECT u.email, a.* FROM Usuario u 
-            JOIN Aluno a ON u.id = a.id_usuario 
+            SELECT u.email, a.* FROM Usuario u
+            JOIN Aluno a ON u.id = a.id_usuario
             WHERE a.id_usuario = ?
         ");
         $stmt->bind_param("i", $_GET['id']);
+    } elseif(isset($_GET['instrutor_id'])){
+        $stmt = $conexao->prepare("
+            SELECT u.email, a.* FROM Usuario u
+            JOIN Aluno a ON u.id = a.id_usuario
+            WHERE a.instrutor_id = ?
+        ");
+        $stmt->bind_param("i", $_GET['instrutor_id']);
     } else {
         $stmt = $conexao->prepare("
-            SELECT u.email, a.* FROM Usuario u 
+            SELECT u.email, a.* FROM Usuario u
             JOIN Aluno a ON u.id = a.id_usuario
         ");
     }

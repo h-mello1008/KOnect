@@ -1,14 +1,7 @@
 <?php
-    // ==========================================================
-    // MODO DEBUG ATIVADO: Força o PHP a mostrar qualquer erro na tela
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
-    // ==========================================================
-
-    // ATENÇÃO AO CAMINHO:
-    // Se este arquivo está em 'php/aluno/', use '../../conexao.php'
-    // Se este arquivo está em 'php/', use '../conexao.php'
-    include_once('../conexao.php'); 
+    include_once('../conexao.php');
 
     $retorno = [
         'status'    => '',
@@ -19,22 +12,20 @@
     if(isset($_GET['id'])){
         $id_usuario = (int)$_GET['id'];
 
-        // 1. Busca os dados atuais do aluno
         $sql_atual = "
-            SELECT 
-                a.nome, 
-                g.id AS id_faixa, 
-                g.corFaixa AS faixa_atual, 
+            SELECT
+                a.nome,
+                g.id AS id_faixa,
+                g.corFaixa AS faixa_atual,
                 g.hierarquia,
                 (SELECT COUNT(*) FROM Frequencia f WHERE f.aluno_id = a.id_usuario AND f.presenca = 1) AS presencas_totais
             FROM Aluno a
             LEFT JOIN Graduacao g ON a.graduacao_id = g.id
             WHERE a.id_usuario = ?
         ";
-        
+
         $stmt = $conexao->prepare($sql_atual);
-        
-        // Se a conexão falhou, o prepare() retorna false e quebra aqui. O Modo Debug vai nos avisar!
+
         if(!$stmt) {
             die("Erro fatal no SQL Atual: " . $conexao->error);
         }
@@ -48,10 +39,9 @@
             $hierarquia_atual = (int)$dados_aluno['hierarquia'];
             $presencas = (int)$dados_aluno['presencas_totais'];
 
-            // 2. Busca a próxima faixa
             $sql_proxima = "SELECT corFaixa, tempoMinimo FROM Graduacao WHERE CAST(hierarquia AS UNSIGNED) > ? ORDER BY CAST(hierarquia AS UNSIGNED) ASC LIMIT 1";
             $stmt_prox = $conexao->prepare($sql_proxima);
-            
+
             if(!$stmt_prox) {
                 die("Erro fatal no SQL Próxima: " . $conexao->error);
             }
@@ -66,8 +56,8 @@
             if($resultado_prox->num_rows > 0){
                 $dados_prox = $resultado_prox->fetch_assoc();
                 $proxima_faixa = $dados_prox['corFaixa'];
-                $meta_aulas = (int)$dados_prox['tempoMinimo'] * 8; 
-                if($meta_aulas == 0) $meta_aulas = 24; 
+                $meta_aulas = (int)$dados_prox['tempoMinimo'] * 8;
+                if($meta_aulas == 0) $meta_aulas = 24;
             }
 
             $retorno = [
@@ -91,10 +81,9 @@
     }
 
     $conexao->close();
-    
+
     header("Content-type:application/json;charset:utf-8");
-    
-    // Tratamento de erro final para garantir que algo apareça
+
     $json = json_encode($retorno);
     if($json === false) {
         echo json_encode(['status' => 'nok', 'mensagem' => 'Erro interno de conversão JSON']);

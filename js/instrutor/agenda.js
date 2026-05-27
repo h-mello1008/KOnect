@@ -6,15 +6,10 @@ async function carregarGradeHoraria() {
     const diasDaSemana = ['seg', 'ter', 'qua', 'qui', 'sex'];
     diasDaSemana.forEach(dia => {
         const coluna = document.getElementById(`classes-${dia}`);
-        if(coluna) coluna.innerHTML = ''; 
+        if(coluna) coluna.innerHTML = '';
     });
 
     try {
-        // Futuro fetch quando o PHP estiver pronto:
-        // const response = await fetch('/KOnect/php/instrutor/agenda_get.php');
-        // const resultado = await response.json();
-        
-        // Simulação do resultado do banco (Mock) para a apresentação:
         const resultado = {
             status: 'ok',
             data: [
@@ -42,12 +37,12 @@ function desenharAulaNaGrade(dia, hora, modalidade) {
 
     const cardAula = document.createElement('div');
     cardAula.className = 'class-card';
-    
+
     cardAula.innerHTML = `
         <span class="class-time">${hora}</span>
         <span class="text-muted d-block mt-1">${modalidade}</span>
     `;
-    
+
     coluna.appendChild(cardAula);
 }
 

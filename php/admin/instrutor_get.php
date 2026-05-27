@@ -9,17 +9,19 @@
 
     if (isset($_GET['id'])) {
         $stmt = $conexao->prepare("
-            SELECT u.email, i.*
+            SELECT u.email, i.*, a.nome AS academia_nome
             FROM Usuario u
             JOIN Instrutor i ON u.id = i.id_usuario
+            LEFT JOIN Academia a ON i.academia_id = a.id
             WHERE i.id_usuario = ?
         ");
         $stmt->bind_param("i", $_GET['id']);
     } else {
         $stmt = $conexao->prepare("
-            SELECT u.email, i.*
+            SELECT u.email, i.*, a.nome AS academia_nome
             FROM Usuario u
             JOIN Instrutor i ON u.id = i.id_usuario
+            LEFT JOIN Academia a ON i.academia_id = a.id
             ORDER BY i.nome ASC
         ");
     }

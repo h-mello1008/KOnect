@@ -8,9 +8,8 @@
     ];
 
     if(isset($_GET['academia_id'])){
-        // Obter fluxo de caixa de uma academia específica
         $stmt = $conexao->prepare("
-            SELECT 
+            SELECT
                 m.id,
                 m.valor,
                 m.dataLancamento,
@@ -35,9 +34,8 @@
         ");
         $stmt->bind_param("i", $_GET['academia_id']);
     } elseif(isset($_GET['id'])){
-        // Obter uma mensalidade específica
         $stmt = $conexao->prepare("
-            SELECT 
+            SELECT
                 m.id,
                 m.valor,
                 m.dataLancamento,
@@ -61,9 +59,8 @@
         ");
         $stmt->bind_param("i", $_GET['id']);
     } else {
-        // Obter todas as mensalidades
         $stmt = $conexao->prepare("
-            SELECT 
+            SELECT
                 m.id,
                 m.valor,
                 m.dataLancamento,
@@ -86,11 +83,11 @@
             ORDER BY m.dataVencimento DESC
         ");
     }
-    
+
     $stmt->execute();
     $resultado = $stmt->get_result();
     $tabela = [];
-    
+
     if($resultado->num_rows > 0){
         while($linha = $resultado->fetch_assoc()){
             $tabela[] = $linha;
@@ -108,7 +105,7 @@
             'data'      => []
         ];
     }
-    
+
     $stmt->close();
     $conexao->close();
 

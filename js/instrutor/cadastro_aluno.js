@@ -1,6 +1,13 @@
 document.getElementById('formCadastroAluno').addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
+    const instrutorLogado = JSON.parse(localStorage.getItem('instrutor_logado') || '{}');
+    if (!instrutorLogado.id) {
+        alert('Sessão expirada. Faça login novamente.');
+        window.location.href = '/KOnect/KOnect/pages/instrutor/login_instrutor/login_instrutor.html';
+        return;
+    }
+
     const form = e.target;
 
     const alunoData = {
@@ -18,7 +25,8 @@ document.getElementById('formCadastroAluno').addEventListener('submit', async (e
         plano: form.querySelector('[name="plano"]:checked').value,
         aceitou_termos: form.querySelector('[name="aceite_termos"]').checked ? 1 : 0,
         atestadoMedico: form.querySelector('[name="atestado_medico"]').files[0]?.name ? 1 : 0,
-        graduacao_id: null
+        graduacao_id: null,
+        instrutor_id: instrutorLogado.id
     };
 
     const formData = new FormData();
@@ -27,7 +35,7 @@ document.getElementById('formCadastroAluno').addEventListener('submit', async (e
     });
 
     try {
-        const response = await fetch('../../../php/aluno/aluno_novo.php', {
+        const response = await fetch('/KOnect/KOnect/php/aluno/aluno_novo.php', {
             method: 'POST',
             body: formData
         });
@@ -36,9 +44,7 @@ document.getElementById('formCadastroAluno').addEventListener('submit', async (e
 
         if (resultado.status === 'ok') {
             alert("Aluno salvo com sucesso!");
-            form.reset();
-            document.getElementById('valorNivel').textContent = '5';
-            window.location.href = '../../../pages/instrutor/alunos.html';
+            window.location.href = '/KOnect/KOnect/pages/instrutor/alunos.html';
         } else {
             alert('Erro: ' + resultado.mensagem);
         }

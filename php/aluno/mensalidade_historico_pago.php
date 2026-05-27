@@ -1,14 +1,13 @@
 <?php
     session_start();
     include_once(__DIR__ . '/../conexao.php');
-    
+
     $retorno = [
         'status'    => '',
         'mensagem'  => '',
         'data'      => []
     ];
 
-    // Verificar se o usuário está logado
     if(!isset($_SESSION['usuario'])){
         $retorno = [
             'status'    => 'nok',
@@ -22,9 +21,8 @@
 
     $usuario_id = $_SESSION['usuario']['id'];
 
-    // Query para buscar mensalidades pagas do aluno
     $query = "
-        SELECT 
+        SELECT
             m.id,
             m.valor,
             m.dataLancamento,
@@ -51,11 +49,9 @@
     $mensalidades = [];
     if($resultado->num_rows > 0){
         while($linha = $resultado->fetch_assoc()){
-            // Converter valores para tipo apropriado
             $linha['valor'] = (float)$linha['valor'];
             $linha['dias_antecipacao'] = (int)$linha['dias_antecipacao'];
-            
-            // Calcular se foi pago antecipadamente
+
             if($linha['dias_antecipacao'] < 0){
                 $linha['dias_antecipacao_display'] = abs($linha['dias_antecipacao']) . ' dias antes';
             } else if($linha['dias_antecipacao'] > 0){
@@ -63,7 +59,7 @@
             } else {
                 $linha['dias_antecipacao_display'] = 'No dia do vencimento';
             }
-            
+
             $mensalidades[] = $linha;
         }
 

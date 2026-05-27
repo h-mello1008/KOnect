@@ -8,9 +8,8 @@
     ];
 
     if(isset($_GET['academia_id'])){
-        // Obter estatísticas de fluxo de caixa de uma academia
         $stmt = $conexao->prepare("
-            SELECT 
+            SELECT
                 COUNT(*) as total_mensalidades,
                 SUM(CASE WHEN status_pagamento = 'Pago' THEN valor ELSE 0 END) as valor_pago,
                 SUM(CASE WHEN status_pagamento = 'Pendente' THEN valor ELSE 0 END) as valor_pendente,
@@ -19,14 +18,13 @@
                 COUNT(CASE WHEN status_pagamento = 'Pago' THEN 1 END) as qtd_pagas,
                 COUNT(CASE WHEN status_pagamento = 'Pendente' THEN 1 END) as qtd_pendentes,
                 COUNT(CASE WHEN status_pagamento = 'Vencido' THEN 1 END) as qtd_vencidas
-            FROM Mensalidade 
+            FROM Mensalidade
             WHERE academia_id = ?
         ");
         $stmt->bind_param("i", $_GET['academia_id']);
     } else {
-        // Obter estatísticas gerais
         $stmt = $conexao->prepare("
-            SELECT 
+            SELECT
                 COUNT(*) as total_mensalidades,
                 SUM(CASE WHEN status_pagamento = 'Pago' THEN valor ELSE 0 END) as valor_pago,
                 SUM(CASE WHEN status_pagamento = 'Pendente' THEN valor ELSE 0 END) as valor_pendente,
@@ -38,10 +36,10 @@
             FROM Mensalidade
         ");
     }
-    
+
     $stmt->execute();
     $resultado = $stmt->get_result();
-    
+
     if($resultado->num_rows > 0){
         $dados = $resultado->fetch_assoc();
         $retorno = [
@@ -56,7 +54,7 @@
             'data'      => []
         ];
     }
-    
+
     $stmt->close();
     $conexao->close();
 
