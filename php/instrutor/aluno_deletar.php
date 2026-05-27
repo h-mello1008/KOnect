@@ -11,7 +11,18 @@ if ($id <= 0) {
     $retorno = ['status' => 'nok', 'mensagem' => 'ID inválido.', 'data' => []];
 } else {
     try {
-        $tabelas_dependentes = ['Frequencia', 'ExameFaixa', 'Matricula', 'Aluno_Turma'];
+        $conexao->begin_transaction();
+
+        $stmt = $conexao->prepare("
+            DELETE m FROM Mensalidade m
+            INNER JOIN Matricula mt ON mt.id = m.matricula_id
+            WHERE mt.aluno_id = ?
+        ");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $stmt->close();
+
+        $tabelas_dependentes = ['Frequencia', 'ExameFaixa', 'Aluno_Turma', 'Matricula'];
         foreach ($tabelas_dependentes as $tabela) {
             $stmt = $conexao->prepare("DELETE FROM $tabela WHERE aluno_id = ?");
             $stmt->bind_param("i", $id);
@@ -29,8 +40,10 @@ if ($id <= 0) {
         $stmt_usuario->execute();
         $stmt_usuario->close();
 
+        $conexao->commit();
         $retorno = ['status' => 'ok', 'mensagem' => 'Aluno removido com sucesso.', 'data' => []];
     } catch (mysqli_sql_exception $e) {
+        $conexao->rollback();
         $retorno = ['status' => 'nok', 'mensagem' => 'Erro ao remover aluno: ' . $e->getMessage(), 'data' => []];
     }
 }
