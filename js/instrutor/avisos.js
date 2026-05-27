@@ -1,68 +1,75 @@
-// Padrão limpo usando event listener e FormData, igual ao cadastro_aluno.js
+document.addEventListener('DOMContentLoaded', carregarAvisos);
+
 document.getElementById('formNovoAviso').addEventListener('submit', async (e) => {
-    e.preventDefault(); // Impede o recarregamento da página
-    
+    e.preventDefault();
     const form = e.target;
     const formData = new FormData(form);
+    const btnSubmit = form.querySelector('button[type="submit"]');
+
+    btnSubmit.disabled = true;
+    btnSubmit.textContent = 'Publicando...';
 
     try {
-        // Envia para um futuro PHP que salvará o aviso no banco de dados
         const response = await fetch('../../php/instrutor/aviso_novo.php', {
             method: 'POST',
-            body: formData
+            body: formData,
+            credentials: 'include'
         });
-
-        // Caso o PHP ainda não exista, isso dará erro de JSON. 
-        // Descomente a linha abaixo quando o PHP estiver pronto.
-        // const resultado = await response.json(); 
-
-        // Simulação de sucesso para a prova de autoria (enquanto o PHP não for criado):
-        const resultado = { status: 'ok' }; 
+        const resultado = await response.json();
 
         if (resultado.status === 'ok') {
-            alert("Aviso publicado com sucesso no mural dos alunos!");
-            
-            // Injeta o aviso na tela sem recarregar a página
-            adicionarAvisoNaTela(
-                form.querySelector('[name="titulo"]').value, 
-                form.querySelector('[name="mensagem"]').value
-            );
-            
-            form.reset(); // Limpa os campos do formulário
+            form.reset();
+            adicionarAvisoNaTela(resultado.data.titulo, resultado.data.mensagem, resultado.data.data_criacao);
         } else {
             alert('Erro ao publicar: ' + resultado.mensagem);
         }
     } catch (erro) {
-        alert('O arquivo PHP ainda não foi configurado. O aviso aparecerá visualmente para teste.');
-        
-        // Mantém a funcionalidade visual para a apresentação
-        adicionarAvisoNaTela(
-            form.querySelector('[name="titulo"]').value, 
-            form.querySelector('[name="mensagem"]').value
-        );
-        form.reset();
+        alert('Erro de conexão ao publicar aviso.');
+    } finally {
+        btnSubmit.disabled = false;
+        btnSubmit.textContent = 'Publicar Aviso';
     }
 });
 
-// Função separada para manter o HTML longe da lógica de submissão
-function adicionarAvisoNaTela(titulo, mensagem) {
+async function carregarAvisos() {
     const lista = document.getElementById('listaDeAvisos');
-    
-    // Se for o primeiro aviso, tira a mensagem de "Nenhum aviso"
-    if (lista.innerHTML.includes('Nenhum aviso publicado')) {
+    try {
+        const response = await fetch('/KOnect/KOnect/php/instrutor/avisos_get.php', { credentials: 'include' });
+        const resultado = await response.json();
+
+        if (resultado.status === 'ok' && resultado.data.length > 0) {
+            lista.innerHTML = '';
+            resultado.data.forEach(aviso => {
+                adicionarAvisoNaTela(aviso.titulo, aviso.mensagem, aviso.data_criacao);
+            });
+        } else {
+            lista.innerHTML = '<p class="text-muted small mb-0">Nenhum aviso publicado recentemente.</p>';
+        }
+    } catch (erro) {
+        lista.innerHTML = '<p class="text-muted small mb-0">Nenhum aviso publicado recentemente.</p>';
+    }
+}
+
+function adicionarAvisoNaTela(titulo, mensagem, dataCriacao) {
+    const lista = document.getElementById('listaDeAvisos');
+
+    if (lista.innerHTML.includes('Nenhum aviso')) {
         lista.innerHTML = '';
     }
+
+    const dataFormatada = dataCriacao
+        ? new Date(dataCriacao).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+        : 'Agora mesmo';
 
     const divAviso = document.createElement('div');
     divAviso.className = 'aviso-item';
     divAviso.innerHTML = `
         <div class="d-flex justify-content-between align-items-start mb-1">
             <strong class="text-white">${titulo}</strong>
-            <span class="small text-muted">Agora mesmo</span>
+            <span class="small text-muted">${dataFormatada}</span>
         </div>
         <p class="small text-muted mb-0">${mensagem}</p>
     `;
-    
-    // Adiciona o novo aviso no topo da lista
+
     lista.prepend(divAviso);
 }

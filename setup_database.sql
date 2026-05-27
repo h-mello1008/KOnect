@@ -1,16 +1,7 @@
--- KOnect Database Setup
--- Execute este arquivo no phpMyAdmin ou MySQL Client para criar o banco de dados
-
--- Limpar banco de dados existente (opcional)
 DROP DATABASE IF EXISTS konnect;
 
--- Criar banco de dados
 CREATE DATABASE konnect;
 USE konnect;
-
--- =============================================
--- 1. TABELAS SEM DEPENDÊNCIAS (AS "BASES")
--- =============================================
 
 CREATE TABLE Academia (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -33,10 +24,6 @@ CREATE TABLE Graduacao (
     hierarquia VARCHAR(50),
     tempoMinimo INT
 );
-
--- =============================================
--- 2. TABELAS QUE DEPENDEM DE USUARIO E ACADEMIA
--- =============================================
 
 CREATE TABLE Admin (
     id_usuario INT PRIMARY KEY,
@@ -80,13 +67,12 @@ CREATE TABLE Aluno (
     aceitou_termos TINYINT(1) DEFAULT 0,
     atestadoMedico TINYINT(1) DEFAULT 0,
     graduacao_id INT,
+    status VARCHAR(20) DEFAULT 'Ativo',
+    instrutor_id INT,
     FOREIGN KEY (id_usuario) REFERENCES Usuario(id),
-    FOREIGN KEY (graduacao_id) REFERENCES Graduacao(id)
+    FOREIGN KEY (graduacao_id) REFERENCES Graduacao(id),
+    FOREIGN KEY (instrutor_id) REFERENCES Instrutor(id_usuario)
 );
-
--- =============================================
--- 3. TABELAS DE NEGÓCIO
--- =============================================
 
 CREATE TABLE Produto (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -120,10 +106,6 @@ CREATE TABLE GraduacaoRegra (
     UNIQUE KEY unique_grad_mod (graduacao_id, modalidade_id)
 );
 
--- =============================================
--- 4. TURMAS E AULAS (DEPENDEM DE MODALIDADE E INSTRUTOR)
--- =============================================
-
 CREATE TABLE Turma (
     codigoTurma INT AUTO_INCREMENT PRIMARY KEY,
     nivelTecnico VARCHAR(100),
@@ -134,7 +116,6 @@ CREATE TABLE Turma (
     FOREIGN KEY (instrutor_id) REFERENCES Instrutor(id_usuario)
 );
 
--- Tabela de ligação Aluno <-> Turma (MUITOS PARA MUITOS)
 CREATE TABLE Aluno_Turma (
     turma_id INT,
     aluno_id INT,
@@ -151,10 +132,6 @@ CREATE TABLE Aula (
     turma_id INT,
     FOREIGN KEY (turma_id) REFERENCES Turma(codigoTurma)
 );
-
--- =============================================
--- 5. MATRÍCULAS E EXAMES (DEPENDEM DE ALUNO)
--- =============================================
 
 CREATE TABLE Matricula (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -175,9 +152,7 @@ CREATE TABLE Mensalidade (
     valor DECIMAL(10, 2) NOT NULL,
     dataLancamento DATE DEFAULT (
         IF(DAY(CURDATE()) > 5,
-            -- Se passou do dia 5, pega o dia 5 do próximo mês
             LAST_DAY(CURDATE()) + INTERVAL 5 DAY,
-            -- Se não passou, pega o dia 5 do mês atual
             LAST_DAY(CURDATE() - INTERVAL 1 MONTH) + INTERVAL 5 DAY
         )
     ),
@@ -191,6 +166,7 @@ CREATE TABLE Mensalidade (
     FOREIGN KEY (matricula_id) REFERENCES Matricula(id),
     FOREIGN KEY (academia_id) REFERENCES Academia(id)
 );
+
 CREATE TABLE ExameFaixa (
     id INT AUTO_INCREMENT PRIMARY KEY,
     dataExame DATETIME,
@@ -201,10 +177,6 @@ CREATE TABLE ExameFaixa (
     FOREIGN KEY (aluno_id) REFERENCES Aluno(id_usuario),
     FOREIGN KEY (graduacao_id) REFERENCES Graduacao(id)
 );
-
--- =============================================
--- 6. FREQUÊNCIA (DEPENDE DE AULA E ALUNO)
--- =============================================
 
 CREATE TABLE Frequencia (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -217,20 +189,24 @@ CREATE TABLE Frequencia (
     FOREIGN KEY (aluno_id) REFERENCES Aluno(id_usuario)
 );
 
-ALTER TABLE Aluno ADD COLUMN status VARCHAR(20) DEFAULT 'Ativo';
+CREATE TABLE IF NOT EXISTS Avisos (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(255) NOT NULL,
+    mensagem TEXT NOT NULL,
+    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    instrutor_id INT,
+    academia_id INT NOT NULL,
+    ativo TINYINT(1) DEFAULT 1,
+    FOREIGN KEY (instrutor_id) REFERENCES Instrutor(id_usuario),
+    FOREIGN KEY (academia_id) REFERENCES Academia(id)
+);
 
--- =============================================
--- DADOS DE TESTE (Opcional)
--- =============================================
-
--- Inserir academias de teste
 INSERT INTO Academia (nome, cnpj, endereco, status_ativo) VALUES
 ('Academia KOnect Central', '12345678901234', 'Rua Principal, 123', 1),
 ('Academia KOnect Norte', '98765432101234', 'Rua Norte, 456', 1),
 ('Academia KOnect Sul', '11111111111111', 'Avenida Sul, 789', 1),
 ('Academia KOnect Leste', '22222222222222', 'Rua Leste, 321', 0);
 
--- Inserir graduações
 INSERT INTO Graduacao (corFaixa, hierarquia, tempoMinimo) VALUES
 ('Branca', '1', 0),
 ('Azul', '2', 6),
@@ -238,7 +214,6 @@ INSERT INTO Graduacao (corFaixa, hierarquia, tempoMinimo) VALUES
 ('Marrom', '4', 18),
 ('Preta', '5', 24);
 
--- Inserir usuários de teste
 INSERT INTO Usuario (email, senha) VALUES
 ('admin@konect.com', 'admin123'),
 ('instrutor@konect.com', 'instr123'),
@@ -246,21 +221,17 @@ INSERT INTO Usuario (email, senha) VALUES
 ('aluno2@konect.com', 'aluno123'),
 ('aluno3@konect.com', 'aluno123');
 
--- Inserir admin de teste
 INSERT INTO Admin (id_usuario, nivel_acesso, academia_id) VALUES
 (1, 1, 1);
 
--- Inserir instrutor de teste
 INSERT INTO Instrutor (id_usuario, nome, telefone_responsavel, cpf, dataNascimento, academia_id) VALUES
 (2, 'João Silva', '11999999999', '12345678901', '1990-01-01', 1);
 
--- Inserir alunos de teste
-INSERT INTO Aluno (id_usuario, nome, telefone, peso, mesInicio, graduacao_id, status) VALUES
-(3, 'Pedro Santos', '11987654321', 75.5, '2024-01-15', 1, 'Ativo'),
-(4, 'Maria Silva', '11987654322', 62.3, '2024-02-10', 1, 'Ativo'),
-(5, 'Carlos Oliveira', '11987654323', 88.5, '2024-01-20', 2, 'Ativo');
+INSERT INTO Aluno (id_usuario, nome, telefone, peso, mesInicio, graduacao_id, status, instrutor_id) VALUES
+(3, 'Pedro Santos', '11987654321', 75.5, '2024-01-15', 1, 'Ativo', 2),
+(4, 'Maria Silva', '11987654322', 62.3, '2024-02-10', 1, 'Ativo', 2),
+(5, 'Carlos Oliveira', '11987654323', 88.5, '2024-01-20', 2, 'Ativo', 2);
 
--- Inserir modalidade de teste
 INSERT INTO Modalidade (tipo, descricao, cargaHoraria, academia_id) VALUES
 ('Karatê', 'Aulas de Karatê tradicional', 60, 1),
 ('Judô', 'Aulas de Judô', 90, 1),
@@ -268,7 +239,6 @@ INSERT INTO Modalidade (tipo, descricao, cargaHoraria, academia_id) VALUES
 ('Kung Fu', 'Aulas de Kung Fu', 75, 1),
 ('Muay Thai', 'Aulas de Muay Thai', 60, 2);
 
--- Inserir regras de graduação por modalidade
 INSERT INTO GraduacaoRegra (graduacao_id, modalidade_id, tempoMinimo, descricao, requisitos, pontuacaoMinima) VALUES
 (1, 1, 0, 'Iniciante em Karatê', 'Dominar postura básica e golpes fundamentais', 0),
 (2, 1, 6, 'Intermediário em Karatê', 'Dominar kumites básicos e katas fundamentais', 70),
@@ -280,45 +250,31 @@ INSERT INTO GraduacaoRegra (graduacao_id, modalidade_id, tempoMinimo, descricao,
 (2, 3, 6, 'Intermediário em Taekwondo', 'Formas básicas e sparring controlado', 70),
 (3, 3, 12, 'Avançado em Taekwondo', 'Competição e formas avançadas', 85);
 
--- Inserir turma de teste
 INSERT INTO Turma (nivelTecnico, limiteAlunos, modalidade_id, instrutor_id) VALUES
 ('Iniciante', 15, 1, 2),
 ('Intermediário', 12, 1, 2),
 ('Iniciante', 18, 2, 2);
 
--- Inserir alunos nas turmas
 INSERT INTO Aluno_Turma (turma_id, aluno_id) VALUES
 (1, 3),
 (1, 4),
 (2, 5);
 
--- Inserir matrículas de teste
 INSERT INTO Matricula (dataInicio, status_matricula, aluno_id, modalidade_id, academia_id) VALUES
 ('2024-01-15', 'Ativo', 3, 1, 1),
 ('2024-02-10', 'Ativo', 4, 1, 1),
 ('2024-01-20', 'Ativo', 5, 2, 1);
 
--- Inserir mensalidades de teste (com vários status)
 INSERT INTO Mensalidade (valor, dataLancamento, mes_referencia, dataVencimento, status_pagamento, data_pagamento, matricula_id, academia_id) VALUES
--- Mensalidades do aluno 3
 (300.00, DATE_SUB(CURDATE(), INTERVAL 65 DAY), DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 2 MONTH), '%Y-%m'), DATE_SUB(CURDATE(), INTERVAL 55 DAY), 'Pago', DATE_SUB(CURDATE(), INTERVAL 50 DAY), 1, 1),
 (300.00, DATE_SUB(CURDATE(), INTERVAL 35 DAY), DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m'), DATE_SUB(CURDATE(), INTERVAL 25 DAY), 'Vencido', NULL, 1, 1),
 (300.00, CURDATE(), DATE_FORMAT(CURDATE(), '%Y-%m'), DATE_ADD(CURDATE(), INTERVAL 5 DAY), 'Pendente', NULL, 1, 1),
--- Mensalidades do aluno 4
 (300.00, DATE_SUB(CURDATE(), INTERVAL 35 DAY), DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m'), DATE_SUB(CURDATE(), INTERVAL 25 DAY), 'Pago', DATE_SUB(CURDATE(), INTERVAL 20 DAY), 2, 1),
 (300.00, CURDATE(), DATE_FORMAT(CURDATE(), '%Y-%m'), DATE_ADD(CURDATE(), INTERVAL 5 DAY), 'Pendente', NULL, 2, 1),
--- Mensalidades do aluno 5
 (350.00, DATE_SUB(CURDATE(), INTERVAL 65 DAY), DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 2 MONTH), '%Y-%m'), DATE_SUB(CURDATE(), INTERVAL 55 DAY), 'Pago', DATE_SUB(CURDATE(), INTERVAL 52 DAY), 3, 1),
 (350.00, DATE_SUB(CURDATE(), INTERVAL 35 DAY), DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m'), DATE_SUB(CURDATE(), INTERVAL 25 DAY), 'Pago', DATE_SUB(CURDATE(), INTERVAL 22 DAY), 3, 1),
 (350.00, CURDATE(), DATE_FORMAT(CURDATE(), '%Y-%m'), DATE_ADD(CURDATE(), INTERVAL 5 DAY), 'Pendente', NULL, 3, 1);
 
 COMMIT;
 
--- =============================================
--- VERIFICAÇÃO
--- =============================================
-
--- Verificar se as tabelas foram criadas
 SHOW TABLES;
-
-ALTER TABLE Aluno ADD COLUMN IF NOT EXISTS status VARCHAR(20) DEFAULT 'Ativo'; -- coloca esse atributo novo ai - bolsoni

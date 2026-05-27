@@ -1,12 +1,8 @@
-// Mensalidades - KOnect Platform
-// Script for student mensalidades/payments functionality
-
 let allMensalidades = [];
 let allHistoricoPagamentos = [];
 let currentFilter = 'todos';
 
 document.addEventListener('DOMContentLoaded', function () {
-  // Initialize
   validarSessao();
   setupEventListeners();
 });
@@ -14,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function () {
 async function validarSessao() {
   try {
     const response = await fetch('../../../php/valida_sessao.php', {
-      credentials: 'include' // Enviar cookies de sessão
+      credentials: 'include'
     });
     const resultado = await response.json();
 
@@ -36,7 +32,6 @@ async function validarSessao() {
 }
 
 function setupEventListeners() {
-  // View toggling
   document
     .getElementById('viewMensalidadesBtn')
     ?.addEventListener('click', showMensalidadesView);
@@ -47,10 +42,8 @@ function setupEventListeners() {
     ?.addEventListener('click', showHistoricoView);
   document.getElementById('backBtn2')?.addEventListener('click', showOptionsView);
 
-  // Logout
   document.getElementById('btnLogout')?.addEventListener('click', logout);
 
-  // Filter buttons
   document.querySelectorAll('.filter-btn').forEach((btn) => {
     btn.addEventListener('click', function () {
       const filter = this.dataset.filter;
@@ -62,7 +55,7 @@ function setupEventListeners() {
 async function loadMensalidades() {
   try {
     const response = await fetch('../../../php/aluno/mensalidade_get.php', {
-      credentials: 'include' // Enviar cookies de sessão
+      credentials: 'include'
     });
     const resultado = await response.json();
 
@@ -86,7 +79,6 @@ async function loadMensalidades() {
 function renderMensalidades() {
   const container = document.getElementById('mensalidadesList');
 
-  // Filter based on current filter
   let filtered = allMensalidades;
   if (currentFilter !== 'todos') {
     filtered = allMensalidades.filter(
@@ -151,7 +143,7 @@ function createMensalidadeCard(mensalidade) {
           <div class="mensalidade-mes">${mesReferencia}</div>
         </div>
         <div class="mensalidade-academia">
-          ${mensalidade.academia_nome || 'Academia'} • 
+          ${mensalidade.academia_nome || 'Academia'} •
           ${mensalidade.modalidade_tipo || 'Modalidade'}
         </div>
         <div class="mensalidade-details">
@@ -207,7 +199,6 @@ function updateSummary() {
 function applyFilter(filter) {
   currentFilter = filter;
 
-  // Update button states
   document.querySelectorAll('.filter-btn').forEach((btn) => {
     btn.classList.remove('active');
   });
@@ -215,7 +206,6 @@ function applyFilter(filter) {
     .querySelector(`[data-filter="${filter}"]`)
     ?.classList.add('active');
 
-  // Re-render
   renderMensalidades();
 }
 
@@ -247,7 +237,7 @@ function showOptionsView() {
   document.getElementById('optionsView').classList.remove('d-none');
   document.getElementById('mensalidadesView').classList.add('d-none');
   document.getElementById('historicoView').classList.add('d-none');
-  currentFilter = 'todos'; // Reset filter
+  currentFilter = 'todos';
   document.querySelectorAll('.filter-btn').forEach((btn) => {
     btn.classList.remove('active');
   });
@@ -259,7 +249,7 @@ async function loadHistoricoPagamentos() {
     const response = await fetch(
       '../../../php/aluno/mensalidade_historico_pago.php',
       {
-        credentials: 'include' // Enviar cookies de sessão
+        credentials: 'include'
       }
     );
     const resultado = await response.json();
@@ -333,7 +323,7 @@ function createPagamentoCard(pagamento) {
           <div class="mensalidade-mes">${mesReferencia}</div>
         </div>
         <div class="mensalidade-academia">
-          ${pagamento.academia_nome || 'Academia'} • 
+          ${pagamento.academia_nome || 'Academia'} •
           ${pagamento.modalidade_tipo || 'Modalidade'}
         </div>
         <div class="mensalidade-details">
@@ -381,11 +371,8 @@ function showEmptyStateHistorico(title, message) {
 }
 
 function logout() {
-  // Clear session data
   localStorage.removeItem('aluno_logado');
   localStorage.removeItem('userCourse');
   localStorage.removeItem('userProgress');
-
-  // Redirect to home
   window.location.href = '../../../index.html';
 }

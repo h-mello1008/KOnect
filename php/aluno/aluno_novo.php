@@ -1,4 +1,5 @@
 <?php
+    if (session_status() === PHP_SESSION_NONE) session_start();
     include_once('../conexao.php');
 
     $retorno = [
@@ -10,8 +11,7 @@
     $nome = $_POST['nome'] ?? '';
     $telefone = $_POST['telefone'] ?? '';
     $redeSocial = $_POST['redeSocial'] ?? '';
-    
-    // Tratamento para evitar erro de tipo no MySQL quando o campo vem vazio do HTML
+
     $peso = empty($_POST['peso']) ? null : (float)$_POST['peso'];
     $dataNascimento = empty($_POST['dataNascimento']) ? null : $_POST['dataNascimento'];
     $horarioPreferencial = empty($_POST['horarioPreferencial']) ? null : $_POST['horarioPreferencial'];
@@ -23,9 +23,8 @@
     $atestadoMedico = isset($_POST['atestadoMedico']) ? (int)$_POST['atestadoMedico'] : 0;
     $email = $_POST['email'] ?? '';
     $senha = $_POST['senha'] ?? '';
-    
-    // O JavaScript converte null para a string "null". Aqui nós destransformamos isso.
     $graduacao_id = ($_POST['graduacao_id'] === 'null' || empty($_POST['graduacao_id'])) ? null : (int)$_POST['graduacao_id'];
+    $instrutor_id = isset($_SESSION['usuario']['id']) ? (int)$_SESSION['usuario']['id'] : (empty($_POST['instrutor_id']) ? null : (int)$_POST['instrutor_id']);
 
     if(empty($email) || empty($senha) || empty($nome)){
         $retorno = [
@@ -34,11 +33,6 @@
             'data'      => []
         ];
     } else {
-        // Inicia a sessão apenas se ela já não estiver rodando
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-        
         try {
             $stmt_usuario = $conexao->prepare("INSERT INTO Usuario(email, senha) VALUES(?, ?)");
             $stmt_usuario->bind_param("ss", $email, $senha);
@@ -51,25 +45,18 @@
                     INSERT INTO Aluno(
                         id_usuario, nome, telefone, redeSocial, peso,
                         dataNascimento, horarioPreferencial, tagCor, nivelCondicionamento,
-                        mesInicio, plano, aceitou_termos, atestadoMedico, graduacao_id
-                    ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        mesInicio, plano, aceitou_termos, atestadoMedico, graduacao_id, instrutor_id
+                    ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ");
-                
                 $stmt_aluno->bind_param(
-                    "isssdsssissiii",
+                    "isssdsssissiiii",
                     $usuario_id, $nome, $telefone, $redeSocial, $peso,
                     $dataNascimento, $horarioPreferencial, $tagCor, $nivelCondicionamento,
-                    $mesInicio, $plano, $aceitou_termos, $atestadoMedico, $graduacao_id
+                    $mesInicio, $plano, $aceitou_termos, $atestadoMedico, $graduacao_id, $instrutor_id
                 );
                 $stmt_aluno->execute();
 
                 if($stmt_aluno->affected_rows > 0){
-                    $_SESSION['usuario'] = [
-                        'id' => $usuario_id,
-                        'email' => $email,
-                        'tipo' => 'aluno'
-                    ];
-
                     $retorno = [
                         'status'    => 'ok',
                         'mensagem'  => 'Aluno registrado com sucesso!',

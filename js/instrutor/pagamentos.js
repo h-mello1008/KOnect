@@ -9,13 +9,11 @@ async function carregarTabelaPagamentos() {
         // Reutilizamos a rota de alunos, pois o status financeiro (Ativo/Inativo/Bloqueado) está nela
         const response = await fetch('../../php/instrutor/aluno_get.php');
         const resultado = await response.json();
-        
-        tbody.innerHTML = ''; // Limpa a tabela
+
+        tbody.innerHTML = '';
 
         if (resultado.status === 'ok' && resultado.data.length > 0) {
             resultado.data.forEach(aluno => {
-                
-                // Lógica simples para definir o texto e a cor da badge
                 let classeBadge = 'badge-sucesso';
                 let textoStatus = 'Em Dia';
 
@@ -27,7 +25,6 @@ async function carregarTabelaPagamentos() {
                     textoStatus = 'Inadimplente';
                 }
 
-                // Inserção limpa e direta de HTML, sem confusão
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
                     <td class="fw-bold text-white">${aluno.nome}</td>
@@ -53,6 +50,5 @@ async function carregarTabelaPagamentos() {
 }
 
 function cobrarAluno(nomeAluno) {
-    // Função simples para o futuro (pode disparar um email via PHP)
     alert(`Aviso de cobrança enviado para o aluno: ${nomeAluno}`);
 }

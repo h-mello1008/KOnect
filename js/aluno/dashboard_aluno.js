@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   verificarInadimplencia();
+  carregarAvisosAcademia();
   validarSessao();
   setupEventListeners();
 });
@@ -68,7 +69,7 @@ async function realizarCheckIn() {
 
 async function verificarInadimplencia() {
   try {
-    const response = await fetch('/KOnect/php/aluno/mensalidade_get.php', { credentials: 'include' });
+    const response = await fetch('/KOnect/KOnect/php/aluno/mensalidade_get.php', { credentials: 'include' });
     const resultado = await response.json();
 
     if (resultado.status === 'ok' && resultado.data.length > 0) {
@@ -160,9 +161,42 @@ function setupEventListeners() {
   }
 }
 
+async function carregarAvisosAcademia() {
+  const container = document.getElementById('containerAvisos');
+  if (!container) return;
+
+  try {
+    const response = await fetch('/KOnect/KOnect/php/aluno/avisos_get.php', { credentials: 'include' });
+    const resultado = await response.json();
+
+    if (resultado.status === 'ok' && resultado.data.length > 0) {
+      container.innerHTML = '';
+      resultado.data.forEach(aviso => {
+        const dataFormatada = new Date(aviso.data_criacao).toLocaleString('pt-BR', {
+          day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'
+        });
+        container.insertAdjacentHTML('beforeend', `
+          <div class="p-3 rounded mb-2" style="background:rgba(255,255,255,0.04);border-left:4px solid var(--accent);">
+            <div class="d-flex justify-content-between align-items-start mb-1">
+              <p class="mb-0 fw-bold">${aviso.titulo}</p>
+              <span class="small text-muted">${dataFormatada}</span>
+            </div>
+            <p class="small text-muted mb-0">${aviso.mensagem}</p>
+          </div>
+        `);
+      });
+    } else {
+      container.innerHTML = '<p class="text-muted small mb-0">Nenhum aviso publicado pela academia.</p>';
+    }
+  } catch (erro) {
+    if (container) container.innerHTML = '<p class="text-muted small mb-0">Não foi possível carregar os avisos.</p>';
+  }
+}
+
 function logout() {
   localStorage.removeItem("aluno_logado");
   localStorage.removeItem("userCourse");
   localStorage.removeItem("userProgress");
+
   window.location.href = "../../../index.html";
 }

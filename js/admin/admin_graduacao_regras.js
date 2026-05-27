@@ -1,7 +1,3 @@
-// ============================================
-// GERENCIAMENTO DE REGRAS DE GRADUAÇÃO
-// ============================================
-
 let regras = [];
 let modalidades = [];
 let graduacoes = [];
@@ -9,21 +5,18 @@ let regraEmEdicao = null;
 
 async function carregarDadosGraduacao() {
   try {
-    // Carregar graduações
-    const resGrad = await fetch("../../../php/graduacao/graduacao_get.php");
+    const resGrad = await fetch("/KOnect/KOnect/php/graduacao/graduacao_get.php");
     const resGradJSON = await resGrad.json();
     if (resGradJSON.status === "ok") {
       graduacoes = resGradJSON.data;
     }
 
-    // Carregar modalidades
-    const resMod = await fetch("../../../php/modalidade/modalidade_get.php");
+    const resMod = await fetch("/KOnect/KOnect/php/modalidade/modalidade_get.php");
     const resModJSON = await resMod.json();
     if (resModJSON.status === "ok") {
       modalidades = resModJSON.data;
     }
 
-    // Carregar regras
     await carregarRegras();
     preencherSelectsGraduacao();
   } catch (erro) {
@@ -34,7 +27,7 @@ async function carregarDadosGraduacao() {
 async function carregarRegras() {
   try {
     const response = await fetch(
-      "../../../php/graduacao/graduacao_regra_get.php",
+      "/KOnect/KOnect/php/graduacao/graduacao_regra_get.php",
     );
     const resultado = await response.json();
 
@@ -119,7 +112,7 @@ async function criarNovaRegra() {
 
   try {
     const response = await fetch(
-      `../../../php/graduacao/graduacao_regra_novo.php`,
+      `/KOnect/KOnect/php/graduacao/graduacao_regra_novo.php`,
       {
         method: "POST",
         body: formData,
@@ -184,7 +177,7 @@ async function salvarAlteracoesRegra() {
 
   try {
     const response = await fetch(
-      `../../../php/graduacao/graduacao_regra_alterar.php?id=${regraEmEdicao.id}`,
+      `/KOnect/KOnect/php/graduacao/graduacao_regra_alterar.php?id=${regraEmEdicao.id}`,
       {
         method: "POST",
         body: formData,
@@ -210,7 +203,7 @@ async function confirmarExcluirRegra(regraId) {
   if (confirm("Tem certeza que deseja excluir esta regra?")) {
     try {
       const response = await fetch(
-        `../../../php/graduacao/graduacao_regra_excluir.php?id=${regraId}`,
+        `/KOnect/KOnect/php/graduacao/graduacao_regra_excluir.php?id=${regraId}`,
       );
       const resultado = await response.json();
 
@@ -226,10 +219,8 @@ async function confirmarExcluirRegra(regraId) {
   }
 }
 
-// Carregar dados ao abrir a página
 document.addEventListener("DOMContentLoaded", carregarDadosGraduacao);
 
-// Fechar modal ao clicar fora
 window.addEventListener("click", function (event) {
   const modal = document.getElementById("modalEditarRegra");
   if (event.target === modal) {

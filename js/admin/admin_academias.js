@@ -1,7 +1,3 @@
-// ============================================
-// GERENCIAMENTO DE ACADEMIAS
-// ============================================
-
 let academias = [];
 let academiaEmEdicao = null;
 
@@ -128,10 +124,8 @@ async function confirmarExcluirAcademia(academiaId) {
   }
 }
 
-// Carregar academias ao abrir a página
 document.addEventListener("DOMContentLoaded", carregarAcademias);
 
-// Fechar modal ao clicar fora
 window.addEventListener("click", function (event) {
   const modal = document.getElementById("modalEditarAcademia");
   if (event.target === modal) {

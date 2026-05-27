@@ -1,16 +1,11 @@
-// ============================================
-// MONITORAMENTO DE FLUXO DE CAIXA
-// ============================================
-
 let fluxoCaixa = null;
 let mensalidades = [];
 let academiaFiltro = null;
 
 async function carregarFluxoCaixa() {
   try {
-    // Carregar estatísticas gerais
     const response = await fetch(
-      "../../../php/mensalidade/mensalidade_fluxo_caixa.php",
+      "/KOnect/KOnect/php/mensalidade/mensalidade_fluxo_caixa.php",
     );
     const resultado = await response.json();
 
@@ -19,7 +14,6 @@ async function carregarFluxoCaixa() {
       renderizarFluxoCaixa();
     }
 
-    // Carregar mensalidades detalhadas
     await carregarMensalidades();
   } catch (erro) {
     console.error("Erro ao carregar fluxo de caixa:", erro);
@@ -28,7 +22,7 @@ async function carregarFluxoCaixa() {
 
 async function carregarMensalidades(academiaId = null) {
   try {
-    let url = "../../../php/mensalidade/mensalidade_get.php";
+    let url = "/KOnect/KOnect/php/mensalidade/mensalidade_get.php";
     if (academiaId) {
       url += `?academia_id=${academiaId}`;
     }
@@ -139,9 +133,8 @@ function renderizarMensalidades() {
 
 async function filtrarPorAcademia(academiaId) {
   if (academiaId) {
-    // Carregar fluxo específico da academia
     const response = await fetch(
-      `../../../php/mensalidade/mensalidade_fluxo_caixa.php?academia_id=${academiaId}`,
+      `/KOnect/KOnect/php/mensalidade/mensalidade_fluxo_caixa.php?academia_id=${academiaId}`,
     );
     const resultado = await response.json();
 
@@ -150,15 +143,12 @@ async function filtrarPorAcademia(academiaId) {
       renderizarFluxoCaixa();
     }
 
-    // Carregar mensalidades da academia
     await carregarMensalidades(academiaId);
   } else {
     await carregarFluxoCaixa();
   }
 }
 
-// Carregar fluxo de caixa ao abrir a página
 document.addEventListener("DOMContentLoaded", carregarFluxoCaixa);
 
-// Atualizar a cada 5 minutos
 setInterval(carregarFluxoCaixa, 300000);

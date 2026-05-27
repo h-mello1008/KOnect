@@ -1,5 +1,3 @@
-// Arquivo: js/instrutor/alunos.js
-
 let instModalPerfil, instModalPresenca, instModalFaixa;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -10,16 +8,19 @@ document.addEventListener('DOMContentLoaded', () => {
     carregarAlunos();
 });
 
-// =========================================================================
-// MÓDULO 1: LISTAGEM DE ALUNOS (Lógica de Dados)
-// =========================================================================
 async function carregarAlunos() {
     const tbody = document.getElementById('tabelaAlunos');
-    
+
+    const instrutorLogado = JSON.parse(localStorage.getItem('instrutor_logado') || '{}');
+    if (!instrutorLogado.id) {
+        tbody.innerHTML = '<tr><td colspan="5" class="text-center text-danger py-4">Sessão expirada. Faça login novamente.</td></tr>';
+        return;
+    }
+
     try {
         const response = await fetch('../../php/instrutor/aluno_get.php');
         const resultado = await response.json();
-        
+
         tbody.innerHTML = '';
 
         if (resultado.status === 'ok' && resultado.data.length > 0) {
@@ -35,12 +36,9 @@ async function carregarAlunos() {
     }
 }
 
-// =========================================================================
-// MÓDULO 1.1: LISTAGEM DE ALUNOS (Lógica Visual / DOM)
-// =========================================================================
 function desenharAlunoNaTabela(tbody, aluno) {
     const tr = document.createElement('tr');
-    
+
     let badgeClass = 'badge-sucesso';
     if(aluno.status === 'Inativo') badgeClass = 'badge-alerta';
     if(aluno.status === 'Bloqueado') badgeClass = 'badge-perigo';
@@ -51,7 +49,7 @@ function desenharAlunoNaTabela(tbody, aluno) {
             <div class="text-muted small">${aluno.email || ''}</div>
         </td>
         <td>
-            <i class="bi bi-bookmark-fill me-1" style="color: ${aluno.tagCor || '#fff'}"></i> 
+            <i class="bi bi-bookmark-fill me-1" style="color: ${aluno.tagCor || '#fff'}"></i>
             Grau ${aluno.graduacao_id || '1'}
         </td>
         <td class="text-center fw-bold text-info">
@@ -65,6 +63,7 @@ function desenharAlunoNaTabela(tbody, aluno) {
                 <button class="btn btn-outline-secondary btn-presenca" title="Histórico de Presença"><i class="bi bi-calendar-check"></i></button>
                 <button class="btn btn-outline-secondary btn-faixa" title="Desenvolvimento de Faixa"><i class="bi bi-trophy"></i></button>
                 <button class="btn btn-danger btn-perfil" title="Gerenciar Perfil"><i class="bi bi-sliders"></i> Gerenciar</button>
+                <button class="btn btn-outline-danger btn-deletar" title="Deletar Aluno"><i class="bi bi-trash"></i></button>
             </div>
         </td>
     `;
@@ -72,13 +71,11 @@ function desenharAlunoNaTabela(tbody, aluno) {
     tr.querySelector('.btn-presenca').addEventListener('click', () => abrirPresenca(aluno));
     tr.querySelector('.btn-faixa').addEventListener('click', () => abrirFaixa(aluno));
     tr.querySelector('.btn-perfil').addEventListener('click', () => abrirPerfil(aluno));
+    tr.querySelector('.btn-deletar').addEventListener('click', () => deletarAluno(aluno, tr));
 
     tbody.appendChild(tr);
 }
 
-// =========================================================================
-// MÓDULO 2: GESTÃO DE PERFIL
-// =========================================================================
 function abrirPerfil(aluno) {
     document.getElementById('edit_id_usuario').value = aluno.id_usuario;
     document.getElementById('edit_nome').value = aluno.nome;
@@ -87,7 +84,7 @@ function abrirPerfil(aluno) {
     document.getElementById('edit_status').value = aluno.status || 'Ativo';
     document.getElementById('edit_atestado').value = aluno.atestadoMedico || '0';
     document.getElementById('edit_condicionamento').value = aluno.nivelCondicionamento || '5';
-    
+
     instModalPerfil.show();
 }
 
@@ -97,7 +94,11 @@ async function salvarPerfilAluno() {
     const formData = new FormData(form);
 
     try {
+<<<<<<< HEAD
+        const response = await fetch(`/KOnect/KOnect/php/instrutor/aluno_alterar.php?id=${id}`, {
+=======
         const response = await fetch(`../../php/instrutor/aluno_alterar.php?id=${id}`, {
+>>>>>>> main
             method: 'POST',
             body: formData
         });
@@ -116,9 +117,6 @@ async function salvarPerfilAluno() {
     }
 }
 
-// =========================================================================
-// MÓDULO 3: PRESENÇA E PROGRESSO DE FAIXA
-// =========================================================================
 function abrirPresenca(aluno) {
     document.getElementById('nomePresencaAtleta').textContent = aluno.nome;
     instModalPresenca.show();
@@ -136,7 +134,11 @@ async function abrirFaixa(aluno) {
     instModalFaixa.show();
 
     try {
+<<<<<<< HEAD
+        const response = await fetch(`/KOnect/KOnect/php/instrutor/aluno_progresso_faixa.php?id=${aluno.id_usuario}`);
+=======
         const response = await fetch(`../../php/instrutor/aluno_progresso_faixa.php?id=${aluno.id_usuario}`);
+>>>>>>> main
         const json = await response.json();
 
         if (json.status === 'ok') {
@@ -150,7 +152,26 @@ async function abrirFaixa(aluno) {
     }
 }
 
-// Lógica Visual para a Faixa
+async function deletarAluno(aluno, tr) {
+    if (!confirm(`Tem certeza que deseja deletar o aluno "${aluno.nome}"? Esta ação não pode ser desfeita.`)) return;
+
+    try {
+        const response = await fetch(`/KOnect/KOnect/php/instrutor/aluno_deletar.php?id=${aluno.id_usuario}`, {
+            method: 'DELETE'
+        });
+        const json = await response.json();
+
+        if (json.status === 'ok') {
+            tr.remove();
+        } else {
+            alert('Erro ao deletar: ' + json.mensagem);
+        }
+    } catch (e) {
+        console.error("Erro ao deletar aluno:", e);
+        alert('Erro ao comunicar com o servidor.');
+    }
+}
+
 function desenharProgressoFaixaNaTela(container, data) {
     let porcentagem = 0;
     let textoRodape = "";
@@ -159,7 +180,7 @@ function desenharProgressoFaixaNaTela(container, data) {
     if (data.proxima_faixa) {
         porcentagem = data.meta_aulas > 0 ? Math.floor((data.presencas / data.meta_aulas) * 100) : 0;
         if (porcentagem > 100) porcentagem = 100;
-        
+
         let aulasFaltantes = data.meta_aulas - data.presencas;
         if (aulasFaltantes <= 0) {
             textoRodape = `<span class="text-success fw-bold"><i class="bi bi-check-circle-fill"></i> Aluno apto para o próximo exame!</span>`;
@@ -167,7 +188,7 @@ function desenharProgressoFaixaNaTela(container, data) {
         } else {
             textoRodape = `Faltam <strong class="text-white">${aulasFaltantes} aulas</strong> para se tornar elegível ao exame.`;
         }
-        
+
         htmlProximaFaixa = `<div class="text-muted small mt-2">Próxima meta: <span class="text-white fw-bold">${data.proxima_faixa}</span></div>`;
     } else {
         porcentagem = 100;
@@ -178,7 +199,7 @@ function desenharProgressoFaixaNaTela(container, data) {
         <div class="text-center">
             <div class="fs-1 mb-2">🥋</div>
             <h5 class="fw-bold text-white mb-3">${data.nome}</h5>
-            
+
             <div class="p-3 bg-black bg-opacity-40 rounded border border-secondary mb-4 text-center">
                 <span class="text-muted small d-block mb-1">Faixa Atual</span>
                 <span class="fw-bold text-danger fs-4 text-uppercase">${data.faixa_atual}</span>
@@ -190,13 +211,13 @@ function desenharProgressoFaixaNaTela(container, data) {
             <span class="text-muted">Aulas Assistidas: <strong class="text-white">${data.presencas}/${data.meta_aulas}</strong></span>
             <span class="text-white fw-bold">${porcentagem}%</span>
         </div>
-        
+
         <div class="progress mb-3" style="height: 12px; background-color: rgba(255,255,255,0.05); border: 1px solid var(--border);">
-            <div class="progress-bar bg-danger progress-bar-striped ${porcentagem < 100 ? 'progress-bar-animated' : ''}" 
-                 role="progressbar" 
+            <div class="progress-bar bg-danger progress-bar-striped ${porcentagem < 100 ? 'progress-bar-animated' : ''}"
+                 role="progressbar"
                  style="width: ${porcentagem}%"></div>
         </div>
-        
+
         <p class="text-center small mb-0" style="color: var(--muted);">${textoRodape}</p>
     `;
 }

@@ -6,7 +6,9 @@ async function carregarInstrutores() {
     const tbody = document.getElementById('tabelaInstrutores');
 
     try {
+
         const response = await fetch('../../../php/admin/instrutor_get.php');
+
         const resultado = await response.json();
 
         tbody.innerHTML = '';
@@ -36,8 +38,7 @@ function desenharInstrutorNaTabela(tbody, inst) {
             <div class="text-muted small">${inst.email || ''}</div>
         </td>
         <td>
-            <div class="fw-bold">${inst.nome_fantasia || '—'}</div>
-            <div class="text-muted small">${inst.razao_social || ''}</div>
+            <div class="fw-bold">${inst.academia_nome || '—'}</div>
         </td>
         <td class="text-muted">${inst.cnpj || '—'}</td>
         <td class="text-muted">${horario}</td>

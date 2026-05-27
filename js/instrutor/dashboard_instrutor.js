@@ -1,11 +1,17 @@
-// Arquivo: js/instrutor/dashboard.js
-// Responsável pelas funções da tela de entrada (Hub) e funções globais.
-
 document.addEventListener('DOMContentLoaded', () => {
-
+    const instrutor = JSON.parse(localStorage.getItem('instrutor_logado') || '{}');
+    const el = document.getElementById('instrutorEmail');
+    if (el) el.textContent = instrutor.email || '';
 });
 
 function fazerLogout() {
     localStorage.removeItem('instrutor_logado');
-    window.location.href = '../../index.html';
+    window.location.href = '/KOnect/KOnect/pages/instrutor/login_instrutor/login_instrutor.html';
+}
+
+function abrirTab(evt, tabName) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('tab-content--active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('tab-btn--active'));
+    document.getElementById(tabName).classList.add('tab-content--active');
+    evt.currentTarget.classList.add('tab-btn--active');
 }

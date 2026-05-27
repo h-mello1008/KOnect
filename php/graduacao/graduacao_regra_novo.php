@@ -21,11 +21,10 @@
             'data'      => []
         ];
     } else {
-        // Verificar se já existe regra para essa combinação
         $stmt_check = $conexao->prepare("SELECT id FROM GraduacaoRegra WHERE graduacao_id = ? AND modalidade_id = ?");
         $stmt_check->bind_param("ii", $graduacao_id, $modalidade_id);
         $stmt_check->execute();
-        
+
         if($stmt_check->get_result()->num_rows > 0){
             $retorno = [
                 'status'    => 'nok',
@@ -34,7 +33,7 @@
             ];
         } else {
             $stmt = $conexao->prepare("
-                INSERT INTO GraduacaoRegra(graduacao_id, modalidade_id, tempoMinimo, descricao, requisitos, pontuacaoMinima) 
+                INSERT INTO GraduacaoRegra(graduacao_id, modalidade_id, tempoMinimo, descricao, requisitos, pontuacaoMinima)
                 VALUES(?, ?, ?, ?, ?, ?)
             ");
             $stmt->bind_param("iiisis", $graduacao_id, $modalidade_id, $tempoMinimo, $descricao, $requisitos, $pontuacaoMinima);

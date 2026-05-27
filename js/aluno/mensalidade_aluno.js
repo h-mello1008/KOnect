@@ -1,6 +1,3 @@
-// Mensalidades do Aluno - KOnect Platform
-// Script for displaying student payments/tuition
-
 document.addEventListener("DOMContentLoaded", function () {
   loadMensalidades();
 });
@@ -26,17 +23,15 @@ async function loadMensalidades() {
 
 function renderMensalidades(mensalidades) {
   const containerMensalidades = document.getElementById('containerMensalidades');
-  
+
   if (!containerMensalidades) return;
 
-  // Separar mensalidades em categorias
   const vencidas = mensalidades.filter(m => m.dias_vencimento > 0);
   const pendentes = mensalidades.filter(m => m.dias_vencimento < 0);
   const hojePaga = mensalidades.filter(m => m.dias_vencimento === 0);
 
   let html = '';
 
-  // Se há mensalidades vencidas, mostrar com destaque
   if (vencidas.length > 0) {
     html += `
       <div class="mb-4">
@@ -50,7 +45,6 @@ function renderMensalidades(mensalidades) {
     `;
   }
 
-  // Mensalidades que vence hoje
   if (hojePaga.length > 0) {
     html += `
       <div class="mb-4">
@@ -64,7 +58,6 @@ function renderMensalidades(mensalidades) {
     `;
   }
 
-  // Mensalidades pendentes
   if (pendentes.length > 0) {
     html += `
       <div class="mb-4">
@@ -80,17 +73,16 @@ function renderMensalidades(mensalidades) {
 
   containerMensalidades.innerHTML = html;
 
-  // Adicionar resumo no topo
   const totalVencido = vencidas.reduce((sum, m) => sum + m.valor, 0);
   const totalPendente = pendentes.reduce((sum, m) => sum + m.valor, 0);
-  
+
   renderResumoMensalidades(totalVencido, totalPendente);
 }
 
 function renderCartaoMensalidade(mensalidade, tipo) {
   const data = new Date(mensalidade.dataVencimento);
   const dataFormatada = formatarData(data);
-  
+
   let statusBadge = '';
   let statusTexto = '';
   let iconeStatus = '';
@@ -129,7 +121,7 @@ function renderCartaoMensalidade(mensalidade, tipo) {
             </div>
             ${statusBadge}
           </div>
-          
+
           <div class="mb-3">
             <div class="d-flex justify-content-between mb-2">
               <span class="text-muted small">Valor:</span>
@@ -158,7 +150,7 @@ function renderCartaoMensalidade(mensalidade, tipo) {
 
 function renderResumoMensalidades(totalVencido, totalPendente) {
   const containerResumo = document.getElementById('resumoMensalidades');
-  
+
   if (!containerResumo) return;
 
   const vencidoFormatado = `R$ ${totalVencido.toFixed(2).replace('.', ',')}`;
@@ -209,7 +201,7 @@ function renderResumoMensalidades(totalVencido, totalPendente) {
 function renderMensalidadesVazias() {
   const containerMensalidades = document.getElementById('containerMensalidades');
   const containerResumo = document.getElementById('resumoMensalidades');
-  
+
   if (containerMensalidades) {
     containerMensalidades.innerHTML = `
       <div class="text-center py-5">
@@ -227,7 +219,7 @@ function renderMensalidadesVazias() {
 
 function renderErroCarregamento() {
   const containerMensalidades = document.getElementById('containerMensalidades');
-  
+
   if (containerMensalidades) {
     containerMensalidades.innerHTML = `
       <div class="alert alert-danger" role="alert">
@@ -245,17 +237,16 @@ function formatarData(data) {
 
 function formatarMesReferencia(mesReferencia) {
   if (!mesReferencia) return 'Sem data';
-  
+
   const [ano, mes] = mesReferencia.split('-');
   const meses = [
     'Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
     'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'
   ];
-  
+
   return `${meses[parseInt(mes) - 1]} de ${ano}`;
 }
 
 function abrirModalPagamento(mensalidadeId, valor, mes) {
-  // Função para abrir modal de pagamento (pode ser integrada com gateway de pagamento)
   alert(`Preparando pagamento de ${valor} para ${mes}\n\nEsta funcionalidade será integrada com o gateway de pagamento.`);
 }
