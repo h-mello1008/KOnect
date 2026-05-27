@@ -55,7 +55,7 @@
     </main>
 
     <div class="modal fade" id="modalEditarPerfil" tabindex="-1" data-bs-theme="dark">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title fw-bold">Gerenciar Perfil</h5>
@@ -63,70 +63,103 @@
                 </div>
                 <div class="modal-body p-4">
                     <form id="formEditarPerfil">
-                            <input type="hidden" id="edit_id_usuario" name="id_usuario" />
-                            <div class="row g-4">
-                                <div class="col-md-6">
-                                    <label class="form-label text-muted small fw-bold text-uppercase">
-                                        Nome
-                                    </label>
-                                    <input type="text" class="form-control" id="edit_nome" name="nome" required />
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label text-muted small fw-bold text-uppercase">
-                                        Telefone
-                                    </label>
-                                    <input type="text" class="form-control" id="edit_telefone" name="telefone" />
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label text-muted small fw-bold text-uppercase">
-                                        Plano
-                                    </label>
-                                    <select class="form-select" id="edit_plano" name="plano">
-                                        <option value="mensal">Mensal</option>
-                                        <option value="anual">Anual Premium</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label text-muted small fw-bold text-uppercase">
-                                        Status
-                                    </label>
-                                    <select class="form-select" id="edit_status" name="status">
-                                        <option value="Ativo">🟢 Ativo</option>
-                                        <option value="Inativo">🟡 Inativo</option>
-                                        <option value="Bloqueado">🔴 Bloqueado</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label text-muted small fw-bold text-uppercase">
-                                        Atestado
-                                    </label>
-                                    <select class="form-select" id="edit_atestado" name="atestadoMedico">
-                                        <option value="1">Regularizado</option>
-                                        <option value="0">Pendente</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label text-muted small fw-bold text-uppercase">
-                                        Condicionamento
-                                    </label>
-                                    <select class="form-select" id="edit_condicionamento" name="nivelCondicionamento">
-                                        <option value="1">1 - Iniciante</option>
-                                        <option value="5">5 - Intermediário</option>
-                                        <option value="10">10 - Alta Performance</option>
-                                    </select>
-                                </div>
+                        <input type="hidden" id="edit_id_usuario" name="id_usuario" />
+
+                        <p class="text-muted small fw-bold text-uppercase mb-3">Dados Pessoais</p>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-bold text-uppercase">Nome</label>
+                                <input type="text" class="form-control" id="edit_nome" name="nome" required />
                             </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-bold text-uppercase">CPF</label>
+                                <input type="text" class="form-control" id="edit_cpf" name="cpf" maxlength="14" placeholder="000.000.000-00" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-bold text-uppercase">E-mail</label>
+                                <input type="email" class="form-control" id="edit_email" name="email" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-bold text-uppercase">Telefone</label>
+                                <input type="tel" class="form-control" id="edit_telefone" name="telefone" />
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label text-muted small fw-bold text-uppercase">Instagram</label>
+                                <input type="text" class="form-control" id="edit_instagram" name="redeSocial" placeholder="@usuario" />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label text-muted small fw-bold text-uppercase">Data de Nascimento</label>
+                                <input type="date" class="form-control" id="edit_dataNascimento" name="dataNascimento" />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label text-muted small fw-bold text-uppercase">Peso (kg)</label>
+                                <input type="number" class="form-control" id="edit_peso" name="peso" step="0.1" min="0" />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label text-muted small fw-bold text-uppercase">Horário Preferencial</label>
+                                <input type="time" class="form-control" id="edit_horario" name="horarioPreferencial" />
+                            </div>
+                        </div>
+
+                        <p class="text-muted small fw-bold text-uppercase mb-3">Dados do Treino</p>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-4">
+                                <label class="form-label text-muted small fw-bold text-uppercase">Cor de Identificação</label>
+                                <input type="color" class="form-control form-control-color w-100" id="edit_tagCor" name="tagCor" />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label text-muted small fw-bold text-uppercase">Nível de Condicionamento</label>
+                                <select class="form-select" id="edit_condicionamento" name="nivelCondicionamento">
+                                    <option value="1">1 - Iniciante</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5 - Intermediário</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10 - Alta Performance</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label text-muted small fw-bold text-uppercase">Mês de Início</label>
+                                <input type="month" class="form-control" id="edit_mesInicio" name="mesInicio" />
+                            </div>
+                        </div>
+
+                        <p class="text-muted small fw-bold text-uppercase mb-3">Plano e Status</p>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label text-muted small fw-bold text-uppercase">Plano</label>
+                                <select class="form-select" id="edit_plano" name="plano">
+                                    <option value="mensal">Mensal</option>
+                                    <option value="anual">Anual Premium</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label text-muted small fw-bold text-uppercase">Status</label>
+                                <select class="form-select" id="edit_status" name="status">
+                                    <option value="Ativo">🟢 Ativo</option>
+                                    <option value="Inativo">🟡 Inativo</option>
+                                    <option value="Bloqueado">🔴 Bloqueado</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label text-muted small fw-bold text-uppercase">Atestado Médico</label>
+                                <select class="form-select" id="edit_atestado" name="atestadoMedico">
+                                    <option value="1">Regularizado</option>
+                                    <option value="0">Pendente</option>
+                                </select>
+                            </div>
+                        </div>
                     </form>
-        </div>
-        <div class="modal-footer border-top-0 pt-0">
-            <button type="button" class="btn text-white fw-bold" data-bs-dismiss="modal">
-                Cancelar
-            </button>
-            <button type="button" class="btn btn-konect" onclick="salvarPerfilAluno()">
-                Salvar Alterações
-            </button>
-        </div>
-        </div>
+                </div>
+                <div class="modal-footer border-top-0 pt-0">
+                    <button type="button" class="btn text-white fw-bold" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-konect" onclick="salvarPerfilAluno()">Salvar Alterações</button>
+                </div>
+            </div>
         </div>
     </div>
 

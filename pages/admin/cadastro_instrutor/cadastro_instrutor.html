@@ -64,27 +64,41 @@
 
           <h5 class="text-white mt-5 mb-3 border-bottom border-secondary pb-2">Dados da academia</h5>
           <div class="row g-4">
+            <div class="col-md-6">
+              <label class="form-label">Academia <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <select class="form-select" name="academia_id" id="selectAcademia" required>
+                  <option value="">Carregando academias...</option>
+                </select>
+                <button type="button" class="btn btn-outline-secondary" title="Atualizar lista" onclick="carregarAcademias()">
+                  <i class="bi bi-arrow-clockwise"></i>
+                </button>
+              </div>
+              <div class="form-text text-muted">
+                Não encontrou? <a href="../academias/index.html" target="_blank" class="text-danger">Criar nova academia</a> e clique em <i class="bi bi-arrow-clockwise"></i> para atualizar.
+              </div>
+            </div>
             <div class="col-md-3">
               <label class="form-label">Nome fantasia</label>
-              <input type="text" class="form-control" name="nome_fantasia" step="0.1" />
+              <input type="text" class="form-control" name="nome_fantasia" />
             </div>
             <div class="col-md-3">
               <label class="form-label">Razão social</label>
               <input type="text" class="form-control" name="razao_social" />
             </div>
-            <div class="col-md-2">
-              <label class="form-label">CPNJ</label>
-              <input type="text" class="form-control form-control-color w-100" name="cnpj" />
+            <div class="col-md-3">
+              <label class="form-label">CNPJ</label>
+              <input type="text" class="form-control" name="cnpj" />
             </div>
             <div class="col-md-2">
               <label class="form-label">Horário de abertura</label>
-              <input type="time" class="form-control form-control-color w-100" name="horario_abertura" />
+              <input type="time" class="form-control" name="horario_abertura" />
             </div>
             <div class="col-md-2">
               <label class="form-label">Horário de fechamento</label>
-              <input type="time" class="form-control form-control-color w-100" name="horario_fechamento" />
+              <input type="time" class="form-control" name="horario_fechamento" />
             </div>
-            <div class="col-md-4">
+            <div class="col-md-3">
               <label class="form-label">Contato</label>
               <input type="tel" class="form-control" name="telefone_academia" id="telefone_academia" placeholder="(00) 90000-0000" />
             </div>
@@ -116,9 +130,14 @@
                 <label class="form-check-label text-white" for="termos">Li e aceito os termos</label>
               </div>
             </div>
-            <div class="col-12 mt-5 d-flex gap-3 justify-content-end border-top pt-4 form-footer-actions">
+            <div class="col-12 mt-4">
+              <div id="formErro" class="alert alert-danger d-none" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i><span id="formErroMsg"></span>
+              </div>
+            </div>
+            <div class="col-12 d-flex gap-3 justify-content-end border-top pt-4 form-footer-actions">
               <button type="button" class="btn btn-outline-secondary px-4" onclick="history.back()">Cancelar</button>
-              <button type="submit" class="btn btn-danger px-5 fw-bold">
+              <button type="submit" id="btnSalvar" class="btn btn-danger px-5 fw-bold">
                 <i class="bi bi-check-lg me-1"></i> Salvar
               </button>
             </div>

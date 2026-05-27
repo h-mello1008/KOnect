@@ -11,7 +11,7 @@ async function carregarGradeHoraria() {
     });
 
     try {
-        const response = await fetch('/KOnect/php/instrutor/agenda_get.php', { credentials: 'include' });
+        const response = await fetch('../../php/instrutor/agenda_get.php', { credentials: 'include' });
         const resultado = await response.json();
 
         if (resultado.status === 'ok') {
@@ -80,7 +80,7 @@ function prepararFormularioAula() {
 
         const formData = new FormData(form);
         const id = formData.get('id');
-        const url = id ? '/KOnect/php/instrutor/agenda_alterar.php' : '/KOnect/php/instrutor/agenda_novo.php';
+        const url = id ? '../../php/instrutor/agenda_alterar.php' : '../../php/instrutor/agenda_novo.php';
         const btnSubmit = form.querySelector('button[type="submit"]');
 
         btnSubmit.disabled = true;
@@ -148,7 +148,7 @@ async function excluirAula(id) {
     formData.append('id', id);
 
     try {
-        const response = await fetch('/KOnect/php/instrutor/agenda_excluir.php', {
+        const response = await fetch('../../php/instrutor/agenda_excluir.php', {
             method: 'POST',
             body: formData,
             credentials: 'include'

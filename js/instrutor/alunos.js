@@ -31,7 +31,7 @@ async function carregarAlunos() {
     }
 
     try {
-        const response = await fetch(`/KOnect/php/instrutor/aluno_get.php?instrutor_id=${instrutorLogado.id}`);
+        const response = await fetch(`../../php/instrutor/aluno_get.php?instrutor_id=${instrutorLogado.id}`);
         if (!response.ok) {
             throw new Error(`Erro HTTP ${response.status} ao buscar alunos`);
         }
@@ -93,42 +93,54 @@ function desenharAlunoNaTabela(tbody, aluno) {
 }
 
 function abrirPerfil(aluno) {
-    document.getElementById('edit_id_usuario').value = aluno.id_usuario;
-    document.getElementById('edit_nome').value = aluno.nome;
-    document.getElementById('edit_telefone').value = aluno.telefone || '';
-    document.getElementById('edit_plano').value = aluno.plano || 'mensal';
-    document.getElementById('edit_status').value = aluno.status || 'Ativo';
-    document.getElementById('edit_atestado').value = aluno.atestadoMedico || '0';
+    document.getElementById('edit_id_usuario').value      = aluno.id_usuario;
+    document.getElementById('edit_nome').value            = aluno.nome || '';
+    document.getElementById('edit_cpf').value             = aluno.cpf || '';
+    document.getElementById('edit_email').value           = aluno.email || '';
+    document.getElementById('edit_telefone').value        = aluno.telefone || '';
+    document.getElementById('edit_instagram').value       = aluno.redeSocial || '';
+    document.getElementById('edit_dataNascimento').value  = aluno.dataNascimento ? aluno.dataNascimento.substring(0, 10) : '';
+    document.getElementById('edit_peso').value            = aluno.peso || '';
+    document.getElementById('edit_horario').value         = aluno.horarioPreferencial || '';
+    document.getElementById('edit_tagCor').value          = aluno.tagCor || '#ef4444';
     document.getElementById('edit_condicionamento').value = aluno.nivelCondicionamento || '5';
+    document.getElementById('edit_mesInicio').value       = aluno.mesInicio ? aluno.mesInicio.substring(0, 7) : '';
+    document.getElementById('edit_plano').value           = aluno.plano || 'mensal';
+    document.getElementById('edit_status').value          = aluno.status || 'Ativo';
+    document.getElementById('edit_atestado').value        = aluno.atestadoMedico != null ? String(aluno.atestadoMedico) : '0';
 
     instModalPerfil.show();
 }
 
 async function salvarPerfilAluno() {
     const form = document.getElementById('formEditarPerfil');
-    const id = document.getElementById('edit_id_usuario').value;
+    const id   = document.getElementById('edit_id_usuario').value;
+
     const formData = new FormData(form);
 
+    // Converter mes_inicio de YYYY-MM para YYYY-MM-01
+    const mesInicio = document.getElementById('edit_mesInicio').value;
+    if (mesInicio) {
+        formData.set('mesInicio', mesInicio + '-01');
+    }
+
     try {
-        const response = await fetch(`/KOnect/php/instrutor/aluno_alterar.php?id=${id}`, {
+        const response = await fetch(`../../php/instrutor/aluno_alterar.php?id=${id}`, {
             method: 'POST',
             body: formData
         });
-        if (!response.ok) {
-            throw new Error(`Erro HTTP ${response.status} ao salvar aluno`);
-        }
+        if (!response.ok) throw new Error(`Erro HTTP ${response.status}`);
         const json = await response.json();
 
         if (json.status === 'ok') {
-            alert(json.mensagem);
             instModalPerfil.hide();
             carregarAlunos();
         } else {
-            alert("Erro do Sistema: " + json.mensagem);
+            alert('Erro: ' + json.mensagem);
         }
     } catch (e) {
-        console.error("Erro na alteração:", e);
-        alert("Erro ao enviar dados de atualização.");
+        console.error('Erro na alteração:', e);
+        alert('Erro ao enviar dados de atualização.');
     }
 }
 
@@ -148,7 +160,7 @@ async function abrirPresenca(aluno) {
     instModalPresenca.show();
 
     try {
-        const response = await fetch(`/KOnect/php/instrutor/aluno_progresso_faixa.php?id=${aluno.id_usuario}`);
+        const response = await fetch(`../../php/instrutor/aluno_progresso_faixa.php?id=${aluno.id_usuario}`);
         const json = await response.json();
 
         if (json.status === 'ok') {
@@ -189,7 +201,7 @@ async function abrirFaixa(aluno) {
     instModalFaixa.show();
 
     try {
-        const response = await fetch(`/KOnect/php/instrutor/aluno_progresso_faixa.php?id=${aluno.id_usuario}`);
+        const response = await fetch(`../../php/instrutor/aluno_progresso_faixa.php?id=${aluno.id_usuario}`);
         const json = await response.json();
 
         if (json.status === 'ok') {
@@ -207,7 +219,7 @@ async function deletarAluno(aluno, tr) {
     if (!confirm(`Tem certeza que deseja deletar o aluno "${aluno.nome}"? Esta ação não pode ser desfeita.`)) return;
 
     try {
-        const response = await fetch(`/KOnect/php/instrutor/aluno_deletar.php?id=${aluno.id_usuario}`, {
+        const response = await fetch(`../../php/instrutor/aluno_deletar.php?id=${aluno.id_usuario}`, {
             method: 'DELETE'
         });
         const json = await response.json();

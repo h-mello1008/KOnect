@@ -9,6 +9,7 @@
     ];
 
     $nome = $_POST['nome'] ?? '';
+    $cpf  = $_POST['cpf']  ?? '';
     $telefone = $_POST['telefone'] ?? '';
     $redeSocial = $_POST['redeSocial'] ?? '';
 
@@ -17,7 +18,14 @@
     $horarioPreferencial = empty($_POST['horarioPreferencial']) ? null : $_POST['horarioPreferencial'];
     $tagCor = $_POST['tagCor'] ?? '';
     $nivelCondicionamento = isset($_POST['nivelCondicionamento']) ? (int)$_POST['nivelCondicionamento'] : 5;
-    $mesInicio = empty($_POST['mesInicio']) ? null : $_POST['mesInicio'];
+    $mesInicioRaw = $_POST['mesInicio'] ?? '';
+    if (empty($mesInicioRaw)) {
+        $mesInicio = null;
+    } elseif (is_numeric($mesInicioRaw) && $mesInicioRaw >= 1 && $mesInicioRaw <= 12) {
+        $mesInicio = date('Y') . '-' . str_pad((int)$mesInicioRaw, 2, '0', STR_PAD_LEFT) . '-01';
+    } else {
+        $mesInicio = $mesInicioRaw;
+    }
     $plano = $_POST['plano'] ?? 'mensal';
     $aceitou_termos = isset($_POST['aceitou_termos']) ? (int)$_POST['aceitou_termos'] : 0;
     $atestadoMedico = isset($_POST['atestadoMedico']) ? (int)$_POST['atestadoMedico'] : 0;
@@ -26,14 +34,28 @@
     $graduacao_id = ($_POST['graduacao_id'] === 'null' || empty($_POST['graduacao_id'])) ? null : (int)$_POST['graduacao_id'];
     $instrutor_id = isset($_SESSION['usuario']['id']) ? (int)$_SESSION['usuario']['id'] : (empty($_POST['instrutor_id']) ? null : (int)$_POST['instrutor_id']);
 
-    if(empty($email) || empty($senha) || empty($nome)){
+    if (empty($email) || empty($senha) || empty($nome) || empty($cpf)) {
         $retorno = [
             'status'    => 'nok',
-            'mensagem'  => 'Email, senha e nome são obrigatórios',
+            'mensagem'  => 'Nome, CPF, e-mail e senha são obrigatórios.',
             'data'      => []
         ];
     } else {
         try {
+            // Verificar CPF duplicado
+            $stmtCpf = $conexao->prepare("SELECT id_usuario FROM Aluno WHERE cpf = ?");
+            $stmtCpf->bind_param("s", $cpf);
+            $stmtCpf->execute();
+            $stmtCpf->store_result();
+            if ($stmtCpf->num_rows > 0) {
+                $stmtCpf->close();
+                $conexao->close();
+                $retorno = ['status' => 'nok', 'mensagem' => 'CPF já cadastrado para outro aluno.', 'data' => []];
+                header("Content-type:application/json;charset:utf-8");
+                echo json_encode($retorno);
+                exit;
+            }
+            $stmtCpf->close();
             $stmt_usuario = $conexao->prepare("INSERT INTO Usuario(email, senha) VALUES(?, ?)");
             $stmt_usuario->bind_param("ss", $email, $senha);
             $stmt_usuario->execute();
@@ -43,14 +65,14 @@
 
                 $stmt_aluno = $conexao->prepare("
                     INSERT INTO Aluno(
-                        id_usuario, nome, telefone, redeSocial, peso,
+                        id_usuario, nome, cpf, telefone, redeSocial, peso,
                         dataNascimento, horarioPreferencial, tagCor, nivelCondicionamento,
                         mesInicio, plano, aceitou_termos, atestadoMedico, graduacao_id, instrutor_id
-                    ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 ");
                 $stmt_aluno->bind_param(
-                    "isssdsssissiiii",
-                    $usuario_id, $nome, $telefone, $redeSocial, $peso,
+                    "issssdsssissiiii",
+                    $usuario_id, $nome, $cpf, $telefone, $redeSocial, $peso,
                     $dataNascimento, $horarioPreferencial, $tagCor, $nivelCondicionamento,
                     $mesInicio, $plano, $aceitou_termos, $atestadoMedico, $graduacao_id, $instrutor_id
                 );

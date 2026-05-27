@@ -11,7 +11,7 @@ async function carregarAgendaAluno() {
   });
 
   try {
-    const response = await fetch('/KOnect/php/aluno/agenda_get.php', { credentials: 'include' });
+    const response = await fetch('../../../php/aluno/agenda_get.php', { credentials: 'include' });
     const resultado = await response.json();
     const aulas = resultado.status === 'ok' && Array.isArray(resultado.data) ? resultado.data : [];
 

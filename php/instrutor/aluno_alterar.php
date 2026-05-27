@@ -10,9 +10,18 @@
     if(isset($_GET['id'])){
         $id_usuario = (int)$_GET['id'];
 
+        // Atualizar email na tabela Usuario se enviado
+        if (!empty($_POST['email'])) {
+            $email = $_POST['email'];
+            $stmtEmail = $conexao->prepare("UPDATE Usuario SET email = ? WHERE id = ?");
+            $stmtEmail->bind_param("si", $email, $id_usuario);
+            $stmtEmail->execute();
+            $stmtEmail->close();
+        }
+
         $campos_permitidos = [
-            'nome', 'telefone', 'redeSocial', 'peso',
-            'horarioPreferencial', 'tagCor', 'mesInicio',
+            'nome', 'cpf', 'telefone', 'redeSocial', 'peso',
+            'dataNascimento', 'horarioPreferencial', 'tagCor', 'mesInicio',
             'plano', 'aceitou_termos', 'atestadoMedico',
             'graduacao_id', 'status', 'nivelCondicionamento'
         ];
@@ -26,9 +35,9 @@
                 $query_parts[] = "$campo = ?";
                 $valores[] = $_POST[$campo];
 
-                if($campo === 'peso') {
+                if ($campo === 'peso') {
                     $tipos_bind .= "d";
-                } elseif(in_array($campo, ['aceitou_termos', 'atestadoMedico', 'graduacao_id', 'nivelCondicionamento'])) {
+                } elseif (in_array($campo, ['aceitou_termos', 'atestadoMedico', 'graduacao_id', 'nivelCondicionamento'])) {
                     $tipos_bind .= "i";
                 } else {
                     $tipos_bind .= "s";

@@ -18,6 +18,26 @@
             'data'      => []
         ];
     } else {
+        if (!empty($cnpj)) {
+            $stmtCnpj = $conexao->prepare("SELECT id FROM Academia WHERE cnpj = ?");
+            $stmtCnpj->bind_param("s", $cnpj);
+            $stmtCnpj->execute();
+            $stmtCnpj->store_result();
+            if ($stmtCnpj->num_rows > 0) {
+                $stmtCnpj->close();
+                $conexao->close();
+                $retorno = [
+                    'status'   => 'nok',
+                    'mensagem' => 'CNPJ já cadastrado para outra academia.',
+                    'data'     => []
+                ];
+                header("Content-type:application/json;charset:utf-8");
+                echo json_encode($retorno);
+                exit;
+            }
+            $stmtCnpj->close();
+        }
+
         $stmt = $conexao->prepare("INSERT INTO Academia(nome, cnpj, endereco, status_ativo) VALUES(?, ?, ?, 1)");
         $stmt->bind_param("sss", $nome, $cnpj, $endereco);
         $stmt->execute();

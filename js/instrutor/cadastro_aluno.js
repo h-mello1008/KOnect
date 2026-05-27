@@ -4,16 +4,17 @@ document.getElementById('formCadastroAluno').addEventListener('submit', async (e
     const instrutorLogado = JSON.parse(localStorage.getItem('instrutor_logado') || '{}');
     if (!instrutorLogado.id) {
         alert('Sessão expirada. Faça login novamente.');
-        window.location.href = '/KOnect/pages/instrutor/login_instrutor/login_instrutor.html';
+        window.location.href = '../login_instrutor/login_instrutor.html';
         return;
     }
 
     const form = e.target;
 
     const alunoData = {
-        nome: form.querySelector('[name="nome"]').value,
-        email: form.querySelector('[name="email"]').value,
-        senha: form.querySelector('[name="senha"]').value,
+        nome:     form.querySelector('[name="nome"]').value,
+        cpf:      form.querySelector('[name="cpf"]').value,
+        email:    form.querySelector('[name="email"]').value,
+        senha:    form.querySelector('[name="senha"]').value,
         telefone: form.querySelector('[name="telefone"]').value,
         redeSocial: form.querySelector('[name="instagram"]').value,
         peso: form.querySelector('[name="peso"]').value,
@@ -35,7 +36,7 @@ document.getElementById('formCadastroAluno').addEventListener('submit', async (e
     });
 
     try {
-        const response = await fetch('/KOnect/php/aluno/aluno_novo.php', {
+        const response = await fetch('../../../php/aluno/aluno_novo.php', {
             method: 'POST',
             body: formData
         });
@@ -44,7 +45,7 @@ document.getElementById('formCadastroAluno').addEventListener('submit', async (e
 
         if (resultado.status === 'ok') {
             alert("Aluno salvo com sucesso!");
-            window.location.href = '/KOnect/pages/instrutor/alunos.html';
+            window.location.href = '../alunos.html';
         } else {
             alert('Erro: ' + resultado.mensagem);
         }
