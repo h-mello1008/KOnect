@@ -13,7 +13,7 @@ $usuario_id = $_SESSION['usuario']['id'];
 
 $stmt = $conexao->prepare("
     SELECT academia_id FROM Matricula
-    WHERE aluno_id = ? AND status_matricula = 'Ativo'
+    WHERE aluno_id = ?
     LIMIT 1
 ");
 $stmt->bind_param("i", $usuario_id);

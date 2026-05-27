@@ -57,6 +57,27 @@
                 $stmt_aluno->execute();
 
                 if($stmt_aluno->affected_rows > 0){
+                    // Obter academy_id do instrutor
+                    $stmt_instrutor = $conexao->prepare("SELECT academia_id FROM Instrutor WHERE id_usuario = ?");
+                    $stmt_instrutor->bind_param("i", $instrutor_id);
+                    $stmt_instrutor->execute();
+                    $res_instrutor = $stmt_instrutor->get_result()->fetch_assoc();
+                    $stmt_instrutor->close();
+
+                    $academia_id = $res_instrutor['academia_id'] ?? null;
+
+                    // Criar matrícula automaticamente
+                    if ($academia_id) {
+                        $dataInicio = $mesInicio ?? date('Y-m-d');
+                        $stmt_matricula = $conexao->prepare("
+                            INSERT INTO Matricula(dataInicio, status_matricula, aluno_id, academia_id)
+                            VALUES(?, 'Ativo', ?, ?)
+                        ");
+                        $stmt_matricula->bind_param("sii", $dataInicio, $usuario_id, $academia_id);
+                        $stmt_matricula->execute();
+                        $stmt_matricula->close();
+                    }
+
                     $retorno = [
                         'status'    => 'ok',
                         'mensagem'  => 'Aluno registrado com sucesso!',
