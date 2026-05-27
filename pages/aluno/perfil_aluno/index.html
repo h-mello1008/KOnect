@@ -10,11 +10,12 @@
     <link rel="stylesheet" href="../../../globalstyles/style.css" />
   </head>
   <body>
+    
     <nav class="topnav py-3 mb-5">
       <div class="container d-flex align-items-center justify-content-between">
         <a class="brand" href="../../../index.html" style="text-decoration:none;color:white">KO<span>nect</span></a>
         <div class="d-flex align-items-center gap-3">
-          <span class="text-muted fw-bold" id="userName"></span>
+          <span class="text-muted fw-bold" id="userName">Carregando...</span>
           <button id="btnLogout" class="btn btn-outline-light btn-sm" style="border-color: var(--border);">
             <i class="bi bi-box-arrow-right"></i> Sair
           </button>
@@ -37,7 +38,7 @@
           </a>
         </div>
         <div class="col-md-4 col-sm-6">
-          <a href="#" class="hub-card">
+          <a href="historico_aulas.html" class="hub-card">
             <div class="hub-icon"><i class="bi bi-calendar-check"></i></div>
             <h5 class="fw-bold">Minhas Aulas</h5>
             <p class="text-muted small mb-0">Frequência e histórico de treinos</p>
@@ -74,7 +75,8 @@
           <div class="stat-card text-center h-100 d-flex flex-column justify-content-center">
             <i class="bi bi-qr-code-scan fs-1 mb-3" style="color: var(--accent)"></i>
             <h5 class="fw-bold">Check-in</h5>
-            <button class="btn mt-3 fw-bold py-2" style="background-color: var(--accent); color: white; border: none; border-radius: 8px;">
+            <p class="text-muted small mb-2">Confirme sua presença no treino de hoje.</p>
+            <button id="btnCheckIn" class="btn mt-2 fw-bold py-2 w-100" style="background-color: var(--accent); color: white; border: none; border-radius: 8px;">
               Confirmar Presença
             </button>
           </div>

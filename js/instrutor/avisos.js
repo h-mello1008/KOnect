@@ -10,7 +10,7 @@ document.getElementById('formNovoAviso').addEventListener('submit', async (e) =>
     btnSubmit.textContent = 'Publicando...';
 
     try {
-        const response = await fetch('/KOnect/KOnect/php/instrutor/aviso_novo.php', {
+        const response = await fetch('../../php/instrutor/aviso_novo.php', {
             method: 'POST',
             body: formData,
             credentials: 'include'

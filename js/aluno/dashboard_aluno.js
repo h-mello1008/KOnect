@@ -5,6 +5,68 @@ document.addEventListener("DOMContentLoaded", function () {
   setupEventListeners();
 });
 
+async function validarSessao() {
+  try {
+    const response = await fetch('../../../php/valida_sessao.php', { method: 'GET', credentials: 'include' });
+    const resultado = await response.json();
+
+    if (resultado.status === 'ok') {
+      const usuarioData = resultado.data;
+      document.getElementById('userName').textContent = usuarioData.email || 'Aluno';
+      loadUserProgress();
+    } else {
+      window.location.href = '/KOnect/pages/aluno/login_aluno/index.html';
+    }
+  } catch (erro) {
+    window.location.href = '/KOnect/pages/aluno/login_aluno/index.html';
+  }
+}
+
+function loadUserProgress() {
+  const userCourse = localStorage.getItem("userCourse") || "Curso";
+  document.getElementById("userCourse").textContent = userCourse;
+  updateProgressBar(localStorage.getItem("userProgress") || 0);
+}
+
+function updateProgressBar(percentage) {
+  const progressFill = document.getElementById("progressBar");
+  if (progressFill) {
+    progressFill.style.width = percentage + "%";
+  }
+}
+
+async function realizarCheckIn() {
+  const btnCheckIn = document.getElementById('btnCheckIn');
+  
+  btnCheckIn.disabled = true;
+  btnCheckIn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Registrando...';
+
+  try {
+    const response = await fetch('../../../php/aluno/aluno_checkin.php', {
+        method: 'POST',
+        credentials: 'include'
+    });
+    
+    const resultado = await response.json();
+
+    if (resultado.status === 'ok') {
+        btnCheckIn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Presença Confirmada';
+        btnCheckIn.style.backgroundColor = '#10b981'; 
+        alert("OSS! Sua presença foi registrada com sucesso.");
+        window.location.reload(); 
+    } else {
+        alert('Aviso: ' + resultado.mensagem);
+        btnCheckIn.innerHTML = 'Confirmar Presença';
+        btnCheckIn.disabled = false;
+    }
+  } catch (erro) {
+    console.error("Erro ao fazer check-in:", erro);
+    alert("Ocorreu um erro ao comunicar com o servidor.");
+    btnCheckIn.innerHTML = 'Confirmar Presença';
+    btnCheckIn.disabled = false;
+  }
+}
+
 async function verificarInadimplencia() {
   try {
     const response = await fetch('/KOnect/KOnect/php/aluno/mensalidade_get.php', { credentials: 'include' });
@@ -38,7 +100,9 @@ async function verificarInadimplencia() {
         renderAvisoPendente(diasMaisProximoVencimento);
       }
     }
-  } catch (erro) {}
+  } catch (erro) {
+     console.error("Erro ao checar mensalidades:", erro);
+  }
 }
 
 function renderAvisoBloqueio() {
@@ -85,40 +149,15 @@ function renderAvisoPendente(dias) {
   `);
 }
 
-async function validarSessao() {
-  try {
-    const response = await fetch('../../../php/valida_sessao.php', { method: 'GET', credentials: 'include' });
-    const resultado = await response.json();
-
-    if (resultado.status === 'ok') {
-      const usuarioData = resultado.data;
-      document.getElementById('userName').textContent = usuarioData.email || 'Aluno';
-      loadUserProgress();
-    } else {
-      window.location.href = '/KOnect/pages/aluno/login_aluno/index.html';
-    }
-  } catch (erro) {
-    window.location.href = '/KOnect/pages/aluno/login_aluno/index.html';
-  }
-}
-
-function loadUserProgress() {
-  const userCourse = localStorage.getItem("userCourse") || "Curso";
-  document.getElementById("userCourse").textContent = userCourse;
-  updateProgressBar(localStorage.getItem("userProgress") || 0);
-}
-
-function updateProgressBar(percentage) {
-  const progressFill = document.getElementById("progressBar");
-  if (progressFill) {
-    progressFill.style.width = percentage + "%";
-  }
-}
-
 function setupEventListeners() {
   const logoutBtn = document.getElementById("btnLogout");
   if (logoutBtn) {
     logoutBtn.addEventListener("click", logout);
+  }
+
+  const btnCheckIn = document.getElementById("btnCheckIn");
+  if (btnCheckIn) {
+    btnCheckIn.addEventListener("click", realizarCheckIn);
   }
 }
 
@@ -158,5 +197,6 @@ function logout() {
   localStorage.removeItem("aluno_logado");
   localStorage.removeItem("userCourse");
   localStorage.removeItem("userProgress");
-  window.location.href = '/KOnect/KOnect/pages/aluno/login_aluno/index.html';
+
+  window.location.href = "../../../index.html";
 }
