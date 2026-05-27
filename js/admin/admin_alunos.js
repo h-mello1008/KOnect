@@ -1,291 +1,244 @@
-// ============================================
-// GERENCIAMENTO DE ALUNOS (ADMIN)
-// ============================================
-
 let alunos = [];
 let alunoEmEdicao = null;
-let academias = [];
-let modalidades = [];
+
+document.addEventListener('DOMContentLoaded', () => {
+    validarSessao();
+    carregarAlunos();
+    carregarAcademias();
+    document.getElementById('formNovoAluno').addEventListener('submit', criarNovoAluno);
+});
 
 async function validarSessao() {
-  try {
-    const response = await fetch("../../../php/valida_sessao.php");
-    const resultado = await response.json();
-
-    if (resultado.status === "ok") {
-      const usuarioData = resultado.data;
-      document.getElementById("adminNome").textContent = usuarioData.email || "Administrador";
-    } else {
-      window.location.href = "../login_admin/login_admin.html";
+    try {
+        const response = await fetch('../../../php/valida_sessao.php');
+        const resultado = await response.json();
+        if (resultado.status === 'ok') {
+            document.getElementById('adminNome').textContent = resultado.data.email || 'Administrador';
+        } else {
+            window.location.href = '../login_admin/login_admin.html';
+        }
+    } catch (e) {
+        window.location.href = '../login_admin/login_admin.html';
     }
-  } catch (erro) {
-    window.location.href = "../login_admin/login_admin.html";
-  }
 }
 
 function logout() {
-  localStorage.removeItem("admin_logado");
-  window.location.href = "../login_admin/login_admin.html";
+    localStorage.removeItem('admin_logado');
+    window.location.href = '../login_admin/login_admin.html';
 }
 
 async function carregarAlunos() {
-  try {
-    const response = await fetch("../../../php/aluno/aluno_get.php");
-    const resultado = await response.json();
+    const tbody = document.getElementById('corpoAlunos');
+    try {
+        const response = await fetch(`../../../php/aluno/aluno_get.php?_=${Date.now()}`);
+        const resultado = await response.json();
 
-    if (resultado.status === "ok") {
-      alunos = resultado.data;
-      renderizarAlunos(alunos);
+        tbody.innerHTML = '';
+
+        if (resultado.status === 'ok' && resultado.data.length > 0) {
+            alunos = resultado.data;
+            renderizarAlunos(alunos);
+        } else if (resultado.status === 'ok') {
+            alunos = [];
+            tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-4">Nenhum aluno cadastrado.</td></tr>';
+        } else {
+            tbody.innerHTML = `<tr><td colspan="6" class="text-center text-danger py-4">Erro ao carregar: ${resultado.mensagem}</td></tr>`;
+        }
+    } catch (erro) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center text-danger py-4">Falha ao comunicar com o servidor.</td></tr>';
     }
-  } catch (erro) {
-    console.error("Erro ao carregar alunos:", erro);
-  }
 }
 
 async function carregarAcademias() {
-  try {
-    const response = await fetch("../../../php/academia/academia_get.php");
-    const resultado = await response.json();
+    try {
+        const response = await fetch(`../../../php/academia/academia_get.php?_=${Date.now()}`);
+        const resultado = await response.json();
 
-    if (resultado.status === "ok") {
-      academias = resultado.data;
-      preencherSelectAcademias();
+        if (resultado.status === 'ok') {
+            const filtro = document.getElementById('filtroAcademia');
+            const selectNovo = document.getElementById('novoAlunoAcademia');
+
+            resultado.data.filter(a => a.status_ativo == 1).forEach(ac => {
+                const opt = `<option value="${ac.id}">${ac.nome}</option>`;
+                filtro.innerHTML += opt;
+                selectNovo.innerHTML += opt;
+            });
+        }
+    } catch (e) {
+        console.error('Erro ao carregar academias:', e);
     }
-  } catch (erro) {
-    console.error("Erro ao carregar academias:", erro);
-  }
 }
 
-async function carregarModalidades() {
-  try {
-    const response = await fetch("../../../php/modalidade/modalidade_get.php");
-    const resultado = await response.json();
+function renderizarAlunos(lista) {
+    const tbody = document.getElementById('corpoAlunos');
+    tbody.innerHTML = '';
 
-    if (resultado.status === "ok") {
-      modalidades = resultado.data;
-      preencherSelectModalidades();
+    if (lista.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted py-4">Nenhum aluno encontrado.</td></tr>';
+        return;
     }
-  } catch (erro) {
-    console.error("Erro ao carregar modalidades:", erro);
-  }
-}
 
-function preencherSelectAcademias() {
-  const selects = [
-    document.getElementById("filtroAcademia"),
-    document.getElementById("novoAlunoAcademia")
-  ];
-
-  selects.forEach((select) => {
-    if (!select) return;
-    const opcoes = select.innerHTML;
-    const novasOpcoes = academias.map((a) => `<option value="${a.id}">${a.nome}</option>`).join("");
-    select.innerHTML = opcoes + novasOpcoes;
-  });
-}
-
-function preencherSelectModalidades() {
-  const select = document.getElementById("novoAlunoModalidade");
-  if (!select) return;
-
-  const novasOpcoes = modalidades.map((m) => `<option value="${m.id}">${m.tipo}</option>`).join("");
-  select.innerHTML = novasOpcoes;
-}
-
-function renderizarAlunos(alunosParaRenderizar) {
-  const tbody = document.getElementById("corpoAlunos");
-  if (!tbody) return;
-
-  tbody.innerHTML = "";
-
-  if (alunosParaRenderizar.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="7" class="text-center text-muted">Nenhum aluno encontrado</td></tr>';
-    return;
-  }
-
-  alunosParaRenderizar.forEach((aluno) => {
-    const statusClass = aluno.status_ativo ? "ativo" : "inativo";
-    const statusTexto = aluno.status_ativo ? "Ativo" : "Inativo";
-    const row = document.createElement("tr");
-
-    row.innerHTML = `
-      <td><strong>${aluno.nome}</strong></td>
-      <td>${aluno.email || "—"}</td>
-      <td>${aluno.telefone || "—"}</td>
-      <td>${aluno.academia_nome || "—"}</td>
-      <td>${aluno.modalidade_tipo || "—"}</td>
-      <td><span class="status-badge status-${statusClass}">${statusTexto}</span></td>
-      <td>
-        <button class="btn-acao btn-editar" onclick="abrirModalEditarAluno(${aluno.id})" title="Editar">
-          <i class="bi bi-pencil"></i>
-        </button>
-        <button class="btn-acao btn-deletar" onclick="confirmarExcluirAluno(${aluno.id})" title="Deletar">
-          <i class="bi bi-trash"></i>
-        </button>
-      </td>
-    `;
-
-    tbody.appendChild(row);
-  });
+    lista.forEach(aluno => {
+        const ativo = aluno.status_ativo == 1;
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><strong>${aluno.nome}</strong></td>
+            <td>${aluno.email || '—'}</td>
+            <td>${aluno.telefone || '—'}</td>
+            <td>${aluno.academia_nome || '—'}</td>
+            <td><span class="badge ${ativo ? 'bg-success' : 'bg-secondary'}">${ativo ? 'Ativo' : 'Inativo'}</span></td>
+            <td>
+                <button class="btn btn-sm me-1" style="background-color:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.35);"
+                    onclick="abrirModalEditarAluno(${aluno.id})">
+                    <i class="bi bi-pencil-fill"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-secondary" onclick="confirmarExcluirAluno(${aluno.id})">
+                    <i class="bi bi-trash"></i>
+                </button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
 }
 
 function aplicarFiltros() {
-  const nome = document.getElementById("filtroNome").value.toLowerCase();
-  const academia = document.getElementById("filtroAcademia").value;
-  const status = document.getElementById("filtroStatus").value;
+    const nome     = document.getElementById('filtroNome').value.toLowerCase();
+    const academia = document.getElementById('filtroAcademia').value;
+    const status   = document.getElementById('filtroStatus').value;
 
-  const alunosFiltrados = alunos.filter((aluno) => {
-    const nomeMatch = aluno.nome.toLowerCase().includes(nome);
-    const academiaMatch = !academia || aluno.academia_id == academia;
-    const statusMatch = !status || (status === "Ativo" && aluno.status_ativo) || (status === "Inativo" && !aluno.status_ativo);
-
-    return nomeMatch && academiaMatch && statusMatch;
-  });
-
-  renderizarAlunos(alunosFiltrados);
-}
-
-function abrirModalNovoAluno() {
-  document.getElementById("modalNovoAluno").style.display = "flex";
-}
-
-function fecharModalAluno() {
-  document.getElementById("modalNovoAluno").style.display = "none";
-  document.getElementById("novoAlunoNome").value = "";
-  document.getElementById("novoAlunoEmail").value = "";
-  document.getElementById("novoAlunoTelefone").value = "";
-  document.getElementById("novoAlunoCPF").value = "";
-  document.getElementById("novoAlunoDataNascimento").value = "";
-}
-
-async function criarNovoAluno() {
-  const nome = document.getElementById("novoAlunoNome").value;
-  const email = document.getElementById("novoAlunoEmail").value;
-  const telefone = document.getElementById("novoAlunoTelefone").value;
-  const academia_id = document.getElementById("novoAlunoAcademia").value;
-  const modalidade_id = document.getElementById("novoAlunoModalidade").value;
-  const cpf = document.getElementById("novoAlunoCPF").value;
-  const dataNascimento = document.getElementById("novoAlunoDataNascimento").value;
-
-  if (!nome || !email || !telefone || !academia_id || !modalidade_id || !cpf) {
-    alert("Por favor, preencha todos os campos obrigatórios!");
-    return;
-  }
-
-  try {
-    const formData = new FormData();
-    formData.append("nome", nome);
-    formData.append("email", email);
-    formData.append("telefone", telefone);
-    formData.append("academia_id", academia_id);
-    formData.append("modalidade_id", modalidade_id);
-    formData.append("cpf", cpf);
-    formData.append("data_nascimento", dataNascimento);
-    formData.append("status_ativo", true);
-
-    const response = await fetch("../../../php/aluno/aluno_novo.php", {
-      method: "POST",
-      body: formData
+    const filtrados = alunos.filter(a => {
+        const nomeOk     = a.nome.toLowerCase().includes(nome);
+        const academiaOk = !academia || a.academia_id == academia;
+        const statusOk   = !status
+            || (status === 'Ativo'   && a.status_ativo == 1)
+            || (status === 'Inativo' && a.status_ativo != 1);
+        return nomeOk && academiaOk && statusOk;
     });
 
-    const resultado = await response.json();
+    renderizarAlunos(filtrados);
+}
 
-    if (resultado.status === "ok") {
-      alert("Aluno criado com sucesso!");
-      fecharModalAluno();
-      await carregarAlunos();
-    } else {
-      alert("Erro: " + resultado.mensagem);
+async function criarNovoAluno(e) {
+    e.preventDefault();
+
+    const btn     = document.getElementById('btnSalvarNovoAluno');
+    const erroBox = document.getElementById('erroNovoAluno');
+    erroBox.classList.add('d-none');
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Criando...';
+
+    const formData = new FormData();
+    formData.append('nome',           document.getElementById('novoAlunoNome').value);
+    formData.append('email',          document.getElementById('novoAlunoEmail').value);
+    formData.append('senha',          document.getElementById('novoAlunoSenha').value);
+    formData.append('telefone',       document.getElementById('novoAlunoTelefone').value);
+    formData.append('dataNascimento', document.getElementById('novoAlunoDataNascimento').value);
+    formData.append('academia_id',    document.getElementById('novoAlunoAcademia').value);
+
+    try {
+        const response = await fetch('../../../php/admin/aluno_novo_admin.php', {
+            method: 'POST',
+            body: formData
+        });
+        const resultado = await response.json();
+
+        if (resultado.status === 'ok') {
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('modalNovoAluno')).hide();
+            document.getElementById('formNovoAluno').reset();
+            mostrarFeedback('sucessoAlunos', 'Aluno criado com sucesso!');
+            await carregarAlunos();
+        } else {
+            erroBox.textContent = resultado.mensagem;
+            erroBox.classList.remove('d-none');
+        }
+    } catch (erro) {
+        erroBox.textContent = 'Erro ao comunicar com o servidor.';
+        erroBox.classList.remove('d-none');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-check-lg me-1"></i> Criar Aluno';
     }
-  } catch (erro) {
-    console.error("Erro ao criar aluno:", erro);
-    alert("Erro ao criar aluno!");
-  }
 }
 
 function abrirModalEditarAluno(alunoId) {
-  const aluno = alunos.find((a) => a.id === alunoId);
-  if (!aluno) return;
+    const aluno = alunos.find(a => a.id === alunoId);
+    if (!aluno) return;
 
-  alunoEmEdicao = aluno;
+    alunoEmEdicao = aluno;
+    document.getElementById('editAlunoNome').value     = aluno.nome;
+    document.getElementById('editAlunoEmail').value    = aluno.email || '';
+    document.getElementById('editAlunoTelefone').value = aluno.telefone || '';
+    document.getElementById('editAlunoStatus').value   = aluno.status_ativo == 1 ? 'Ativo' : 'Inativo';
 
-  document.getElementById("editAlunoNome").value = aluno.nome;
-  document.getElementById("editAlunoEmail").value = aluno.email || "";
-  document.getElementById("editAlunoTelefone").value = aluno.telefone || "";
-  document.getElementById("editAlunoStatus").value = aluno.status_ativo ? "Ativo" : "Inativo";
-
-  document.getElementById("modalEditarAluno").style.display = "flex";
-}
-
-function fecharModalEditarAluno() {
-  document.getElementById("modalEditarAluno").style.display = "none";
-  alunoEmEdicao = null;
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('modalEditarAluno')).show();
 }
 
 async function salvarAlteracoesAluno() {
-  if (!alunoEmEdicao) return;
+    if (!alunoEmEdicao) return;
 
-  const nome = document.getElementById("editAlunoNome").value;
-  const email = document.getElementById("editAlunoEmail").value;
-  const telefone = document.getElementById("editAlunoTelefone").value;
-  const status = document.getElementById("editAlunoStatus").value === "Ativo";
+    const btn = document.getElementById('btnSalvarEdicaoAluno');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Salvando...';
 
-  try {
     const formData = new FormData();
-    formData.append("id", alunoEmEdicao.id);
-    formData.append("nome", nome);
-    formData.append("email", email);
-    formData.append("telefone", telefone);
-    formData.append("status_ativo", status ? 1 : 0);
+    formData.append('id',           alunoEmEdicao.id);
+    formData.append('nome',         document.getElementById('editAlunoNome').value);
+    formData.append('email',        document.getElementById('editAlunoEmail').value);
+    formData.append('telefone',     document.getElementById('editAlunoTelefone').value);
+    formData.append('status_ativo', document.getElementById('editAlunoStatus').value === 'Ativo' ? 1 : 0);
 
-    const response = await fetch("../../../php/aluno/aluno_alterar.php", {
-      method: "POST",
-      body: formData
-    });
+    try {
+        const response = await fetch('../../../php/aluno/aluno_alterar.php', {
+            method: 'POST',
+            body: formData
+        });
+        const resultado = await response.json();
 
-    const resultado = await response.json();
-
-    if (resultado.status === "ok") {
-      alert("Aluno atualizado com sucesso!");
-      fecharModalEditarAluno();
-      await carregarAlunos();
-    } else {
-      alert("Erro: " + resultado.mensagem);
+        if (resultado.status === 'ok') {
+            bootstrap.Modal.getOrCreateInstance(document.getElementById('modalEditarAluno')).hide();
+            mostrarFeedback('sucessoAlunos', 'Aluno atualizado com sucesso!');
+            await carregarAlunos();
+        } else {
+            mostrarFeedback('erroAlunos', 'Erro: ' + resultado.mensagem);
+        }
+    } catch (erro) {
+        mostrarFeedback('erroAlunos', 'Erro ao comunicar com o servidor.');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="bi bi-check-lg me-1"></i> Salvar';
+        alunoEmEdicao = null;
     }
-  } catch (erro) {
-    console.error("Erro ao atualizar aluno:", erro);
-    alert("Erro ao atualizar aluno!");
-  }
 }
 
 async function confirmarExcluirAluno(alunoId) {
-  if (!confirm("Tem certeza que deseja excluir este aluno?")) return;
+    const aluno = alunos.find(a => a.id === alunoId);
+    if (!confirm(`Excluir o aluno "${aluno?.nome}"? Esta ação não pode ser desfeita.`)) return;
 
-  try {
     const formData = new FormData();
-    formData.append("id", alunoId);
+    formData.append('id', alunoId);
 
-    const response = await fetch("../../../php/aluno/aluno_excluir.php", {
-      method: "POST",
-      body: formData
-    });
+    try {
+        const response = await fetch('../../../php/aluno/aluno_excluir.php', {
+            method: 'POST',
+            body: formData
+        });
+        const resultado = await response.json();
 
-    const resultado = await response.json();
-
-    if (resultado.status === "ok") {
-      alert("Aluno excluído com sucesso!");
-      await carregarAlunos();
-    } else {
-      alert("Erro: " + resultado.mensagem);
+        if (resultado.status === 'ok') {
+            mostrarFeedback('sucessoAlunos', 'Aluno excluído com sucesso!');
+            await carregarAlunos();
+        } else {
+            mostrarFeedback('erroAlunos', 'Erro: ' + resultado.mensagem);
+        }
+    } catch (erro) {
+        mostrarFeedback('erroAlunos', 'Erro ao comunicar com o servidor.');
     }
-  } catch (erro) {
-    console.error("Erro ao excluir aluno:", erro);
-    alert("Erro ao excluir aluno!");
-  }
 }
 
-// Inicializar
-validarSessao();
-carregarAlunos();
-carregarAcademias();
-carregarModalidades();
+function mostrarFeedback(elementId, mensagem) {
+    const el = document.getElementById(elementId);
+    el.textContent = mensagem;
+    el.classList.remove('d-none');
+    setTimeout(() => el.classList.add('d-none'), 4000);
+}

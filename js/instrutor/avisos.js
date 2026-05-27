@@ -45,7 +45,7 @@ async function salvarAviso(e) {
 async function carregarAvisos() {
     const lista = document.getElementById('listaDeAvisos');
     try {
-        const response = await fetch('/KOnect/php/instrutor/avisos_get.php', { credentials: 'include' });
+        const response = await fetch('../../php/instrutor/avisos_get.php', { credentials: 'include' });
         const resultado = await response.json();
 
         if (resultado.status === 'ok' && resultado.data.length > 0) {

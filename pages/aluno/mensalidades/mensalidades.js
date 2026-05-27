@@ -50,6 +50,11 @@ function setupEventListeners() {
       applyFilter(filter);
     });
   });
+
+  document.getElementById('mensalidadesList').addEventListener('click', function (e) {
+    const btn = e.target.closest('.btn-pagar');
+    if (btn) pagarMensalidade(btn.dataset.id, btn);
+  });
 }
 
 async function loadMensalidades() {
@@ -155,7 +160,7 @@ function createMensalidadeCard(mensalidade) {
         <div class="mensalidade-valor">${valor}</div>
         ${
           status === 'vencido' || status === 'pendente'
-            ? '<button class="btn btn-danger btn-sm">Pagar</button>'
+            ? `<button class="btn btn-danger btn-sm btn-pagar" data-id="${mensalidade.id}"><i class="bi bi-credit-card me-1"></i>Pagar</button>`
             : ''
         }
       </div>
@@ -368,6 +373,35 @@ function showEmptyStateHistorico(title, message) {
       <p>${message}</p>
     </div>
   `;
+}
+
+async function pagarMensalidade(id, btn) {
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Processando...';
+
+  try {
+    const formData = new FormData();
+    formData.append('id', id);
+
+    const response = await fetch('../../../php/aluno/mensalidade_pagar.php', {
+      method: 'POST',
+      body: formData,
+      credentials: 'include'
+    });
+    const resultado = await response.json();
+
+    if (resultado.status === 'ok') {
+      await loadMensalidades();
+    } else {
+      alert('Erro: ' + resultado.mensagem);
+      btn.disabled = false;
+      btn.innerHTML = '<i class="bi bi-credit-card me-1"></i>Pagar';
+    }
+  } catch (erro) {
+    alert('Erro de conexão ao processar pagamento.');
+    btn.disabled = false;
+    btn.innerHTML = '<i class="bi bi-credit-card me-1"></i>Pagar';
+  }
 }
 
 function logout() {

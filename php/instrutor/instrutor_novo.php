@@ -31,6 +31,48 @@
             'data'      => []
         ];
     } else {
+        // Verificar CPF duplicado
+        if (!empty($cpf)) {
+            $stmtCpf = $conexao->prepare("SELECT id_usuario FROM Instrutor WHERE cpf = ?");
+            $stmtCpf->bind_param("s", $cpf);
+            $stmtCpf->execute();
+            $stmtCpf->store_result();
+            if ($stmtCpf->num_rows > 0) {
+                $retorno = [
+                    'status'   => 'nok',
+                    'mensagem' => 'CPF já cadastrado para outro instrutor.',
+                    'data'     => []
+                ];
+                $stmtCpf->close();
+                $conexao->close();
+                header("Content-type:application/json;charset:utf-8");
+                echo json_encode($retorno);
+                exit;
+            }
+            $stmtCpf->close();
+        }
+
+        // Verificar CNPJ duplicado
+        if (!empty($cnpj)) {
+            $stmtCnpj = $conexao->prepare("SELECT id_usuario FROM Instrutor WHERE cnpj = ?");
+            $stmtCnpj->bind_param("s", $cnpj);
+            $stmtCnpj->execute();
+            $stmtCnpj->store_result();
+            if ($stmtCnpj->num_rows > 0) {
+                $retorno = [
+                    'status'   => 'nok',
+                    'mensagem' => 'CNPJ já cadastrado para outro instrutor.',
+                    'data'     => []
+                ];
+                $stmtCnpj->close();
+                $conexao->close();
+                header("Content-type:application/json;charset:utf-8");
+                echo json_encode($retorno);
+                exit;
+            }
+            $stmtCnpj->close();
+        }
+
         session_start();
 
         try {

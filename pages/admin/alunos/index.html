@@ -3,18 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="../../../globalstyles/style.css" />
     <link rel="stylesheet" href="./style.css" />
     <title>Gerenciar Alunos — KOnect</title>
@@ -23,21 +14,11 @@
     <nav class="topnav py-3 mb-5">
       <div class="container d-flex align-items-center justify-content-between">
         <div class="d-flex align-items-center gap-4">
-          <a
-            class="brand"
-            href="../../../index.html"
-            style="text-decoration: none; color: white"
-            >KO<span>nect</span> <span class="brand-badge">Admin</span></a
-          >
-          <a
-            href="../home_admin/index.html"
-            class="btn btn-sm btn-outline-light"
-            style="border-color: var(--border)"
-          >
+          <a class="brand" href="../home_admin/index.html" style="text-decoration:none;color:white">KO<span>nect</span> <span class="brand-badge">Admin</span></a>
+          <a href="../home_admin/index.html" class="btn btn-sm btn-outline-light" style="border-color: var(--border);">
             <i class="bi bi-arrow-left"></i> Painel Admin
           </a>
         </div>
-        <div class="fw-bold text-muted">Módulo: Alunos</div>
         <div class="d-flex align-items-center gap-3">
           <span class="admin-name" id="adminNome"></span>
           <button class="btn-logout" onclick="logout()">
@@ -48,41 +29,33 @@
     </nav>
 
     <main class="container">
-      <div class="mb-5">
-        <h2 class="fw-bold mb-3">Gerenciar Alunos</h2>
-        <p class="text-muted">
-          Visualize e gerencie informações de todos os alunos da plataforma.
-          Para criar novos alunos, utilize o portal de matrícula.
-        </p>
+      <div class="d-flex justify-content-between align-items-end mb-4">
+        <div>
+          <h2 class="fw-bold mb-1">Gerenciar Alunos</h2>
+          <p class="text-muted mb-0">Visualize e gerencie informações de todos os alunos da plataforma.</p>
+        </div>
+        <button class="btn btn-konect" data-bs-toggle="modal" data-bs-target="#modalNovoAluno">
+          <i class="bi bi-person-plus-fill me-2"></i>Novo Aluno
+        </button>
       </div>
+
+      <div id="erroAlunos" class="alert alert-danger d-none mb-3"></div>
+      <div id="sucessoAlunos" class="alert alert-success d-none mb-3"></div>
 
       <div class="section-card">
         <div class="mb-4">
           <div class="row g-3">
             <div class="col-md-4">
-              <input
-                type="text"
-                class="form-control"
-                id="filtroNome"
-                placeholder="Pesquisar por nome..."
-                onkeyup="aplicarFiltros()"
-              />
+              <input type="text" class="form-control" id="filtroNome"
+                placeholder="Pesquisar por nome..." onkeyup="aplicarFiltros()" />
             </div>
             <div class="col-md-3">
-              <select
-                class="form-control"
-                id="filtroAcademia"
-                onchange="aplicarFiltros()"
-              >
+              <select class="form-control" id="filtroAcademia" onchange="aplicarFiltros()">
                 <option value="">Todas as Academias</option>
               </select>
             </div>
             <div class="col-md-3">
-              <select
-                class="form-control"
-                id="filtroStatus"
-                onchange="aplicarFiltros()"
-              >
+              <select class="form-control" id="filtroStatus" onchange="aplicarFiltros()">
                 <option value="">Todos os Status</option>
                 <option value="Ativo">Ativo</option>
                 <option value="Inativo">Inativo</option>
@@ -99,16 +72,13 @@
                 <th>Email</th>
                 <th>Telefone</th>
                 <th>Academia</th>
-                <th>Modalidade</th>
                 <th>Status</th>
                 <th>Ações</th>
               </tr>
             </thead>
             <tbody id="corpoAlunos">
               <tr>
-                <td colspan="7" class="text-center text-muted">
-                  Carregando...
-                </td>
+                <td colspan="6" class="text-center text-muted">Carregando...</td>
               </tr>
             </tbody>
           </table>
@@ -116,47 +86,102 @@
       </div>
     </main>
 
-    <!-- Modal Editar Aluno -->
-    <div id="modalEditarAluno" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>Editar Aluno</h3>
-          <button class="btn-fechar" onclick="fecharModalEditarAluno()">
-            &times;
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label class="form-label">Nome Completo</label>
-            <input type="text" id="editAlunoNome" class="form-control" />
+    <!-- Modal Novo Aluno -->
+    <div class="modal fade" id="modalNovoAluno" tabindex="-1" aria-labelledby="modalNovoAlunoLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content" style="background-color: var(--bg-card); border: 1px solid var(--border); color: white;">
+          <div class="modal-header" style="border-color: var(--border);">
+            <h5 class="modal-title fw-bold" id="modalNovoAlunoLabel">
+              <i class="bi bi-person-plus-fill me-2 text-danger"></i>Novo Aluno
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
           </div>
-          <div class="mb-3">
-            <label class="form-label">Email</label>
-            <input type="email" id="editAlunoEmail" class="form-control" />
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Telefone</label>
-            <input type="tel" id="editAlunoTelefone" class="form-control" />
-          </div>
-          <div class="mb-3">
-            <label class="form-label">Status</label>
-            <select id="editAlunoStatus" class="form-control">
-              <option value="Ativo">Ativo</option>
-              <option value="Inativo">Inativo</option>
-            </select>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button class="btn-secondary" onclick="fecharModalEditarAluno()">
-            Cancelar
-          </button>
-          <button class="btn-primary" onclick="salvarAlteracoesAluno()">
-            Salvar
-          </button>
+          <form id="formNovoAluno">
+            <div class="modal-body">
+              <div id="erroNovoAluno" class="alert alert-danger d-none mb-3"></div>
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label">Nome completo <span class="text-danger">*</span></label>
+                  <input type="text" class="form-control" id="novoAlunoNome" required placeholder="Ex.: João Silva" />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">E-mail <span class="text-danger">*</span></label>
+                  <input type="email" class="form-control" id="novoAlunoEmail" required placeholder="aluno@email.com" />
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Senha inicial <span class="text-danger">*</span></label>
+                  <input type="password" class="form-control" id="novoAlunoSenha" required placeholder="Senha de acesso" />
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Telefone</label>
+                  <input type="tel" class="form-control" id="novoAlunoTelefone" placeholder="(00) 90000-0000" />
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Data de Nascimento</label>
+                  <input type="date" class="form-control" id="novoAlunoDataNascimento" />
+                </div>
+                <div class="col-md-8">
+                  <label class="form-label">Academia</label>
+                  <select class="form-select" id="novoAlunoAcademia">
+                    <option value="">Sem academia</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer" style="border-color: var(--border);">
+              <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" id="btnSalvarNovoAluno" class="btn btn-danger fw-bold px-4">
+                <i class="bi bi-check-lg me-1"></i> Criar Aluno
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
 
+    <!-- Modal Editar Aluno -->
+    <div class="modal fade" id="modalEditarAluno" tabindex="-1" aria-labelledby="modalEditarAlunoLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="background-color: var(--bg-card); border: 1px solid var(--border); color: white;">
+          <div class="modal-header" style="border-color: var(--border);">
+            <h5 class="modal-title fw-bold" id="modalEditarAlunoLabel">
+              <i class="bi bi-pencil-square me-2 text-danger"></i>Editar Aluno
+            </h5>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label class="form-label">Nome Completo</label>
+              <input type="text" id="editAlunoNome" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" id="editAlunoEmail" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Telefone</label>
+              <input type="tel" id="editAlunoTelefone" class="form-control" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Status</label>
+              <select id="editAlunoStatus" class="form-select">
+                <option value="Ativo">Ativo</option>
+                <option value="Inativo">Inativo</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer" style="border-color: var(--border);">
+            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+            <button id="btnSalvarEdicaoAluno" class="btn btn-danger fw-bold px-4" onclick="salvarAlteracoesAluno()">
+              <i class="bi bi-check-lg me-1"></i> Salvar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../../js/admin/admin_alunos.js"></script>
   </body>
 </html>
