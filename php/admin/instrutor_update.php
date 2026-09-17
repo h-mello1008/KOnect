@@ -10,6 +10,7 @@
     $id_usuario           = isset($_POST['id_usuario']) ? (int)$_POST['id_usuario'] : 0;
     $nome                 = $_POST['nome'] ?? '';
     $email                = $_POST['email'] ?? '';
+    $nomeMae                 = $_POST['nomeMae'] ?? '';
     $telefone             = $_POST['telefone_responsavel'] ?? '';
     $cpf                  = $_POST['cpf'] ?? '';
     $dataNascimento       = (!empty($_POST['dataNascimento'])) ? $_POST['dataNascimento'] : null;
@@ -42,15 +43,15 @@
 
         $stmt_i = $conexao->prepare("
             UPDATE Instrutor
-            SET nome = ?, telefone_responsavel = ?, cpf = ?, dataNascimento = ?,
+            SET nome = ?, nomeMae = ?, telefone_responsavel = ?, cpf = ?, dataNascimento = ?,
                 nome_fantasia = ?, razao_social = ?, cnpj = ?,
                 horario_abertura = ?, horario_fechamento = ?,
                 periodo_contrato = ?, renovacao_automatica = ?, academia_id = ?
             WHERE id_usuario = ?
         ");
         $stmt_i->bind_param(
-            "sssssssssisii",
-            $nome, $telefone, $cpf, $dataNascimento,
+            "ssssssssssisii",
+            $nome, $nomeMae, $telefone, $cpf, $dataNascimento,
             $nome_fantasia, $razao_social, $cnpj,
             $horario_abertura, $horario_fechamento,
             $periodo_contrato, $renovacao_automatica, $academia_id,

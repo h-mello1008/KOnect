@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", function () {
-  verificarInadimplencia();
   carregarAvisosAcademia();
   validarSessao();
   setupEventListeners();
@@ -13,6 +12,7 @@ async function validarSessao() {
     if (resultado.status === 'ok') {
       const usuarioData = resultado.data;
       document.getElementById('userName').textContent = usuarioData.email || 'Aluno';
+      verificarInadimplencia();
     } else {
       window.location.href = '/KOnect/pages/aluno/login_aluno/index.html';
     }
@@ -55,7 +55,7 @@ async function realizarCheckIn() {
 
 async function verificarInadimplencia() {
   try {
-    const response = await fetch('../../../php/aluno/mensalidade_get.php', { credentials: 'include' });
+    const response = await fetch('/KOnect/php/aluno/mensalidade_get.php', { credentials: 'include' });
     const resultado = await response.json();
 
     if (resultado.status === 'ok' && resultado.data.length > 0) {
@@ -68,12 +68,15 @@ async function verificarInadimplencia() {
       resultado.data.forEach(m => {
         if (m.status_pagamento === 'Vencido') {
           temVencida = true;
-        } else if (m.status_pagamento === 'Pendente') {
+        } 
+        else if (m.status_pagamento === 'Pendente') {
           const dataVenc = new Date(m.dataVencimento);
           const dataVencimentoLoc = new Date(dataVenc.getTime() + dataVenc.getTimezoneOffset() * 60000);
           dataVencimentoLoc.setHours(0, 0, 0, 0);
+
           const difTempo = dataVencimentoLoc.getTime() - hoje.getTime();
           const diasRestantes = Math.ceil(difTempo / (1000 * 3600 * 24));
+
           if (diasRestantes >= 0 && diasRestantes < diasMaisProximoVencimento) {
             diasMaisProximoVencimento = diasRestantes;
           }
@@ -87,7 +90,7 @@ async function verificarInadimplencia() {
       }
     }
   } catch (erro) {
-     console.error("Erro ao checar mensalidades:", erro);
+    console.error('Erro ao verificar situação financeira do aluno: ', erro);
   }
 }
 
@@ -152,7 +155,7 @@ async function carregarAvisosAcademia() {
   if (!container) return;
 
   try {
-    const response = await fetch('../../../php/aluno/avisos_get.php', { credentials: 'include' });
+    const response = await fetch('/KOnect/php/aluno/avisos_get.php', { credentials: 'include' });
     const resultado = await response.json();
 
     if (resultado.status === 'ok' && resultado.data.length > 0) {

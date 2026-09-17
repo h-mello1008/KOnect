@@ -35,6 +35,7 @@ function desenharInstrutorNaTabela(tbody, inst) {
         <td>
             <div class="fw-bold text-white">${inst.nome}</div>
             <div class="text-muted small">${inst.email || ''}</div>
+            <div class="fw-bold text-white"><p>Nome da mãe</p>${inst.nomeMae}</div>
         </td>
         <td>
             <div class="fw-bold">${inst.academia_nome || '—'}</div>
@@ -77,6 +78,7 @@ function abrirModalEdicao(inst) {
     document.getElementById('editIdUsuario').value           = inst.id_usuario;
     document.getElementById('editNome').value                = inst.nome || '';
     document.getElementById('editEmail').value               = inst.email || '';
+    document.getElementById('editNomeMae').value                = inst.nomeMae || '';
     document.getElementById('editTelefone').value            = inst.telefone_responsavel || '';
     document.getElementById('editCpf').value                 = inst.cpf || '';
     document.getElementById('editDataNascimento').value      = inst.dataNascimento ? inst.dataNascimento.substring(0, 10) : '';

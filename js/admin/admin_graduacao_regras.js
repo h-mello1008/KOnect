@@ -3,15 +3,19 @@ let modalidades = [];
 let graduacoes = [];
 let regraEmEdicao = null;
 
+const BASE_PHP = window.location.pathname.includes('/instrutor/')
+  ? '../../php/'
+  : '../../../php/';
+
 async function carregarDadosGraduacao() {
   try {
-    const resGrad = await fetch("../../../php/graduacao/graduacao_get.php");
+    const resGrad = await fetch(BASE_PHP+"graduacao/graduacao_get.php");
     const resGradJSON = await resGrad.json();
     if (resGradJSON.status === "ok") {
       graduacoes = resGradJSON.data;
     }
 
-    const resMod = await fetch("../../../php/modalidade/modalidade_get.php");
+    const resMod = await fetch(BASE_PHP+"modalidade/modalidade_get.php");
     const resModJSON = await resMod.json();
     if (resModJSON.status === "ok") {
       modalidades = resModJSON.data;
@@ -27,7 +31,7 @@ async function carregarDadosGraduacao() {
 async function carregarRegras() {
   try {
     const response = await fetch(
-      "../../../php/graduacao/graduacao_regra_get.php",
+      BASE_PHP+"graduacao/graduacao_regra_get.php",
     );
     const resultado = await response.json();
 
